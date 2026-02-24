@@ -1,0 +1,2241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
+<meta name="robots" content="noindex, nofollow"/>
+<meta name="googlebot" content="noindex, nofollow"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<meta name="referrer" content="no-referrer"/>
+<meta name="format-detection" content="telephone=yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Cascade Guide"/>
+<meta name="theme-color" content="#3D2B1F" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#1a0f08" media="(prefers-color-scheme: dark)"/>
+<title>Cascade Hideaway — You're Arriving Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bronze: #B58E5F;
+  --dark-bronze: #3D2B1F;
+  --warm-cream: #F9F6F0;
+  --soft-taupe: #CBBFB1;
+  --charcoal: #1a1a1a;
+  --accent-gold: #D7B377;
+  --red-alert: #dc2626;
+  --green-ok: #16a34a;
+
+  --bg: var(--warm-cream);
+  --surface: #ffffff;
+  --surface-alt: #F9F6F0;
+  --text: var(--charcoal);
+  --text-muted: #666;
+  --border: rgba(192,160,98,0.18);
+  --shadow: rgba(74,63,53,0.08);
+  --header-h: 0px; /* set by JS */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #120b06;
+    --surface: #1e1208;
+    --surface-alt: #261609;
+    --text: #f0ebe4;
+    --text-muted: #a89880;
+    --border: rgba(181,142,95,0.22);
+    --shadow: rgba(0,0,0,0.3);
+    --warm-cream: #261609;
+    --charcoal: #f0ebe4;
+    --soft-taupe: #6b5a49;
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+* { -webkit-overflow-scrolling: touch; }
+* { -webkit-tap-highlight-color: rgba(166,124,82,0.2); }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(14px, 2vw, 16px);
+  background: var(--bg);
+  color: var(--text);
+  letter-spacing: 0.02em;
+  padding-bottom: 100px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Confidential watermark */
+body::after {
+  content: 'CONFIDENTIAL — CASCADE HIDEAWAY';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(166,124,82,0.03);
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+  letter-spacing: 0.3rem;
+}
+
+@media (min-width: 768px) {
+  body::after {
+    font-size: 3rem;
+    letter-spacing: 0.5rem;
+    content: 'CONFIDENTIAL — CASCADE HIDEAWAY PROPERTY';
+  }
+  body { padding-bottom: 80px; }
+}
+
+.serif { font-family: 'Cormorant Garamond', serif; }
+
+/* Content above watermark */
+#app { position: relative; z-index: 2; }
+
+/* ═══════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════ */
+.site-header {
+  background: linear-gradient(135deg, var(--dark-bronze) 0%, #1e0e07 100%);
+  color: white;
+  padding: clamp(0.875rem, 3vw, 1.5rem) clamp(1rem, 5vw, 2.5rem) clamp(0.75rem, 2.5vw, 1.125rem);
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--accent-gold);
+  color: var(--dark-bronze);
+  font-size: clamp(0.58rem, 1.8vw, 0.72rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge.pulse { animation: pulse-badge 1.5s ease-in-out infinite; }
+
+@keyframes pulse-badge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(215,179,119,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(215,179,119,0); }
+}
+
+.header-clock {
+  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
+  color: rgba(255,255,255,0.55);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: right;
+  flex-shrink: 0;
+}
+.header-clock .clock-time {
+  display: block;
+  color: rgba(255,255,255,0.92);
+  font-weight: 700;
+  font-size: clamp(0.78rem, 2.5vw, 1rem);
+}
+
+.site-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  line-height: 1.15;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.site-header .sub {
+  font-size: clamp(0.65rem, 2vw, 0.8rem);
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.07em;
+  margin-top: 0.2rem;
+}
+
+/* ═══════════════════════════════════════════════
+   QUICK-JUMP NAV
+═══════════════════════════════════════════════ */
+.quick-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: var(--header-h, 88px); /* sits directly below header */
+  z-index: 199;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+.quick-nav::-webkit-scrollbar { display: none; }
+.quick-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0.375rem 0.5rem;
+  min-width: max-content;
+  width: 100%;
+}
+.qn-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  padding: 0.375rem clamp(0.3rem, 1.5vw, 0.75rem);
+  border-radius: 0.625rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease;
+  min-width: clamp(44px, 10vw, 64px);
+  min-height: 48px;
+  flex: 1;
+  max-width: 72px;
+}
+.qn-btn:hover, .qn-btn:focus { background: rgba(181,142,95,0.12); }
+.qn-btn.active { background: rgba(181,142,95,0.2); }
+.qn-icon { font-size: clamp(1rem, 3vw, 1.25rem); line-height: 1; }
+.qn-label {
+  font-size: clamp(0.48rem, 1.4vw, 0.6rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--bronze);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════ */
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(0.75rem, 3vw, 1.5rem) clamp(0.75rem, 3vw, 1.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vw, 1rem);
+}
+
+/* ═══════════════════════════════════════════════
+   CARDS
+═══════════════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border-radius: clamp(0.875rem, 2vw, 1.25rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  box-shadow: 0 3px 16px var(--shadow), 0 1px 3px rgba(74,63,53,0.04);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-gold), var(--bronze));
+}
+.card.critical::before {
+  background: linear-gradient(90deg, #f59e0b, var(--bronze), var(--dark-bronze));
+  height: 3.5px;
+}
+
+.card-title {
+  font-size: clamp(0.6rem, 1.8vw, 0.72rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--bronze);
+  margin-bottom: clamp(0.75rem, 2vw, 1rem);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Section divider */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+  opacity: 0.7;
+}
+.section-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--soft-taupe), transparent);
+}
+.section-divider-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════
+   TIMES CARD
+═══════════════════════════════════════════════ */
+.times-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+}
+.time-block {
+  background: var(--surface-alt);
+  border-radius: 0.875rem;
+  padding: 0.875rem 0.75rem;
+  text-align: center;
+  border: 1.5px solid rgba(192,160,98,0.2);
+}
+.time-block.checkout {
+  border-color: rgba(220,38,38,0.25);
+  background: rgba(254,242,242,0.4);
+}
+@media (prefers-color-scheme: dark) {
+  .time-block.checkout { background: rgba(80,20,20,0.3); }
+}
+.time-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--bronze);
+  margin-bottom: 0.25rem;
+}
+.time-block.checkout .time-label { color: var(--red-alert); }
+.time-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.75rem, 6vw, 2.75rem);
+  font-weight: 700;
+  color: var(--dark-bronze);
+  line-height: 1;
+}
+@media (prefers-color-scheme: dark) {
+  .time-value { color: var(--accent-gold); }
+}
+.time-block.checkout .time-value { color: #991b1b; }
+@media (prefers-color-scheme: dark) {
+  .time-block.checkout .time-value { color: #f87171; }
+}
+.time-note {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.75rem 1.125rem;
+  border-radius: 0.625rem;
+  font-weight: 600;
+  font-size: 0.83rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  min-height: 48px;
+  letter-spacing: 0.02em;
+  font-family: 'Raleway', sans-serif;
+  touch-action: manipulation;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+  color: white;
+  box-shadow: 0 3px 10px rgba(166,124,82,0.3);
+  width: 100%;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+
+.btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+.btn-outline {
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  color: var(--dark-bronze);
+  width: 100%;
+}
+@media (prefers-color-scheme: dark) {
+  .btn-outline { color: var(--accent-gold); }
+}
+.btn-outline:hover { border-color: var(--bronze); background: rgba(181,142,95,0.1); }
+
+.btn-danger {
+  background: rgba(220,38,38,0.08);
+  border: 1.5px solid rgba(220,38,38,0.3);
+  color: #991b1b;
+  width: 100%;
+}
+@media (prefers-color-scheme: dark) {
+  .btn-danger { color: #f87171; background: rgba(220,38,38,0.12); border-color: rgba(220,38,38,0.4); }
+}
+.btn-danger:hover { background: rgba(220,38,38,0.15); }
+
+/* ═══════════════════════════════════════════════
+   ADDRESS CARD
+═══════════════════════════════════════════════ */
+.address-box {
+  background: var(--surface-alt);
+  border-radius: 0.875rem;
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+  margin-bottom: 0.625rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.address-main {
+  font-weight: 700;
+  font-size: 0.93rem;
+  color: var(--dark-bronze);
+  margin-bottom: 0.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  .address-main { color: var(--accent-gold); }
+}
+.address-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.btn-copy-addr {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(181,142,95,0.12);
+  border: 1.5px solid rgba(181,142,95,0.3);
+  border-radius: 0.625rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--bronze);
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  transition: all 0.15s ease;
+  min-height: 48px;
+  min-width: 56px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  touch-action: manipulation;
+}
+.btn-copy-addr:hover { background: rgba(181,142,95,0.2); border-color: var(--bronze); }
+.btn-copy-addr .copy-icon { font-size: 1.25rem; }
+.btn-copy-addr.copied { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.4); color: var(--green-ok); }
+
+.callout {
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 0 0.625rem 0.625rem 0;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+.callout.gold { background: rgba(215,179,119,0.1); border-color: var(--accent-gold); }
+.callout.green { background: rgba(22,163,74,0.07); border-left-color: #16a34a; }
+.callout strong { color: var(--dark-bronze); font-weight: 700; }
+@media (prefers-color-scheme: dark) {
+  .callout strong { color: var(--accent-gold); }
+}
+
+/* ═══════════════════════════════════════════════
+   TRANSPORT TIP PANEL
+═══════════════════════════════════════════════ */
+.transport-panel {
+  margin-top: 0.625rem;
+  background: var(--surface-alt);
+  border-radius: 0.875rem;
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+}
+.transport-panel-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--bronze);
+  margin-bottom: 0.5rem;
+}
+.transport-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  font-size: 0.79rem;
+  color: var(--text);
+  line-height: 1.5;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.transport-row:last-child { border-bottom: none; padding-bottom: 0; }
+.transport-row .ticon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.transport-row strong { color: var(--dark-bronze); }
+@media (prefers-color-scheme: dark) {
+  .transport-row strong { color: var(--accent-gold); }
+}
+.pick-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+.pick-chip {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(192,160,98,0.25);
+  font-size: 0.68rem;
+  color: var(--bronze);
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(215,179,119,0.07);
+}
+
+/* Grab recommended highlight */
+.transport-row.recommended {
+  background: rgba(181,142,95,0.07);
+  border-radius: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border: 1.5px solid rgba(181,142,95,0.25);
+  margin-bottom: 0.375rem;
+}
+.rec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: rgba(181,142,95,0.15);
+  color: var(--bronze);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(181,142,95,0.3);
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+/* Coffee shops section */
+.coffee-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
+}
+.coffee-card {
+  background: var(--surface-alt);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+.coffee-card .cf-name {
+  font-weight: 700;
+  color: var(--dark-bronze);
+  font-size: 0.83rem;
+  margin-bottom: 0.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  .coffee-card .cf-name { color: var(--accent-gold); }
+}
+.coffee-card .cf-dist {
+  font-size: 0.65rem;
+  color: var(--bronze);
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+.coffee-card .cf-note { font-size: 0.7rem; color: var(--text-muted); }
+@media (max-width: 380px) {
+  .coffee-grid { grid-template-columns: 1fr; }
+}
+.steps { display: flex; flex-direction: column; gap: 0.5rem; }
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--surface-alt);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+}
+.step-num {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-gold), var(--bronze));
+  color: white;
+  font-weight: 700;
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(166,124,82,0.3);
+}
+.step-text { font-size: 0.83rem; color: var(--text); line-height: 1.5; }
+.step-text code {
+  background: rgba(166,124,82,0.15);
+  color: var(--dark-bronze);
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.3rem;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 0.9em;
+}
+@media (prefers-color-scheme: dark) {
+  .step-text code { color: var(--accent-gold); background: rgba(215,179,119,0.15); }
+}
+
+.info-note {
+  margin-top: 0.625rem;
+  background: rgba(215,179,119,0.08);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  border: 1px solid rgba(215,179,119,0.18);
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+.info-note .ni { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+
+/* Airbnb PIN callout */
+.pin-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, rgba(215,179,119,0.1), rgba(181,142,95,0.07));
+  border: 1.5px solid rgba(192,160,98,0.3);
+  border-radius: 0.875rem;
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.pin-callout .pc-icon { font-size: 1.35rem; flex-shrink: 0; margin-top: 0.05rem; }
+.pin-callout strong { color: var(--dark-bronze); }
+@media (prefers-color-scheme: dark) {
+  .pin-callout strong { color: var(--accent-gold); }
+}
+
+/* ═══════════════════════════════════════════════
+   WIFI CARD
+═══════════════════════════════════════════════ */
+.wifi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+  margin-bottom: 0.75rem;
+}
+.wifi-field {
+  background: var(--surface-alt);
+  border-radius: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  min-height: 48px;
+  touch-action: manipulation;
+}
+.wifi-field:hover { border-color: var(--bronze); }
+.wifi-field.copied-ok { border-color: var(--green-ok); background: rgba(22,163,74,0.06); }
+.wifi-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--bronze);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.wifi-value {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 0.83rem;
+  color: var(--dark-bronze);
+  word-break: break-all;
+  line-height: 1.3;
+}
+@media (prefers-color-scheme: dark) {
+  .wifi-value { color: var(--accent-gold); }
+}
+.copy-status {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  transition: color 0.2s;
+}
+.wifi-field.copied-ok .copy-status { color: var(--green-ok); font-weight: 700; }
+
+/* QR code toggle */
+.qr-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.875rem;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  font-family: 'Raleway', sans-serif;
+  transition: all 0.15s ease;
+  min-height: 48px;
+  width: 100%;
+  touch-action: manipulation;
+}
+.qr-toggle:hover { border-color: var(--bronze); }
+.qr-toggle .chevron { transition: transform 0.2s ease; font-size: 0.7rem; color: var(--bronze); }
+.qr-toggle.open .chevron { transform: rotate(180deg); }
+
+.qr-panel {
+  display: none;
+  margin-top: 0.625rem;
+  background: var(--surface-alt);
+  border-radius: 0.875rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  text-align: center;
+  animation: fadeUp 0.25s ease-out;
+}
+.qr-panel.open { display: block; }
+.qr-panel p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+#wifi-qr canvas, #wifi-qr img {
+  border-radius: 0.75rem;
+  max-width: 160px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════
+   FOOD DELIVERY
+═══════════════════════════════════════════════ */
+.delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.delivery-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.75rem 0.375rem;
+  border-radius: 0.875rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.7rem;
+  color: var(--text);
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  transition: all 0.15s ease;
+  min-height: 70px;
+  text-align: center;
+  touch-action: manipulation;
+}
+.delivery-btn:hover { background: rgba(215,179,119,0.15); border-color: var(--bronze); }
+.delivery-btn .dicon { font-size: 1.4rem; }
+
+.grab-ride-row {
+  background: rgba(0,177,79,0.07);
+  border: 1.5px solid rgba(0,177,79,0.25);
+  border-radius: 0.875rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.grab-ride-row .gr-icon { font-size: 1.5rem; flex-shrink: 0; }
+.grab-ride-row .gr-text { font-size: 0.8rem; color: var(--text); line-height: 1.4; flex: 1; }
+.grab-ride-row .gr-text strong { color: var(--dark-bronze); font-size: 0.82rem; }
+@media (prefers-color-scheme: dark) {
+  .grab-ride-row .gr-text strong { color: #4ade80; }
+}
+.btn-grab {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.875rem;
+  background: #00B14F;
+  color: white;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  min-height: 40px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  touch-action: manipulation;
+}
+
+/* ═══════════════════════════════════════════════
+   NEARBY / GROCERY ROW
+═══════════════════════════════════════════════ */
+.nearby-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
+  flex-wrap: wrap;
+}
+.nearby-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: all 0.15s ease;
+  min-height: 36px;
+}
+.nearby-chip:hover { border-color: var(--bronze); background: rgba(215,179,119,0.12); }
+
+/* ═══════════════════════════════════════════════
+   AMENITIES
+═══════════════════════════════════════════════ */
+.amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.amenity {
+  background: var(--surface-alt);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.375rem;
+  text-align: center;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  touch-action: manipulation;
+}
+.amenity.expandable:hover { border-color: var(--bronze); }
+.amenity .aicon { font-size: 1.35rem; display: block; margin-bottom: 0.2rem; }
+.amenity .aname { font-size: 0.64rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+.amenity .atip {
+  display: none;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  line-height: 1.4;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--border);
+}
+.amenity.expanded .atip { display: block; }
+.amenity .tip-dot {
+  position: absolute;
+  top: 0.4rem; right: 0.4rem;
+  width: 6px; height: 6px;
+  background: var(--bronze);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════════════
+   HOUSE RULES
+═══════════════════════════════════════════════ */
+.rules-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--surface-alt);
+  border-radius: 0.75rem;
+  font-size: 0.81rem;
+  color: var(--text);
+  border: 1px solid var(--border);
+  line-height: 1.4;
+  min-height: 44px;
+}
+.rule .ricon { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.rule.important {
+  border-color: rgba(220,38,38,0.25);
+  background: rgba(254,242,242,0.4);
+}
+@media (prefers-color-scheme: dark) {
+  .rule.important { background: rgba(80,20,20,0.3); }
+}
+
+/* ═══════════════════════════════════════════════
+   EMERGENCY
+═══════════════════════════════════════════════ */
+.emergency-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+.emergency-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.875rem 0.375rem;
+  border-radius: 0.875rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.72rem;
+  color: #991b1b;
+  background: rgba(254,242,242,0.7);
+  border: 1.5px solid rgba(220,38,38,0.2);
+  text-align: center;
+  min-height: 70px;
+  transition: all 0.15s ease;
+  touch-action: manipulation;
+}
+@media (prefers-color-scheme: dark) {
+  .emergency-link { color: #f87171; background: rgba(80,20,20,0.3); border-color: rgba(220,38,38,0.35); }
+}
+.emergency-link:hover { background: rgba(254,202,202,0.5); }
+.emergency-link .eicon { font-size: 1.35rem; }
+.hospital-note {
+  background: rgba(239,246,255,0.8);
+  border-radius: 0.875rem;
+  padding: 0.875rem;
+  border: 1px solid rgba(59,130,246,0.2);
+  font-size: 0.78rem;
+  color: #1e40af;
+  line-height: 1.6;
+}
+@media (prefers-color-scheme: dark) {
+  .hospital-note { background: rgba(15,40,90,0.4); color: #93c5fd; border-color: rgba(59,130,246,0.3); }
+}
+.hospital-note strong {
+  display: block;
+  font-size: 0.83rem;
+  margin-bottom: 0.3rem;
+  color: #1e3a8a;
+}
+@media (prefers-color-scheme: dark) {
+  .hospital-note strong { color: #bfdbfe; }
+}
+
+/* ═══════════════════════════════════════════════
+   FLOATING CONTACT BUTTON
+═══════════════════════════════════════════════ */
+.float-contact {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 300;
+}
+.float-btn-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--bronze) 0%, var(--dark-bronze) 100%);
+  color: white;
+  font-weight: 700;
+  font-size: 0.83rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(61,43,31,0.4);
+  transition: all 0.18s ease;
+  min-height: 52px;
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 0.03em;
+  touch-action: manipulation;
+}
+.float-btn-main:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(61,43,31,0.5); }
+.float-btn-main:active { transform: scale(0.97); }
+
+/* Back-to-top button */
+.back-top {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 1.25rem;
+  z-index: 299;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--bronze);
+  font-size: 1.1rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: all 0.18s ease;
+  touch-action: manipulation;
+}
+.back-top.visible { display: flex; }
+.back-top:hover { background: rgba(181,142,95,0.12); border-color: var(--bronze); }
+
+/* ═══════════════════════════════════════════════
+   CONTACT OVERLAY / POPUP
+═══════════════════════════════════════════════ */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20,10,5,0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 400;
+  align-items: flex-end;
+  justify-content: center;
+}
+.overlay.open { display: flex; }
+
+.popup {
+  background: var(--surface);
+  border-radius: 1.5rem 1.5rem 1rem 1rem;
+  padding: 0 1.25rem 1.25rem;
+  width: 100%;
+  max-width: 480px;
+  animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+  touch-action: none;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.popup-handle {
+  display: flex;
+  justify-content: center;
+  padding: 0.875rem 0 0.75rem;
+  cursor: grab;
+}
+.popup-handle-bar {
+  width: 40px;
+  height: 4px;
+  background: var(--soft-taupe);
+  border-radius: 2px;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.popup h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  color: var(--dark-bronze);
+  text-align: center;
+  margin-bottom: 0.875rem;
+  font-weight: 600;
+}
+@media (prefers-color-scheme: dark) {
+  .popup h3 { color: var(--accent-gold); }
+}
+
+.contact-options { display: flex; flex-direction: column; gap: 0.5rem; }
+.contact-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem;
+  border-radius: 0.875rem;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  transition: all 0.15s ease;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-height: 56px;
+  touch-action: manipulation;
+}
+.contact-opt:hover { border-color: var(--bronze); background: rgba(181,142,95,0.08); }
+.contact-opt .cicon {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(215,179,119,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.contact-opt .csub { display: block; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.1rem; font-weight: 400; }
+
+.popup-close {
+  display: block;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.83rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-family: 'Raleway', sans-serif;
+  min-height: 48px;
+  touch-action: manipulation;
+}
+
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--dark-bronze);
+  color: white;
+  padding: 0.5rem 1.125rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.22s ease;
+  z-index: 500;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+.site-footer {
+  text-align: center;
+  padding: 1.25rem 1rem;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMATIONS — smooth & fluid
+═══════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Entry animation for cards on scroll */
+.animate {
+  will-change: opacity, transform;
+  transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.animate.will-animate {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.animate.visible {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Stagger children on visible */
+.animate.visible .step,
+.animate.visible .rule,
+.animate.visible .time-block {
+  animation: fadeUp 0.4s cubic-bezier(0.4,0,0.2,1) both;
+}
+.animate.visible .step:nth-child(1) { animation-delay: 0.05s; }
+.animate.visible .step:nth-child(2) { animation-delay: 0.10s; }
+.animate.visible .step:nth-child(3) { animation-delay: 0.15s; }
+.animate.visible .step:nth-child(4) { animation-delay: 0.20s; }
+.animate.visible .rule:nth-child(1) { animation-delay: 0.04s; }
+.animate.visible .rule:nth-child(2) { animation-delay: 0.08s; }
+.animate.visible .rule:nth-child(3) { animation-delay: 0.12s; }
+.animate.visible .rule:nth-child(4) { animation-delay: 0.16s; }
+.animate.visible .rule:nth-child(5) { animation-delay: 0.20s; }
+.animate.visible .rule:nth-child(6) { animation-delay: 0.24s; }
+.animate.visible .rule:nth-child(7) { animation-delay: 0.28s; }
+.animate.visible .rule:nth-child(8) { animation-delay: 0.32s; }
+.animate.visible .rule:nth-child(9) { animation-delay: 0.36s; }
+
+/* Page-level swipe navigation hint — shown once on mobile */
+.swipe-hint {
+  display: none;
+  position: fixed;
+  bottom: 6.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(61,43,31,0.88);
+  color: rgba(255,255,255,0.92);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  z-index: 298;
+  pointer-events: none;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  animation: fadeIn 0.4s ease-out, fadeSwipeOut 0.4s ease-in 2.5s both;
+}
+@keyframes fadeSwipeOut {
+  to { opacity: 0; transform: translateX(-50%) translateY(4px); }
+}
+@media (max-width: 600px) {
+  .swipe-hint { display: block; }
+}
+
+/* Section-to-section swipe (page-level) — rubber-band-feel overscroll */
+@supports (overscroll-behavior: contain) {
+  .container { overscroll-behavior-y: contain; }
+}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .delivery-grid { grid-template-columns: repeat(2, 1fr); }
+  .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+  .wifi-grid { grid-template-columns: 1fr; }
+  .btn-row { grid-template-columns: 1fr; }
+  .times-grid { grid-template-columns: 1fr; }
+  .emergency-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 540px) {
+  .amenities-grid { grid-template-columns: repeat(3, 1fr); }
+  .times-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 600px) {
+  .container { padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 1.75rem); }
+  .card { padding: clamp(1.25rem, 3vw, 1.75rem); }
+  .float-contact { bottom: 1.75rem; right: 1.75rem; }
+  .back-top { bottom: 6rem; right: 1.75rem; }
+  .delivery-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .amenities-grid { grid-template-columns: repeat(4, 1fr); }
+  .quick-nav-inner { justify-content: center; }
+  .qn-btn { flex: 0 0 auto; max-width: none; }
+  .times-grid { gap: 1rem; }
+}
+
+@media (min-width: 1024px) {
+  .container { padding: 1.75rem 1.5rem; gap: 1.125rem; }
+}
+
+/* ═══════════════════════════════════════════════
+   PRINT
+═══════════════════════════════════════════════ */
+@media print {
+  .float-contact, .back-top, .quick-nav, .overlay, .toast { display: none !important; }
+  body::after { content: 'CONFIDENTIAL PROPERTY OF CASCADE HIDEAWAY — UNAUTHORIZED REPRODUCTION PROHIBITED'; }
+  .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+}
+
+/* ═══════════════════════════════════════════════
+   NOSCRIPT
+═══════════════════════════════════════════════ */
+.noscript-banner {
+  background: rgba(215,179,119,0.15);
+  border-bottom: 2px solid var(--accent-gold);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--dark-bronze);
+}
+</style>
+</head>
+<body>
+<noscript>
+  <div class="noscript-banner">⚠️ JavaScript is disabled — some interactive features (live clock, copy buttons, QR code) won't work. Please enable JavaScript for the best experience.</div>
+</noscript>
+
+<div id="app">
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-top">
+    <div class="badge" id="headerBadge">✈️ Arriving Today</div>
+    <div class="header-clock">
+      <span>GenSan Time</span>
+      <span class="clock-time" id="liveClock">—</span>
+    </div>
+  </div>
+  <h1 class="serif">Cascade Hideaway</h1>
+  <p class="sub">Bria Homes · Conel Road · Block 47, Lot 39 · General Santos City</p>
+</header>
+
+<!-- ═══════════════ QUICK NAV ═══════════════ -->
+<nav class="quick-nav" aria-label="Quick navigation" id="quickNav">
+  <div class="quick-nav-inner">
+    <a class="qn-btn" href="#section-times" aria-label="Times">
+      <span class="qn-icon">⏰</span>
+      <span class="qn-label">Times</span>
+    </a>
+    <a class="qn-btn" href="#section-here" aria-label="Get Here">
+      <span class="qn-icon">📍</span>
+      <span class="qn-label">Get Here</span>
+    </a>
+    <a class="qn-btn" href="#section-entry" aria-label="Entry">
+      <span class="qn-icon">🔐</span>
+      <span class="qn-label">Entry</span>
+    </a>
+    <a class="qn-btn" href="#section-wifi" aria-label="Wi-Fi">
+      <span class="qn-icon">📶</span>
+      <span class="qn-label">Wi-Fi</span>
+    </a>
+    <a class="qn-btn" href="#section-food" aria-label="Food">
+      <span class="qn-icon">🍔</span>
+      <span class="qn-label">Food</span>
+    </a>
+    <a class="qn-btn" href="#section-amenities" aria-label="Amenities">
+      <span class="qn-icon">🏡</span>
+      <span class="qn-label">Amenities</span>
+    </a>
+    <a class="qn-btn" href="#section-rules" aria-label="Rules">
+      <span class="qn-icon">📋</span>
+      <span class="qn-label">Rules</span>
+    </a>
+    <a class="qn-btn" href="#section-emergency" aria-label="Emergency">
+      <span class="qn-icon">🆘</span>
+      <span class="qn-label">SOS</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<div class="container">
+
+  <!-- 1 · CHECK-IN / OUT TIMES -->
+  <div class="card critical animate" id="section-times">
+    <p class="card-title">⏰ Check-In &amp; Check-Out</p>
+    <div class="times-grid">
+      <div class="time-block">
+        <div class="time-label">🔑 Check-In from</div>
+        <div class="time-value">2:00 PM</div>
+        <div class="time-note" id="checkinCountdown">Your sanctuary is being prepared with care</div>
+      </div>
+      <div class="time-block checkout">
+        <div class="time-label">🌅 Check-Out by</div>
+        <div class="time-value">12:00 NN</div>
+        <div class="time-note">Need a little more time? We're happy to check — just send us a message and we'll do our best to accommodate.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 · GET HERE -->
+  <div class="card critical animate" id="section-here">
+    <p class="card-title">📍 Finding Your Way Here</p>
+    <div class="address-box">
+      <div>
+        <div class="address-main">Block 47, Lot 39 — Cascade Hideaway</div>
+        <div class="address-sub">
+          Bria Homes, Conel Road<br/>
+          Brgy. San Isidro, General Santos City, 9500
+        </div>
+      </div>
+      <button class="btn-copy-addr" id="copyAddrBtn" onclick="copyAddress(this)" aria-label="Copy address">
+        <span class="copy-icon">📋</span>
+        <span>Copy</span>
+      </button>
+    </div>
+    <div class="btn-row" style="margin-bottom: 0.5rem;">
+      <a class="btn btn-outline" href="https://maps.app.goo.gl/9vn8KyDwNrXPmJqT9" target="_blank" rel="noopener noreferrer" aria-label="Open in Google Maps">
+        <span>🗺️</span> Google Maps
+      </a>
+      <a class="btn btn-outline" href="waze://ul?q=Bria+Homes+Conel+Road+General+Santos&navigate=yes" onclick="openWaze(event)" aria-label="Open in Waze">
+        <span>🚗</span> Waze
+      </a>
+    </div>
+    <div class="callout gold">
+      <strong>🚦 A quick note at the gate:</strong> Just tell the security guard you're a guest at <strong>"Cascade Hideaway, Block 47, Lot 39"</strong> and they'll wave you right through. No fuss at all.
+    </div>
+
+    <!-- Transport Tips Panel -->
+    <div class="transport-panel">
+      <div class="transport-panel-title">🚕 Getting Here from the Airport</div>
+      <div class="transport-row recommended">
+        <span class="ticon">🚗</span>
+        <div>
+          <strong>Grab</strong><span class="rec-badge">✦ Our Pick</span>
+          <br/>The easiest and most comfortable way here — especially from the airport. Your fare is shown upfront before you confirm, so there are no surprises. Just open the app, enter our address, and we'll see you soon.
+          <div class="pick-chips" style="margin-top: 0.5rem;">
+            <a class="pick-chip" href="grab://open" onclick="openGrabApp(event)">📱 Open Grab App</a>
+          </div>
+        </div>
+      </div>
+      <div class="transport-row">
+        <span class="ticon">🛺</span>
+        <div>
+          <strong>Tricycles</strong> — For short hops around the neighborhood, tricycles wait just outside the Bria gate. Always agree on the fare before you hop in — and it helps to have <strong>small bills and coins ready</strong>, as drivers may not always have change. Cash only.
+          <div class="pick-chips">
+            <span class="pick-chip">Bria Gate Stop</span>
+            <span class="pick-chip">Robinsons Mall</span>
+            <span class="pick-chip">SM City GenSan</span>
+          </div>
+        </div>
+      </div>
+      <div class="transport-row">
+        <span class="ticon">🚌</span>
+        <div>
+          <strong>Multicab / Jeepney</strong> — Budget-friendly and very local. Flag one heading toward Dadiangas / City Center along Conel Road and tell the driver "Bria Homes." Same tip applies — <strong>keep small bills handy</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 · ENTRY -->
+  <div class="card critical animate" id="section-entry">
+    <p class="card-title">🔐 Entering Your Home Away from Home</p>
+
+    <!-- Airbnb PIN callout -->
+    <div class="pin-callout">
+      <span class="pc-icon">🔑</span>
+      <div>
+        <strong>Your door PIN is waiting in your Airbnb inbox.</strong> Check your Airbnb message thread from your host before you arrive — you'll need it to step inside. If you can't find it, just reach out and we'll send it right over.
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Give the keypad a gentle tap or swipe in the center to <strong>wake it up</strong> — the numbers will light up in a moment</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Enter your <strong>PIN from your Airbnb message</strong>, then press <code>#</code> to confirm</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Turn the handle and step inside — <strong>welcome home</strong> 🌴</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">When heading out, simply close the door firmly — the smart lock takes care of the rest automatically</div>
+      </div>
+    </div>
+    <div class="info-note">
+      <span class="ni">🪪</span>
+      <span>You'll also find a <strong>key card</strong> inside near the TV and A/C remotes — it's on a Cascade keychain, hard to miss. Tap it on the keypad anytime to unlock. Please keep it safe — there's a ₱1,000 replacement fee if it goes missing.</span>
+    </div>
+    <a class="btn btn-danger" href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="margin-top: 0.625rem;">
+      <span>🆘</span> Having trouble getting in? We're here — contact us now
+    </a>
+  </div>
+
+  <!-- 4 · WIFI -->
+  <div class="card critical animate" id="section-wifi">
+    <p class="card-title">📶 Connect to Wi-Fi</p>
+    <div class="wifi-grid">
+      <div class="wifi-field" id="wf-ssid"
+        onclick="copyWifi(this, 'WelcomeToCascade-5G', 'wf-ssid')"
+        onkeydown="if(event.key==='Enter'||event.key===' ')copyWifi(this,'WelcomeToCascade-5G','wf-ssid')"
+        role="button" tabindex="0" aria-label="Copy Wi-Fi network name">
+        <div class="wifi-label">Network Name</div>
+        <div class="wifi-value">WelcomeToCascade-5G</div>
+        <div class="copy-status">Tap to copy</div>
+      </div>
+      <div class="wifi-field" id="wf-pass"
+        onclick="copyWifi(this, 'EnjoyYourStay@CH', 'wf-pass')"
+        onkeydown="if(event.key==='Enter'||event.key===' ')copyWifi(this,'EnjoyYourStay@CH','wf-pass')"
+        role="button" tabindex="0" aria-label="Copy Wi-Fi password">
+        <div class="wifi-label">Password</div>
+        <div class="wifi-value">EnjoyYourStay@CH</div>
+        <div class="copy-status">Tap to copy</div>
+      </div>
+    </div>
+    <button class="qr-toggle" id="qrToggle" onclick="toggleQR()" aria-expanded="false">
+      <span>📱 Or just scan the QR — no typing needed</span>
+      <span class="chevron">▼</span>
+    </button>
+    <div class="qr-panel" id="qrPanel">
+      <div id="wifi-qr"></div>
+      <p>Point your phone's camera at this code and you'll be connected in seconds.</p>
+    </div>
+  </div>
+
+  <!-- SECTION DIVIDER -->
+  <div class="section-divider animate">
+    <div class="section-divider-line"></div>
+    <span class="section-divider-label">✦ Good to Know</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+  <!-- 5 · FOOD & DELIVERY -->
+  <div class="card animate" id="section-food">
+    <p class="card-title">🍔 Food, Groceries &amp; Getting Around</p>
+    <div class="delivery-grid">
+      <a class="delivery-btn" href="https://www.foodpanda.ph/" target="_blank" rel="noopener noreferrer">
+        <span class="dicon">🐼</span>
+        <span>Foodpanda</span>
+      </a>
+      <a class="delivery-btn" href="https://food.grab.com/ph/en/" target="_blank" rel="noopener noreferrer">
+        <span class="dicon">🍱</span>
+        <span>Grab Food</span>
+      </a>
+      <a class="delivery-btn" href="https://www.jollibeedelivery.com/" target="_blank" rel="noopener noreferrer">
+        <span class="dicon">🐝</span>
+        <span>Jollibee</span>
+      </a>
+      <a class="delivery-btn" href="https://www.mcdelivery.com.ph/" target="_blank" rel="noopener noreferrer">
+        <span class="dicon">🍟</span>
+        <span>McDelivery</span>
+      </a>
+    </div>
+
+    <!-- Groceries tip -->
+    <div class="callout gold" style="margin-bottom: 0.625rem;">
+      🛒 <strong>No need to go out for groceries or drinks</strong> — both Foodpanda and GrabFood have a <strong>Mart</strong> or <strong>Grocery</strong> section with same-day delivery options. Stock up on essentials, snacks, or drinks right from the app and have them delivered straight to your door.
+    </div>
+
+    <div class="grab-ride-row">
+      <span class="gr-icon">🚗</span>
+      <div class="gr-text">
+        <strong>Need a Grab ride?</strong><br/>
+        Taxis, cars, and airport transfers — all in one tap
+      </div>
+      <a class="btn-grab" href="grab://open" onclick="openGrabApp(event)" aria-label="Open Grab app">
+        Open Grab
+      </a>
+    </div>
+
+    <div style="margin-top: 0.625rem;">
+      <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.4rem;">🏬 What's Nearby</div>
+      <div class="nearby-row">
+        <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=Robinsons+Mall+General+Santos" target="_blank" rel="noopener noreferrer">
+          🏬 Robinsons Mall <span style="opacity:0.6; font-size:0.65rem; margin-left:0.2rem">~1–2 km · closest</span>
+        </a>
+        <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=SM+City+General+Santos" target="_blank" rel="noopener noreferrer">
+          🏬 SM City GenSan <span style="opacity:0.6; font-size:0.65rem; margin-left:0.2rem">~3 km</span>
+        </a>
+        <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=Mercury+Drug+General+Santos" target="_blank" rel="noopener noreferrer">
+          💊 Mercury Drug
+        </a>
+      </div>
+      <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.4rem;">Tricycles wait just outside the Bria gate — agree on a fare beforehand and keep small change ready. Cash only.</div>
+    </div>
+
+    <!-- Coffee shops - verified from index_12 reference -->
+    <div style="margin-top: 0.875rem;">
+      <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.5rem;">☕ Coffee Shops Worth Visiting</div>
+      <div class="coffee-grid">
+        <div class="coffee-card">
+          <div class="cf-name">☕ Coffee Project</div>
+          <div class="cf-dist">📍 ~2.6 km · Closest · ~5 min by Grab</div>
+          <div class="cf-note">GenSan's most Instagrammable café — gorgeous floral interiors, lovely coffee, and perfect for a quick morning stop.</div>
+          <a href="https://www.google.com/maps?q=Coffee+Project+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.4rem;font-size:0.67rem;color:var(--bronze);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card">
+          <div class="cf-name">🌙 Oona Café &amp; Co.</div>
+          <div class="cf-dist">📍 General Santos City</div>
+          <div class="cf-note">A cozy late-night haven with soulful coffee and comfort food — open until 2 AM. Lovely for a quiet evening out.</div>
+          <a href="https://www.google.com/maps?q=Oona+Café+%26+Co+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.4rem;font-size:0.67rem;color:var(--bronze);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card">
+          <div class="cf-name">☕ Blackthorn Coffee</div>
+          <div class="cf-dist">📍 General Santos City</div>
+          <div class="cf-note">For guests who appreciate specialty coffee — expertly crafted, carefully sourced beans.</div>
+          <a href="https://www.google.com/maps?q=Blackthorn+Coffee+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.4rem;font-size:0.67rem;color:var(--bronze);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card">
+          <div class="cf-name">💼 Bo's Coffee</div>
+          <div class="cf-dist">📍 General Santos City</div>
+          <div class="cf-note">Reliable Filipino coffee chain with a welcoming atmosphere — great if you're getting work done or need a familiar spot.</div>
+          <a href="https://www.google.com/maps?q=Bos+Coffee+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.4rem;font-size:0.67rem;color:var(--bronze);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+      </div>
+      <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=coffee+near+Bria+Homes+General+Santos" target="_blank" rel="noopener noreferrer" style="margin-top:0.5rem;display:inline-flex;">
+        ☕ Explore all coffee shops near us →
+      </a>
+    </div>
+  </div>
+
+  <!-- 6 · AMENITIES -->
+  <div class="card animate" id="section-amenities">
+    <p class="card-title">🏡 Your Unit at a Glance <span style="font-weight: 400; opacity: 0.6; font-size: 0.58rem;">· tap icons for tips</span></p>
+    <div class="amenities-grid">
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🛏️</span>
+        <span class="aname">Queen Bed<br/>Hotel Linens</span>
+        <div class="atip">Sumptuous hotel-grade linens and plush pillows for complete rest and rejuvenation.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">📺</span>
+        <span class="aname">55" Smart TV<br/>Netflix · YouTube</span>
+        <div class="atip">55" Samsung Smart TV with Netflix, YouTube Premium, and Samsung TV Plus live channels. Remotes are on the bedside table.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">❄️</span>
+        <span class="aname">2.5HP A/C<br/>+ Air Purifier</span>
+        <div class="atip">Powerful 2.5 HP split-type A/C keeps your sanctuary perfectly cool. An air purifier is also provided — great for guests with sensitivities.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🍳</span>
+        <span class="aname">Kitchenette<br/>Cookware Ready</span>
+        <div class="atip">Essential appliances and cookware for light meal prep, morning coffee, and beverages throughout your stay.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🚿</span>
+        <span class="aname">Hot Shower<br/>+ Plush Towels</span>
+        <div class="atip">Private ensuite with a reliable water heater for warm showers. Hotel-quality towels are provided for your comfort.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🧺</span>
+        <span class="aname">Washing<br/>Machine</span>
+        <div class="atip">In-unit automatic washing machine — perfect for extended stays or keeping your wardrobe fresh.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">☕</span>
+        <span class="aname">Coffee &amp;<br/>Drinking Water</span>
+        <div class="atip">Complimentary coffee selections and purified drinking water are thoughtfully arranged for your arrival.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">👔</span>
+        <span class="aname">Wardrobe &amp;<br/>Cloth Steamer</span>
+        <div class="atip">Single-door wardrobe with quality hangers for easy unpacking. Complimentary cloth steamer available for wrinkle-free garments.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">💻</span>
+        <span class="aname">Dedicated<br/>Workspace</span>
+        <div class="atip">A clean, well-lit dedicated desk area — ideal for remote work, video calls, or catching up on emails.</div>
+      </div>
+    </div>
+    <div style="background: var(--surface-alt); border-radius: 0.75rem; padding: 0.75rem; font-size: 0.77rem; color: var(--text-muted); line-height: 1.5; border: 1px solid var(--border);">
+      🅿️ <strong style="color: var(--text);">Parking:</strong> Your slot is directly in front of the unit. CCTV-monitored within the Bria compound. One vehicle per reservation. Additional parking may be arranged in advance — just contact us.
+    </div>
+  </div>
+
+  <!-- 7 · HOUSE RULES -->
+  <div class="card animate" id="section-rules">
+    <p class="card-title">📋 A Few Things to Keep in Mind</p>
+    <div class="rules-list">
+      <div class="rule"><span class="ricon">👟</span><span>We kindly ask that you remove your shoes at the entrance — a shoe rack with complimentary slippers is waiting for you just inside the door</span></div>
+      <div class="rule important"><span class="ricon">🚭</span><span><strong>Please keep the unit smoke-free.</strong> There's a designated outdoor area if needed. We appreciate your understanding — it helps keep the space fresh for everyone.</span></div>
+      <div class="rule"><span class="ricon">🌙</span><span><strong>Quiet hours begin at 10:00 PM.</strong> We're nestled in a warm residential community — a little consideration for the neighbors goes a long way, and we truly appreciate it.</span></div>
+      <div class="rule"><span class="ricon">🏠</span><span><strong>No gatherings or parties, please.</strong> Cascade is a peaceful retreat — only registered guests are welcome inside to preserve the calm for everyone nearby.</span></div>
+      <div class="rule"><span class="ricon">👥</span><span>Only guests included in your booking may stay overnight. If your plans change and your group grows, just let us know ahead of time — we're happy to sort it out.</span></div>
+      <div class="rule"><span class="ricon">💡</span><span>When stepping out, please switch off the A/C, lights, and appliances — small habits that make a big difference, and we're grateful for your mindfulness.</span></div>
+      <div class="rule important"><span class="ricon">💧</span><span><strong>Kindly use the bin provided for tissue, toilet paper, and sanitary items</strong> — not the toilet. Our plumbing is a little sensitive and we want to keep everything flowing smoothly for you and future guests.</span></div>
+      <div class="rule"><span class="ricon">🗑️</span><span>If the indoor bins fill up, tie the bags and leave them in the large outdoor bin provided — or just message us and we'll arrange pickup. No trouble at all.</span></div>
+      <div class="rule"><span class="ricon">✨</span><span>Please help us care for the space. If anything breaks or seems off, let us know right away — no judgment, things happen, and we'd rather know so we can fix it for you.</span></div>
+    </div>
+  </div>
+
+  <!-- 8 · EMERGENCY -->
+  <div class="card animate" id="section-emergency">
+    <p class="card-title">🆘 Emergency Numbers</p>
+    <div class="emergency-grid">
+      <a class="emergency-link" href="tel:911">
+        <span class="eicon">🚑</span>
+        <span>National Emergency</span>
+        <strong>911</strong>
+      </a>
+      <a class="emergency-link" href="tel:09985987207">
+        <span class="eicon">🚓</span>
+        <span>Police Hotline</span>
+        <strong>0998 598 7207</strong>
+      </a>
+      <a class="emergency-link" href="tel:160">
+        <span class="eicon">🔥</span>
+        <span>Fire Dept (BFP)</span>
+        <strong>160</strong>
+      </a>
+      <a class="emergency-link" href="https://www.google.com/maps/search/?api=1&query=St.+Elizabeth+Hospital+General+Santos+City" target="_blank" rel="noopener noreferrer">
+        <span class="eicon">🏥</span>
+        <span>Hospital Map</span>
+        <strong>St. Elizabeth</strong>
+      </a>
+    </div>
+    <div class="hospital-note">
+      <strong>🏥 Nearest Emergency Room — St. Elizabeth Hospital</strong>
+      National Highway, Corner Santiago Blvd, General Santos City 9500<br/>
+      <a href="tel:+63835523162" style="color: inherit; font-weight: 700;">(083) 552-3162</a>
+      &nbsp;·&nbsp;
+      <a href="tel:+639623160213" style="color: inherit; font-weight: 700;">+63 962 316 0213</a>
+    </div>
+    <div style="margin-top: 0.625rem; font-size: 0.72rem; color: var(--text-muted); text-align: center; line-height: 1.6;">
+      💊 Mercury Drug near St. Elizabeth &nbsp;·&nbsp; Watsons at Robinsons &amp; SM<br/>
+      <span style="font-size:0.68rem;opacity:0.8;">We're also just a message away if you need any help at all — please don't hesitate to reach out.</span>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="site-footer">
+  © Cascade Hideaway · Bria Homes, General Santos City<br/>
+  Prepared with care, exclusively for our valued guests. 🌴
+</footer>
+
+</div><!-- /app -->
+
+<!-- ═══════════════ TOAST ═══════════════ -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ═══════════════ BACK TO TOP ═══════════════ -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<!-- ═══════════════ SWIPE HINT ═══════════════ -->
+<div class="swipe-hint" id="swipeHint">Swipe up to explore ↑</div>
+
+<!-- ═══════════════ FLOATING CONTACT ═══════════════ -->
+<div class="float-contact">
+  <button class="float-btn-main" onclick="openContact()" aria-label="Contact us">
+    <span>💬</span> Contact Us
+  </button>
+</div>
+
+<!-- ═══════════════ CONTACT POPUP ═══════════════ -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+  <div class="popup" id="popup" role="document">
+    <div class="popup-handle" id="popupHandle">
+      <div class="popup-handle-bar"></div>
+    </div>
+    <h3 class="serif" id="popupTitle">We're Here for You 💛</h3>
+    <div class="contact-options">
+      <div class="contact-opt"
+        onclick="copyJary()"
+        onkeydown="if(event.key==='Enter'||event.key===' ')copyJary()"
+        role="button" tabindex="0"
+        aria-label="Copy Ms. Jary contact number"
+        style="border-color: rgba(215,179,119,0.5); background: rgba(215,179,119,0.1);">
+        <div class="cicon" style="background: rgba(215,179,119,0.25);">📞</div>
+        <div>
+          <span style="font-weight: 700;">Ms. Jarely "Jary" · 09618056979</span>
+          <span class="csub" style="color: var(--bronze); font-weight: 600;">For anything urgent — tap to copy her number</span>
+        </div>
+      </div>
+      <a class="contact-opt" href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer">
+        <div class="cicon">💬</div>
+        <div>
+          <span>Send a Message on Messenger</span>
+          <span class="csub">Facebook · We reply quickly</span>
+        </div>
+      </a>
+      <a class="contact-opt" href="mailto:cascadehideaway@gmail.com">
+        <div class="cicon">✉️</div>
+        <div>
+          <span>cascadehideaway@gmail.com</span>
+          <span class="csub">Email us anytime</span>
+        </div>
+      </a>
+      <a class="contact-opt" href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer">
+        <div class="cicon">🏠</div>
+        <div>
+          <span>Message via Airbnb</span>
+          <span class="csub">Through your booking thread</span>
+        </div>
+      </a>
+    </div>
+    <button class="popup-close" onclick="closeContact()">Maybe later</button>
+  </div>
+</div>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script>
+/* ─────────────────────────────────────────
+   CONFIG — update these per booking
+───────────────────────────────────────── */
+const CONFIG = {
+  WIFI_SSID: 'WelcomeToCascade-5G',
+  WIFI_PASS: 'EnjoyYourStay@CH',
+  HOST_PHONE: '09618056979',
+  HOST_PHONE_LABEL: 'Ms. Jary',
+  HOST_PHONE_2: '09560115744',
+};
+
+/* ─────────────────────────────────────────
+   SET HEADER HEIGHT + SCROLL PADDING (fixes nav overlap)
+───────────────────────────────────────── */
+function setHeaderHeight() {
+  const header = document.getElementById('siteHeader');
+  const nav    = document.getElementById('quickNav');
+  if (header) {
+    const hh = header.offsetHeight;
+    document.documentElement.style.setProperty('--header-h', hh + 'px');
+    // scroll-padding must account for both sticky header + sticky nav
+    const nh = nav ? nav.offsetHeight : 0;
+    document.documentElement.style.scrollPaddingTop = (hh + nh + 8) + 'px';
+  }
+}
+setHeaderHeight();
+window.addEventListener('resize', setHeaderHeight);
+
+/* ─────────────────────────────────────────
+   LIVE CLOCK (GenSan / PH Time)
+───────────────────────────────────────── */
+function getPHTime() {
+  const now = new Date();
+  return new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+}
+
+function updateClock() {
+  const el = document.getElementById('liveClock');
+  if (!el) return;
+  try {
+    const ph = getPHTime();
+    const h = ph.getHours(), m = ph.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = h % 12 || 12;
+    el.textContent = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
+  } catch(e) { el.textContent = '—'; }
+}
+
+/* ─────────────────────────────────────────
+   DYNAMIC BADGE + CHECK-IN COUNTDOWN
+───────────────────────────────────────── */
+function updateBadgeAndCountdown() {
+  const ph = getPHTime();
+  const h = ph.getHours(), m = ph.getMinutes();
+  const badge = document.getElementById('headerBadge');
+  const countdown = document.getElementById('checkinCountdown');
+
+  // Badge text by time of day
+  let badgeText = '✈️ Arriving Today';
+  if (h >= 5 && h < 12)       badgeText = '🌅 Good Morning — Welcome, You\'re Arriving Today';
+  else if (h >= 12 && h < 14) badgeText = '☀️ Almost Time — Your Home Is Being Prepared';
+  else if (h >= 14 && h < 18) badgeText = '🔑 Welcome — Your Sanctuary Is Ready';
+  else if (h >= 18 && h < 21) badgeText = '🌆 Good Evening — Welcome Home';
+  else                         badgeText = '🌙 Late Arrival — We\'ve Got You, Come Right In';
+
+  if (badge) badge.textContent = badgeText;
+
+  // Pulse badge when within 60 min of check-in (fixes off-by-one: was h===13 only)
+  if (badge) {
+    const checkInMinutes = (14 * 60) - (h * 60 + m);
+    if (checkInMinutes > 0 && checkInMinutes <= 60) {
+      badge.classList.add('pulse');
+    } else {
+      badge.classList.remove('pulse');
+    }
+  }
+
+  // Countdown to check-in
+  if (countdown) {
+    if (h < 14) {
+      const checkInMinutes = (14 * 60) - (h * 60 + m);
+      if (checkInMinutes > 60) {
+        const hrs = Math.floor(checkInMinutes / 60);
+        const mins = checkInMinutes % 60;
+        countdown.textContent = `Your sanctuary will be ready in ${hrs}h ${mins}m`;
+      } else if (checkInMinutes > 0) {
+        countdown.textContent = `Almost ready — ${checkInMinutes} min to go! 🔑`;
+      } else {
+        countdown.textContent = 'Your home away from home is ready ✓';
+      }
+    } else {
+      countdown.textContent = 'Your home away from home is ready ✓';
+    }
+  }
+}
+
+// Single init — no duplicate calls
+updateClock();
+updateBadgeAndCountdown();
+setInterval(() => { updateClock(); updateBadgeAndCountdown(); }, 30000);
+
+/* ─────────────────────────────────────────
+   SCROLL ANIMATIONS — staggered, fluid
+───────────────────────────────────────── */
+try {
+  const animEls = document.querySelectorAll('.animate');
+  if ('IntersectionObserver' in window) {
+    // Don't add will-animate — just observe; visible class triggers CSS transition
+    animEls.forEach((el, i) => {
+      el.classList.add('will-animate');
+      el.style.transitionDelay = `${Math.min(i * 0.035, 0.18)}s`;
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          // Small rAF for paint-optimised reveal
+          requestAnimationFrame(() => {
+            e.target.classList.add('visible');
+            e.target.classList.remove('will-animate');
+            e.target.style.transitionDelay = '';
+          });
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -12px 0px' });
+    animEls.forEach(el => observer.observe(el));
+  } else {
+    // Fallback: show everything
+    animEls.forEach(el => el.classList.add('visible'));
+  }
+} catch(err) {
+  document.querySelectorAll('.animate').forEach(el => el.classList.add('visible'));
+}
+
+/* ─────────────────────────────────────────
+   QUICK NAV ACTIVE HIGHLIGHT
+───────────────────────────────────────── */
+const sections = document.querySelectorAll('[id^="section-"]');
+const navBtns = document.querySelectorAll('.qn-btn');
+
+if ('IntersectionObserver' in window) {
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navBtns.forEach(btn => {
+          btn.classList.toggle('active', btn.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.35, rootMargin: '-80px 0px -45% 0px' });
+  sections.forEach(s => navObserver.observe(s));
+}
+
+/* ─────────────────────────────────────────
+   BACK TO TOP
+───────────────────────────────────────── */
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  if (backTop) backTop.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+
+/* ─────────────────────────────────────────
+   SWIPE SUPPORT — section-to-section
+   Works on mobile & tablet touch screens
+───────────────────────────────────────── */
+(function() {
+  const sectionEls = Array.from(document.querySelectorAll('[id^="section-"]'));
+  let touchStartX = 0, touchStartY = 0;
+  let swipeLocked = false;
+
+  // Hide swipe hint after animation completes
+  const hint = document.getElementById('swipeHint');
+  if (hint) setTimeout(() => { hint.style.display = 'none'; }, 3200);
+
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (swipeLocked) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+
+    // Only treat as vertical navigation swipe if:
+    // - Predominantly vertical (|dy| > |dx| * 1.5)
+    // - Swipe distance is meaningful (> 60px)
+    // - Not inside the popup
+    const isVertical = Math.abs(dy) > Math.abs(dx) * 1.5;
+    const isSignificant = Math.abs(dy) > 60;
+    const inPopup = e.target.closest('.popup');
+    if (!isVertical || !isSignificant || inPopup) return;
+
+    // Find which section is most visible
+    let currentIdx = 0;
+    let bestRatio = 0;
+    sectionEls.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      const visible = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+      const ratio = visible / r.height;
+      if (ratio > bestRatio) { bestRatio = ratio; currentIdx = i; }
+    });
+
+    let targetIdx = dy < 0 ? currentIdx + 1 : currentIdx - 1;
+    targetIdx = Math.max(0, Math.min(sectionEls.length - 1, targetIdx));
+
+    if (targetIdx !== currentIdx) {
+      swipeLocked = true;
+      sectionEls[targetIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => { swipeLocked = false; }, 700);
+    }
+  }, { passive: true });
+})();
+
+/* ─────────────────────────────────────────
+   COPY ADDRESS
+───────────────────────────────────────── */
+function copyAddress(btn) {
+  const addr = 'Cascade Hideaway, Block 47, Lot 39, Bria Homes, Conel Road, Brgy. San Isidro, General Santos City, 9500';
+  navigator.clipboard.writeText(addr).then(() => {
+    btn.classList.add('copied');
+    btn.querySelector('span:last-child').textContent = '✓';
+    showToast('📋 Address copied for delivery apps!');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.querySelector('span:last-child').textContent = 'Copy';
+    }, 3000);
+  }).catch(() => showToast('Long-press to copy the address'));
+}
+
+/* ─────────────────────────────────────────
+   COPY WIFI
+───────────────────────────────────────── */
+function copyWifi(el, text, id) {
+  navigator.clipboard.writeText(text).then(() => {
+    el.classList.add('copied-ok');
+    el.querySelector('.copy-status').textContent = '✓ Copied!';
+    showToast('✓ ' + (id === 'wf-ssid' ? 'Network name' : 'Password') + ' copied!');
+    setTimeout(() => {
+      el.classList.remove('copied-ok');
+      el.querySelector('.copy-status').textContent = 'Tap to copy';
+    }, 3000);
+  }).catch(() => showToast('Please copy manually'));
+}
+
+/* ─────────────────────────────────────────
+   WIFI QR CODE (dark-mode aware)
+───────────────────────────────────────── */
+let qrGenerated = false;
+function toggleQR() {
+  const panel = document.getElementById('qrPanel');
+  const toggle = document.getElementById('qrToggle');
+  const isOpen = panel.classList.contains('open');
+
+  if (!isOpen) {
+    panel.classList.add('open');
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+
+    if (!qrGenerated) {
+      const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const colorDark  = isDark ? '#F9F6F0' : '#3D2B1F';
+      const colorLight = isDark ? '#1e1208' : '#F9F6F0';
+      const qrStr = `WIFI:T:WPA;S:${CONFIG.WIFI_SSID};P:${CONFIG.WIFI_PASS};;`;
+
+      const generate = () => {
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(document.getElementById('wifi-qr'), {
+              text: qrStr,
+              width: 160, height: 160,
+              colorDark, colorLight,
+              correctLevel: QRCode.CorrectLevel.M
+            });
+            qrGenerated = true;
+          } catch(e) {
+            document.getElementById('wifi-qr').innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;">QR unavailable — use tap-to-copy above.</p>';
+          }
+        } else {
+          setTimeout(generate, 800);
+        }
+      };
+      generate();
+    }
+  } else {
+    panel.classList.remove('open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+}
+
+/* ─────────────────────────────────────────
+   WAZE OPEN WITH FALLBACK
+───────────────────────────────────────── */
+function openWaze(e) {
+  e.preventDefault();
+  const wazeApp      = 'waze://ul?q=Bria+Homes+Conel+Road+General+Santos&navigate=yes';
+  const wazeFallback = 'https://waze.com/ul?q=Bria+Homes+Conel+Road+General+Santos&navigate=yes';
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = wazeApp;
+    setTimeout(() => window.open(wazeFallback, '_blank'), 1500);
+  } else {
+    window.open(wazeFallback, '_blank');
+  }
+}
+
+/* ─────────────────────────────────────────
+   GRAB APP OPEN
+───────────────────────────────────────── */
+function openGrabApp(e) {
+  e.preventDefault();
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = 'grab://open';
+    setTimeout(() => window.open('https://www.grab.com/ph/', '_blank'), 1200);
+  } else {
+    window.open('https://www.grab.com/ph/', '_blank');
+  }
+}
+
+/* ─────────────────────────────────────────
+   AMENITY TIPS (tap to expand)
+───────────────────────────────────────── */
+function toggleAmenity(el) {
+  el.classList.toggle('expanded');
+}
+
+/* ─────────────────────────────────────────
+   COPY PHONE NUMBERS
+───────────────────────────────────────── */
+function copyPhone() {
+  navigator.clipboard.writeText(CONFIG.HOST_PHONE_2)
+    .then(() => showToast('✓ Phone number copied!'))
+    .catch(() => showToast(CONFIG.HOST_PHONE_2));
+}
+function copyJary() {
+  navigator.clipboard.writeText(CONFIG.HOST_PHONE)
+    .then(() => showToast(`✓ ${CONFIG.HOST_PHONE_LABEL}'s number copied!`))
+    .catch(() => showToast(CONFIG.HOST_PHONE));
+}
+
+/* ─────────────────────────────────────────
+   TOAST
+───────────────────────────────────────── */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ─────────────────────────────────────────
+   CONTACT POPUP
+───────────────────────────────────────── */
+function openContact() {
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeContact() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // Reset popup position after swipe
+  const popup = document.getElementById('popup');
+  popup.style.transition = '';
+  popup.style.transform = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('overlay')) closeContact();
+}
+
+// Escape key closes popup
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeContact();
+});
+
+/* ─────────────────────────────────────────
+   SWIPE-DOWN TO CLOSE POPUP (Pointer Events API)
+───────────────────────────────────────── */
+(function() {
+  let startY = 0, isDragging = false;
+  const handle = document.getElementById('popupHandle');
+  const popup  = document.getElementById('popup');
+  if (!handle || !popup) return;
+
+  handle.addEventListener('pointerdown', function(e) {
+    startY = e.clientY;
+    isDragging = true;
+    popup.style.transition = 'none';
+    handle.setPointerCapture(e.pointerId);
+  });
+
+  handle.addEventListener('pointermove', function(e) {
+    if (!isDragging) return;
+    const y = e.clientY - startY;
+    if (y > 0) popup.style.transform = `translateY(${y}px)`;
+  });
+
+  handle.addEventListener('pointerup', function(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    const y = e.clientY - startY;
+    popup.style.transition = '';
+    if (y > 80) {
+      closeContact();
+    } else {
+      popup.style.transform = '';
+    }
+  });
+
+  handle.addEventListener('pointercancel', function() {
+    isDragging = false;
+    popup.style.transition = '';
+    popup.style.transform = '';
+  });
+})();
+</script>
+</body>
+</html>
