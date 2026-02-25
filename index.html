@@ -19,6 +19,43 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script>
+/* ═══════════════════════════════════════════════
+   ACCESS EXPIRY — 7 days from first visit
+═══════════════════════════════════════════════ */
+(function() {
+  var KEY      = 'ch_first_access';
+  var DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
+
+  try {
+    var stored = localStorage.getItem(KEY);
+    if (!stored) {
+      // First visit — record timestamp
+      localStorage.setItem(KEY, Date.now().toString());
+    } else {
+      var elapsed = Date.now() - parseInt(stored, 10);
+      if (elapsed > DURATION) {
+        // Expired — show overlay, hide app
+        document.addEventListener('DOMContentLoaded', function() {
+          var overlay = document.getElementById('expiryOverlay');
+          var app     = document.getElementById('app');
+          var prog    = document.getElementById('scrollProgress');
+          if (overlay) { overlay.style.display = 'flex'; }
+          if (app)     { app.style.display     = 'none'; }
+          if (prog)    { prog.style.display    = 'none'; }
+          // Also hide any fixed UI that may render on top
+          ['backTop','swipeHint'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+          });
+        });
+      }
+    }
+  } catch(e) {
+    // localStorage unavailable (private mode etc.) — fail silently, show content
+  }
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <style>
 
@@ -1460,6 +1497,127 @@ body::after {
 </noscript>
 
 <!-- Scroll progress bar -->
+<!-- ═══════════════ EXPIRY OVERLAY ═══════════════ -->
+<div id="expiryOverlay" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:linear-gradient(160deg,#140C04 0%,#1C1208 50%,#0F0A05 100%);
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+  overflow-y:auto;
+">
+  <div style="
+    max-width:480px;
+    width:100%;
+    text-align:center;
+    animation:fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both;
+  ">
+    <!-- Ornament -->
+    <div style="font-size:3rem;margin-bottom:1.25rem;opacity:0.9;">🌴</div>
+
+    <!-- Wordmark -->
+    <div style="
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1.6rem,5vw,2.2rem);
+      font-weight:600;
+      color:#F2EDE5;
+      letter-spacing:0.06em;
+      line-height:1.15;
+      margin-bottom:0.35rem;
+    ">Cascade Hideaway</div>
+    <div style="
+      font-size:0.72rem;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:rgba(212,176,120,0.6);
+      margin-bottom:2rem;
+    ">Bria Homes · General Santos City</div>
+
+    <!-- Divider -->
+    <div style="
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(191,146,80,0.45),transparent);
+      margin-bottom:2rem;
+    "></div>
+
+    <!-- Message -->
+    <div style="
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1.25rem,4vw,1.6rem);
+      font-weight:500;
+      font-style:italic;
+      color:#D4B078;
+      line-height:1.4;
+      margin-bottom:1.25rem;
+    ">Your guest guide has gently closed its doors.</div>
+
+    <p style="
+      font-family:'Raleway',sans-serif;
+      font-size:0.9rem;
+      color:rgba(242,237,229,0.72);
+      line-height:1.8;
+      margin-bottom:1.75rem;
+    ">
+      We hope your stay at Cascade was everything you deserved — restful, comfortable, and full of good moments.<br><br>
+      If the warmth of home ever calls you back to General Santos, we'd be truly delighted to welcome you again. Your next stay is just a message away.
+    </p>
+
+    <!-- CTA buttons -->
+    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;">
+      <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:0.5rem;
+        padding:1rem 1.5rem;
+        border-radius:999px;
+        background:linear-gradient(135deg,#D4B078,#A07530);
+        color:#1A0E04;
+        font-family:'Raleway',sans-serif;
+        font-weight:700;
+        font-size:0.9rem;
+        text-decoration:none;
+        letter-spacing:0.04em;
+        box-shadow:0 4px 24px rgba(191,146,80,0.4);
+        transition:all 0.22s ease;
+      ">🏠 Book Your Next Stay</a>
+
+      <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:0.5rem;
+        padding:0.875rem 1.5rem;
+        border-radius:999px;
+        background:transparent;
+        border:1.5px solid rgba(191,146,80,0.35);
+        color:rgba(212,176,120,0.9);
+        font-family:'Raleway',sans-serif;
+        font-weight:600;
+        font-size:0.875rem;
+        text-decoration:none;
+        letter-spacing:0.03em;
+        transition:all 0.22s ease;
+      ">💬 Send Us a Message</a>
+    </div>
+
+    <!-- Footer note -->
+    <div style="
+      font-size:0.68rem;
+      color:rgba(242,237,229,0.3);
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      line-height:1.6;
+    ">
+      This guide was prepared exclusively for your stay<br>
+      and has now expired · Thank you for choosing Cascade
+    </div>
+  </div>
+</div>
+
 <div id="scrollProgress"></div>
 
 <div id="app">
