@@ -8,42 +8,35 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
-<meta name="referrer" content="no-referrer"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
 <meta name="format-detection" content="telephone=yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Cascade Guide"/>
-<meta name="theme-color" content="#FAF8F4" media="(prefers-color-scheme: light)"/>
-<meta name="theme-color" content="#0F0B08" media="(prefers-color-scheme: dark)"/>
+<meta name="theme-color" content="#1C1006"/>
 <title>Cascade Hideaway — You're Arriving Today</title>
+<!-- v7.4: CF email fix · countdown logic · badge race fix · noscript styles · callout radius · swipe timing · clock interval · greeting consistency -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script>
-/* ═══════════════════════════════════════════════
-   ACCESS EXPIRY — 7 days from first visit
-═══════════════════════════════════════════════ */
 (function() {
-  var KEY      = 'ch_first_access';
-  var DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
-
+  var KEY = 'ch_first_access';
+  var DURATION = 7 * 24 * 60 * 60 * 1000;
   try {
     var stored = localStorage.getItem(KEY);
     if (!stored) {
-      // First visit — record timestamp
       localStorage.setItem(KEY, Date.now().toString());
     } else {
       var elapsed = Date.now() - parseInt(stored, 10);
       if (elapsed > DURATION) {
-        // Expired — show overlay, hide app
         document.addEventListener('DOMContentLoaded', function() {
           var overlay = document.getElementById('expiryOverlay');
-          var app     = document.getElementById('app');
-          var prog    = document.getElementById('scrollProgress');
+          var app = document.getElementById('app');
+          var prog = document.getElementById('scrollProgress');
           if (overlay) { overlay.style.display = 'flex'; }
-          if (app)     { app.style.display     = 'none'; }
-          if (prog)    { prog.style.display    = 'none'; }
-          // Also hide any fixed UI that may render on top
+          if (app) { app.style.display = 'none'; }
+          if (prog) { prog.style.display = 'none'; }
           ['backTop','swipeHint'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) el.style.display = 'none';
@@ -51,77 +44,61 @@
         });
       }
     }
-  } catch(e) {
-    // localStorage unavailable (private mode etc.) — fail silently, show content
-  }
+  } catch(e) {}
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <style>
 
 /* ═══════════════════════════════════════════════════════════
-   DESIGN TOKENS — Champagne & Ivory Luxury Palette
+   DESIGN TOKENS — Dark Mahogany · Champagne Gold · Warm Cream
 ═══════════════════════════════════════════════════════════ */
 :root {
-  /* Brand Colors */
-  --gold:        #BF9250;  /* warm champagne gold */
-  --gold-rich:   #A07530;  /* deeper gold for depth */
-  --gold-light:  #D4B078;  /* soft highlight gold */
-  --gold-pale:   #F0E0BC;  /* very pale gold tint */
-  --mahogany:    #1C1008;  /* rich dark header */
-  --bronze:      #A87848;  /* warm bronze accent */
+  /* Gold spectrum */
+  --gold:         #C9963A;
+  --gold-rich:    #A87528;
+  --gold-light:   #E0B86A;
+  --gold-pale:    #F5E6C3;
+  --gold-line:    #D4A852;
 
-  /* Surfaces — luminous & airy */
-  --bg:          #FDFAF5;  /* warm pearl — barely tinted ivory */
-  --surface:     #FFFFFF;
-  --surface-alt: #F9F6EF;  /* warm off-white */
-  --surface-warm:#FFFDF8;  /* nearly white with warmth */
+  /* Dark bases */
+  --mahogany:     #1C1006;
+  --mahogany-mid: #2A1A08;
+  --mahogany-3:   #3A2410;
 
-  /* Text — warm hierarchy */
-  --text:        #1A1108;  /* very dark warm near-black */
-  --text-mid:    #503F30;  /* warm mid-brown for secondary text */
-  --text-muted:  #907868;  /* warm muted */
+  /* Creamy surfaces */
+  --bg:           #F7F2E8;
+  --surface:      #FBF8F0;
+  --surface-alt:  #F2ECD8;
+  --surface-warm: #FDF9F0;
+  --parchment:    #EEE5CC;
+
+  /* Text — dark warm hierarchy */
+  --text:         #1C1006;
+  --text-mid:     #4A3520;
+  --text-muted:   #7A6040;
 
   /* Alerts */
-  --red-alert:   #dc2626;
-  --green-ok:    #16a34a;
+  --red-alert:    #b91c1c;
+  --green-ok:     #15803d;
 
   /* Interface */
-  --border:        rgba(175,135,75,0.14);
-  --border-strong: rgba(175,135,75,0.32);
-  --shadow-xs:  0 1px 3px rgba(25,15,5,0.05);
-  --shadow-sm:  0 2px 12px rgba(25,15,5,0.06), 0 1px 3px rgba(25,15,5,0.04);
-  --shadow-md:  0 4px 24px rgba(25,15,5,0.07), 0 2px 6px rgba(25,15,5,0.04);
-  --shadow-lg:  0 8px 48px rgba(25,15,5,0.10), 0 2px 8px rgba(25,15,5,0.05);
+  --border:         rgba(160,117,40,0.18);
+  --border-strong:  rgba(160,117,40,0.38);
+  --border-gold:    rgba(201,150,58,0.4);
+  --shadow-xs:  0 1px 4px rgba(28,16,6,0.07);
+  --shadow-sm:  0 2px 14px rgba(28,16,6,0.09), 0 1px 3px rgba(28,16,6,0.05);
+  --shadow-md:  0 4px 28px rgba(28,16,6,0.12), 0 2px 7px rgba(28,16,6,0.06);
+  --shadow-lg:  0 8px 52px rgba(28,16,6,0.16), 0 2px 10px rgba(28,16,6,0.07);
+  --shadow-gold: 0 4px 24px rgba(201,150,58,0.25);
 
   /* Legacy compat */
-  --accent-gold:  var(--gold);
-  --dark-bronze:  var(--mahogany);
-  --warm-cream:   var(--surface-alt);
-  --charcoal:     var(--text);
-  --soft-taupe:   #C8B8A4;
-  --header-h:     0px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:           #0F0B07;
-    --surface:      #191208;
-    --surface-alt:  #211609;
-    --surface-warm: #1C1409;
-    --text:         #F2EDE5;
-    --text-mid:     #C4B09A;
-    --text-muted:   #9A8878;
-    --border:       rgba(185,145,80,0.18);
-    --border-strong:rgba(185,145,80,0.38);
-    --shadow-sm:    0 2px 12px rgba(0,0,0,0.25);
-    --shadow-md:    0 4px 24px rgba(0,0,0,0.35);
-    --shadow-lg:    0 8px 48px rgba(0,0,0,0.45);
-    --warm-cream:   #211609;
-    --charcoal:     #F2EDE5;
-    --soft-taupe:   #6B5A48;
-    --mahogany:     #D4B078;
-  }
+  --accent-gold: var(--gold);
+  --dark-bronze: var(--mahogany);
+  --warm-cream:  var(--surface-alt);
+  --charcoal:    var(--text);
+  --soft-taupe:  #C0A87A;
+  --header-h:    0px;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -129,29 +106,29 @@
 ═══════════════════════════════════════════════════════════ */
 #scrollProgress {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 0%;
   height: 2.5px;
-  background: linear-gradient(90deg, var(--gold-rich), var(--gold), var(--gold-light));
+  background: linear-gradient(90deg, var(--gold-rich), var(--gold-line), var(--gold-light));
   z-index: 1000;
   transition: width 0.08s linear;
   border-radius: 0 2px 2px 0;
-  box-shadow: 0 0 8px rgba(191,146,80,0.5);
+  box-shadow: 0 0 10px rgba(201,150,58,0.6);
 }
 
 /* ═══════════════════════════════════════════════════════════
    BASE
 ═══════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-* { -webkit-overflow-scrolling: touch; }
-* { -webkit-tap-highlight-color: rgba(175,135,75,0.15); }
+* { -webkit-tap-highlight-color: rgba(160,117,40,0.15); }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 120px;
   -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  /* Kill rubber-band overscroll */
+  overscroll-behavior: none;
+  height: 100%;
 }
 
 body {
@@ -164,72 +141,118 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
-  line-height: 1.6;
+  line-height: 1.65;
+  /* Prevent rubber-band bounce */
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
 }
 
-/* Subtle grain texture overlay */
+/* Subtle warm linen texture */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 128px;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px;
 }
 
 /* Confidential watermark */
 body::after {
   content: 'CONFIDENTIAL — CASCADE HIDEAWAY';
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 50%; left: 50%;
   transform: translate(-50%, -50%) rotate(-45deg);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: rgba(175,135,75,0.025);
+  color: rgba(160,117,40,0.03);
   pointer-events: none;
   z-index: 1;
   white-space: nowrap;
   letter-spacing: 0.3rem;
 }
-
 @media (min-width: 768px) {
-  body::after {
-    font-size: 3rem;
-    letter-spacing: 0.5rem;
-    content: 'CONFIDENTIAL — CASCADE HIDEAWAY PROPERTY';
-  }
+  body::after { font-size: 2.8rem; letter-spacing: 0.5rem; }
   body { padding-bottom: 90px; }
 }
 
 .serif { font-family: 'Cormorant Garamond', serif; }
-
 #app { position: relative; z-index: 2; }
 
 /* ═══════════════════════════════════════════════════════════
-   HEADER — refined dark mahogany with champagne accents
+   HEADER — rich dark mahogany with gold accents
 ═══════════════════════════════════════════════════════════ */
 .site-header {
-  background: linear-gradient(160deg, #231408 0%, #140C04 55%, #1C1008 100%);
+  background: linear-gradient(160deg, #231408 0%, #160D04 55%, #1E1208 100%);
   color: white;
-  padding: clamp(1rem, 3.5vw, 1.75rem) clamp(1.25rem, 5vw, 2.75rem) clamp(0.875rem, 3vw, 1.375rem);
+  padding: clamp(1rem, 3.5vw, 1.75rem) clamp(1.25rem, 5vw, 2.75rem) 0;
   text-align: center;
   position: sticky;
   top: 0;
   z-index: 200;
-  box-shadow: 0 1px 0 rgba(191,146,80,0.2), 0 4px 32px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 36px rgba(0,0,0,0.45);
+  /* Smooth transition for all scroll-shrink properties */
+  transition:
+    padding 0.35s cubic-bezier(0.4,0,0.2,1),
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    backdrop-filter 0.35s ease;
+  will-change: padding, background;
 }
-
-/* Subtle shimmer line at header bottom */
+/* Scrolled — compact transparent bar */
+.site-header.scrolled {
+  padding: 0.45rem clamp(1rem,4vw,2rem) 0.45rem;
+  background: rgba(20, 10, 3, 0.72);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: 0 1px 0 rgba(201,150,58,0.18), 0 2px 24px rgba(0,0,0,0.35);
+}
+/* Hide h1 tagline + sub when scrolled */
+.site-header.scrolled h1 em,
+.site-header.scrolled .sub {
+  display: none;
+}
+/* Shrink h1 title when scrolled */
+.site-header.scrolled h1 {
+  font-size: clamp(1rem, 3.5vw, 1.35rem);
+  margin: 0;
+  animation: none;
+  text-shadow: none;
+}
+/* Compact header-top spacing when scrolled */
+.site-header.scrolled .header-top {
+  margin-bottom: 0.2rem;
+}
+/* Badge smaller when scrolled */
+.site-header.scrolled .badge {
+  font-size: clamp(0.52rem, 1.5vw, 0.62rem);
+  padding: 0.2rem 0.6rem;
+}
+.site-header.scrolled .quick-nav {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: none;
+  margin-bottom: 0;
+}
+.site-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(201,150,58,0.07) 0%, transparent 65%);
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.site-header.scrolled::before { opacity: 0; }
 .site-header::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(191,146,80,0.5), transparent);
+  background: transparent;
 }
 
 .header-top {
@@ -245,7 +268,7 @@ body::after {
   align-items: center;
   gap: 0.3rem;
   background: linear-gradient(135deg, var(--gold-light), var(--gold));
-  color: #1A0E04;
+  color: #180E02;
   font-size: clamp(0.6rem, 1.9vw, 0.74rem);
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -254,18 +277,17 @@ body::after {
   border-radius: 999px;
   white-space: nowrap;
   flex-shrink: 0;
-  box-shadow: 0 2px 12px rgba(191,146,80,0.35);
+  box-shadow: 0 2px 14px rgba(201,150,58,0.4);
 }
 .badge.pulse { animation: pulse-badge 1.8s ease-in-out infinite; }
-
 @keyframes pulse-badge {
-  0%, 100% { box-shadow: 0 2px 12px rgba(191,146,80,0.35); }
-  50%       { box-shadow: 0 2px 20px rgba(191,146,80,0.65); }
+  0%, 100% { box-shadow: 0 2px 14px rgba(201,150,58,0.4); }
+  50%       { box-shadow: 0 2px 24px rgba(201,150,58,0.7); }
 }
 
 .header-clock {
   font-size: clamp(0.6rem, 1.8vw, 0.75rem);
-  color: rgba(255,255,255,0.48);
+  color: rgba(255,255,255,0.45);
   font-weight: 500;
   letter-spacing: 0.04em;
   text-align: right;
@@ -273,7 +295,7 @@ body::after {
 }
 .header-clock .clock-time {
   display: block;
-  color: rgba(255,255,255,0.9);
+  color: rgba(224,184,106,0.95);
   font-weight: 700;
   font-size: clamp(0.82rem, 2.6vw, 1.05rem);
   letter-spacing: 0.02em;
@@ -281,47 +303,57 @@ body::after {
 
 .site-header h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.8rem, 5.5vw, 2.75rem);
+  font-size: clamp(1.85rem, 5.5vw, 2.8rem);
   font-weight: 600;
-  letter-spacing: 0.05em;
-  color: #FFFDF8;
+  letter-spacing: 0.06em;
+  color: #FDF9F0;
   line-height: 1.1;
-  text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 18px rgba(0,0,0,0.5);
+  position: relative;
+  display: inline-block;
+  animation: heroShimmer 6s ease-in-out infinite;
 }
-
-/* Decorative italic tagline under property name */
+@keyframes heroShimmer {
+  0%, 100% { text-shadow: 0 2px 18px rgba(0,0,0,0.5), 0 0 0px rgba(201,150,58,0); }
+  50%       { text-shadow: 0 2px 18px rgba(0,0,0,0.5), 0 0 32px rgba(201,150,58,0.28), 0 0 60px rgba(201,150,58,0.1); }
+}
 .site-header h1 em {
   font-style: italic;
-  color: rgba(212,176,120,0.85);
+  color: rgba(224,184,106,0.85);
   font-weight: 400;
-  font-size: 0.72em;
+  font-size: 0.7em;
   letter-spacing: 0.03em;
   display: block;
   margin-top: 0.1rem;
 }
-
 .site-header .sub {
-  font-size: clamp(0.67rem, 2vw, 0.8rem);
-  color: rgba(255,255,255,0.48);
-  letter-spacing: 0.1em;
+  font-size: clamp(0.62rem, 1.9vw, 0.76rem);
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.12em;
   margin-top: 0.3rem;
   text-transform: uppercase;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   QUICK-JUMP NAV — refined with sliding pill indicator
+   QUICK-NAV
 ═══════════════════════════════════════════════════════════ */
 .quick-nav {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: var(--header-h, 90px);
-  z-index: 199;
+  background: rgba(22, 13, 4, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(201,150,58,0.15);
+  border-bottom: 1px solid rgba(201,150,58,0.2);
+  position: relative;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
+  margin: 0.5rem -5vw 0;
+  padding: 0 5vw;
+  transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+  max-height: 80px;
+  opacity: 1;
 }
 .quick-nav::-webkit-scrollbar { display: none; }
 
@@ -330,10 +362,9 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 0;
-  padding: 0.4rem 0.5rem;
+  padding: 0.35rem 0.5rem;
   min-width: max-content;
   width: 100%;
-  position: relative;
 }
 
 .qn-btn {
@@ -341,43 +372,41 @@ body::after {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.12rem;
-  padding: 0.4rem clamp(0.3rem, 1.5vw, 0.75rem);
-  border-radius: 0.625rem;
+  gap: 0.1rem;
+  padding: 0.38rem clamp(0.28rem, 1.3vw, 0.65rem);
+  border-radius: 0.5rem;
   background: transparent;
   border: none;
   cursor: pointer;
   text-decoration: none;
-  transition: background 0.2s ease, color 0.2s ease;
-  min-width: clamp(48px, 10vw, 66px);
-  min-height: 50px;
+  transition: background 0.2s ease;
+  min-width: clamp(44px, 9vw, 62px);
+  min-height: 46px;
   flex: 1;
-  max-width: 74px;
+  max-width: 70px;
   position: relative;
 }
-.qn-btn:hover  { background: rgba(175,135,75,0.1); }
-.qn-btn.active { background: rgba(175,135,75,0.15); }
+.qn-btn:hover { background: rgba(201,150,58,0.12); }
+.qn-btn.active { background: rgba(201,150,58,0.18); }
 .qn-btn.active::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 25%;
-  right: 25%;
+  bottom: 0; left: 20%; right: 20%;
   height: 2px;
-  background: var(--gold);
+  background: var(--gold-line);
   border-radius: 2px 2px 0 0;
 }
-.qn-icon  { font-size: clamp(1.05rem, 3vw, 1.3rem); line-height: 1; }
+.qn-icon  { font-size: clamp(1rem, 2.8vw, 1.25rem); line-height: 1; }
 .qn-label {
-  font-size: clamp(0.48rem, 1.4vw, 0.6rem);
+  font-size: clamp(0.45rem, 1.3vw, 0.57rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--text-muted);
+  color: rgba(224,184,106,0.55);
   white-space: nowrap;
   transition: color 0.2s;
 }
-.qn-btn.active .qn-label { color: var(--gold-rich); }
+.qn-btn.active .qn-label { color: var(--gold-light); }
 
 /* ═══════════════════════════════════════════════════════════
    LAYOUT
@@ -392,7 +421,7 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CARDS — luminous with refined top accent
+   CARDS — creamy parchment with golden top line
 ═══════════════════════════════════════════════════════════ */
 .card {
   background: var(--surface);
@@ -404,33 +433,26 @@ body::after {
   overflow: hidden;
   transition: box-shadow 0.3s ease;
 }
-.card:hover {
-  box-shadow: var(--shadow-md);
-}
+.card:hover { box-shadow: var(--shadow-md); }
 .card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, var(--gold-light) 30%, var(--gold) 70%, transparent 100%);
-  opacity: 0.7;
+  background: linear-gradient(90deg, transparent 0%, var(--gold-pale) 20%, var(--gold-line) 50%, var(--gold) 80%, transparent 100%);
+  opacity: 0.65;
 }
 .card.critical::before {
-  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold-rich), var(--gold), transparent);
   height: 2.5px;
   opacity: 1;
-}
-
-/* Subtle inner glow on critical cards */
-.card.critical {
-  box-shadow: var(--shadow-sm), inset 0 0 0 0 rgba(175,135,75,0);
+  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-rich), var(--gold), var(--gold-light), transparent);
 }
 
 .card-title {
-  font-size: clamp(0.68rem, 2vw, 0.8rem);
+  font-size: clamp(0.66rem, 1.9vw, 0.78rem);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   color: var(--gold-rich);
   margin-bottom: clamp(1rem, 2.5vw, 1.25rem);
   display: flex;
@@ -443,31 +465,26 @@ body::after {
   display: flex;
   align-items: center;
   gap: 0.875rem;
-  padding: 0.375rem 0;
-  opacity: 0.65;
+  padding: 0.25rem 0;
+  opacity: 0.6;
 }
 .section-divider-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--soft-taupe), transparent);
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-line), transparent);
 }
 .section-divider-label {
-  font-size: 0.64rem;
-  font-weight: 600;
+  font-size: 0.62rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-muted);
+  letter-spacing: 0.16em;
+  color: var(--gold-rich);
   white-space: nowrap;
 }
 
 /* ═══════════════════════════════════════════════════════════
    TIMES CARD
 ═══════════════════════════════════════════════════════════ */
-.times-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
+.times-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .time-block {
   background: var(--surface-alt);
   border-radius: 1rem;
@@ -477,17 +494,11 @@ body::after {
   transition: border-color 0.2s;
 }
 .time-block:hover { border-color: var(--border-strong); }
-.time-block.checkout {
-  border-color: rgba(220,38,38,0.2);
-  background: rgba(255,245,245,0.6);
-}
-@media (prefers-color-scheme: dark) {
-  .time-block.checkout { background: rgba(60,15,15,0.35); }
-}
+.time-block.checkout { border-color: rgba(185,28,28,0.2); background: rgba(255,248,248,0.7); }
 .time-label {
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.13em;
   font-weight: 700;
   color: var(--gold-rich);
   margin-bottom: 0.3rem;
@@ -501,19 +512,8 @@ body::after {
   line-height: 1;
   letter-spacing: -0.01em;
 }
-@media (prefers-color-scheme: dark) {
-  .time-value { color: var(--gold-light); }
-}
 .time-block.checkout .time-value { color: #991b1b; }
-@media (prefers-color-scheme: dark) {
-  .time-block.checkout .time-value { color: #f87171; }
-}
-.time-note {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-top: 0.35rem;
-  line-height: 1.5;
-}
+.time-note { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.35rem; line-height: 1.5; }
 
 /* ═══════════════════════════════════════════════════════════
    BUTTONS
@@ -525,26 +525,17 @@ body::after {
   gap: 0.45rem;
   padding: 0.875rem 1.25rem;
   border-radius: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.875rem;
   text-decoration: none;
   border: none;
   cursor: pointer;
   transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   min-height: 50px;
-  letter-spacing: 0.025em;
-  font-family: 'Raleway', sans-serif;
+  letter-spacing: 0.03em;
   touch-action: manipulation;
+  font-family: 'Raleway', sans-serif;
 }
-.btn-primary {
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-rich) 100%);
-  color: #1A0E04;
-  box-shadow: 0 3px 14px rgba(175,135,75,0.3);
-  width: 100%;
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(175,135,75,0.4); }
-.btn-primary:active { transform: translateY(0) scale(0.98); }
-
 .btn-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -552,55 +543,44 @@ body::after {
 }
 .btn-outline {
   background: var(--surface-alt);
-  border: 1.5px solid var(--border);
   color: var(--mahogany);
-  width: 100%;
+  border: 1.5px solid var(--border-gold);
 }
-@media (prefers-color-scheme: dark) {
-  .btn-outline { color: var(--gold-light); }
+.btn-outline:hover { background: var(--parchment); border-color: var(--gold); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold-rich));
+  color: var(--mahogany);
+  box-shadow: var(--shadow-gold);
 }
-.btn-outline:hover { border-color: var(--border-strong); background: rgba(175,135,75,0.08); transform: translateY(-1px); }
-
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(201,150,58,0.35); }
 .btn-danger {
-  background: rgba(220,38,38,0.07);
-  border: 1.5px solid rgba(220,38,38,0.25);
+  background: rgba(185,28,28,0.07);
   color: #991b1b;
+  border: 1.5px solid rgba(185,28,28,0.2);
   width: 100%;
 }
-@media (prefers-color-scheme: dark) {
-  .btn-danger { color: #f87171; background: rgba(220,38,38,0.12); border-color: rgba(220,38,38,0.35); }
-}
-.btn-danger:hover { background: rgba(220,38,38,0.13); transform: translateY(-1px); }
+.btn-danger:hover { background: rgba(185,28,28,0.13); transform: translateY(-1px); }
 
-/* ═══════════════════════════════════════════════════════════
-   ADDRESS CARD
-═══════════════════════════════════════════════════════════ */
+/* Address box */
 .address-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   background: var(--surface-alt);
   border-radius: 1rem;
   padding: 1rem 1.125rem;
-  border: 1px solid var(--border);
   margin-bottom: 0.75rem;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.875rem;
+  border: 1px solid var(--border-gold);
 }
 .address-main {
-  font-weight: 700;
-  font-size: 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.8vw, 1.2rem);
+  font-weight: 600;
   color: var(--mahogany);
-  margin-bottom: 0.25rem;
-  letter-spacing: -0.01em;
+  margin-bottom: 0.2rem;
 }
-@media (prefers-color-scheme: dark) {
-  .address-main { color: var(--gold-light); }
-}
-.address-sub {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
+.address-sub { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
 .btn-copy-addr {
   flex-shrink: 0;
   display: flex;
@@ -608,8 +588,8 @@ body::after {
   align-items: center;
   gap: 0.2rem;
   padding: 0.6rem 0.875rem;
-  background: rgba(175,135,75,0.1);
-  border: 1.5px solid rgba(175,135,75,0.25);
+  background: rgba(160,117,40,0.1);
+  border: 1.5px solid rgba(160,117,40,0.3);
   border-radius: 0.75rem;
   font-size: 0.62rem;
   font-weight: 700;
@@ -623,28 +603,25 @@ body::after {
   text-transform: uppercase;
   touch-action: manipulation;
 }
-.btn-copy-addr:hover { background: rgba(175,135,75,0.18); border-color: var(--gold-rich); transform: scale(1.04); }
+.btn-copy-addr:hover { background: rgba(160,117,40,0.2); border-color: var(--gold-rich); transform: scale(1.04); }
 .btn-copy-addr .copy-icon { font-size: 1.3rem; }
-.btn-copy-addr.copied { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.4); color: var(--green-ok); }
+.btn-copy-addr.copied { background: rgba(21,128,61,0.1); border-color: rgba(21,128,61,0.4); color: var(--green-ok); }
 
 .callout {
   border-left: 2.5px solid var(--gold);
-  border-radius: 0 0.75rem 0.75rem 0;
+  border-radius: 0.15rem 0.75rem 0.75rem 0.15rem;
   padding: 0.75rem 0.875rem;
   font-size: 0.84rem;
   color: var(--text);
   margin-top: 0.625rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
-.callout.gold { background: rgba(212,176,120,0.08); border-color: var(--gold); }
-.callout.green { background: rgba(22,163,74,0.06); border-left-color: #16a34a; }
+.callout.gold { background: rgba(201,150,58,0.07); border-color: var(--gold); }
+.callout.green { background: rgba(21,128,61,0.06); border-left-color: #15803d; }
 .callout strong { color: var(--mahogany); font-weight: 700; }
-@media (prefers-color-scheme: dark) {
-  .callout strong { color: var(--gold-light); }
-}
 
 /* ═══════════════════════════════════════════════════════════
-   TRANSPORT TIP PANEL
+   TRANSPORT PANEL
 ═══════════════════════════════════════════════════════════ */
 .transport-panel {
   margin-top: 0.75rem;
@@ -654,10 +631,10 @@ body::after {
   border: 1px solid var(--border);
 }
 .transport-panel-title {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.13em;
   color: var(--gold-rich);
   margin-bottom: 0.625rem;
 }
@@ -667,48 +644,39 @@ body::after {
   gap: 0.75rem;
   font-size: 0.84rem;
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
   padding: 0.625rem 0;
   border-bottom: 1px solid var(--border);
 }
 .transport-row:last-child { border-bottom: none; padding-bottom: 0; }
 .transport-row .ticon { font-size: 1.15rem; flex-shrink: 0; margin-top: 0.1rem; }
 .transport-row strong { color: var(--mahogany); }
-@media (prefers-color-scheme: dark) {
-  .transport-row strong { color: var(--gold-light); }
-}
-.pick-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-  margin-top: 0.4rem;
-}
+.pick-chips { display: flex; flex-wrap: wrap; gap: 0.375rem; margin-top: 0.4rem; }
 .pick-chip {
   display: inline-block;
   padding: 0.22rem 0.6rem;
   border-radius: 999px;
-  border: 1px solid rgba(175,135,75,0.22);
+  border: 1px solid rgba(160,117,40,0.25);
   font-size: 0.7rem;
   color: var(--gold-rich);
   font-weight: 600;
   text-decoration: none;
-  background: rgba(212,176,120,0.08);
+  background: rgba(201,150,58,0.07);
   transition: all 0.18s ease;
 }
-.pick-chip:hover { background: rgba(212,176,120,0.18); border-color: var(--gold); }
-
+.pick-chip:hover { background: rgba(201,150,58,0.16); border-color: var(--gold); }
 .transport-row.recommended {
-  background: rgba(175,135,75,0.06);
+  background: rgba(201,150,58,0.07);
   border-radius: 0.875rem;
   padding: 0.75rem 1rem;
-  border: 1.5px solid rgba(175,135,75,0.2);
+  border: 1.5px solid rgba(201,150,58,0.22);
   margin-bottom: 0.5rem;
 }
 .rec-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.2rem;
-  background: rgba(175,135,75,0.12);
+  background: rgba(201,150,58,0.14);
   color: var(--gold-rich);
   font-size: 0.6rem;
   font-weight: 700;
@@ -719,38 +687,9 @@ body::after {
   margin-left: 0.4rem;
 }
 
-/* Coffee Cards */
-.coffee-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.625rem;
-}
-.coffee-card {
-  background: var(--surface-alt);
-  border-radius: 0.875rem;
-  padding: 0.875rem;
-  border: 1px solid var(--border);
-  transition: all 0.22s ease;
-}
-.coffee-card:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-.coffee-card .cf-name {
-  font-weight: 700;
-  font-size: 0.84rem;
-  color: var(--mahogany);
-  margin-bottom: 0.2rem;
-}
-@media (prefers-color-scheme: dark) {
-  .coffee-card .cf-name { color: var(--gold-light); }
-}
-.coffee-card .cf-dist {
-  font-size: 0.67rem;
-  color: var(--gold-rich);
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-.coffee-card .cf-note { font-size: 0.74rem; color: var(--text-muted); line-height: 1.5; }
-
-/* Steps */
+/* ═══════════════════════════════════════════════════════════
+   STEPS
+═══════════════════════════════════════════════════════════ */
 .steps { display: flex; flex-direction: column; gap: 0.625rem; }
 .step {
   display: flex;
@@ -762,23 +701,23 @@ body::after {
   border: 1px solid var(--border);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-.step:hover { border-color: var(--border-strong); box-shadow: var(--shadow-xs); }
+.step:hover { border-color: var(--border-gold); box-shadow: var(--shadow-xs); }
 .step-num {
   flex-shrink: 0;
   width: 28px; height: 28px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--gold-light), var(--gold-rich));
-  color: #1A0E04;
+  color: var(--mahogany);
   font-weight: 700;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(175,135,75,0.35);
+  box-shadow: 0 2px 10px rgba(201,150,58,0.4);
 }
-.step-text { font-size: 0.875rem; color: var(--text); line-height: 1.6; }
+.step-text { font-size: 0.875rem; color: var(--text); line-height: 1.65; }
 .step-text code {
-  background: rgba(175,135,75,0.12);
+  background: rgba(160,117,40,0.12);
   color: var(--mahogany);
   padding: 0.1rem 0.5rem;
   border-radius: 0.35rem;
@@ -786,54 +725,42 @@ body::after {
   font-weight: 700;
   font-size: 0.92em;
 }
-@media (prefers-color-scheme: dark) {
-  .step-text code { color: var(--gold-light); background: rgba(212,176,120,0.15); }
-}
 
 .info-note {
   margin-top: 0.75rem;
-  background: rgba(212,176,120,0.07);
+  background: rgba(201,150,58,0.06);
   border-radius: 0.875rem;
   padding: 0.875rem;
   font-size: 0.83rem;
   color: var(--text-muted);
-  line-height: 1.6;
-  border: 1px solid rgba(212,176,120,0.16);
+  line-height: 1.65;
+  border: 1px solid rgba(201,150,58,0.16);
   display: flex;
   gap: 0.625rem;
   align-items: flex-start;
 }
 .info-note .ni { font-size: 1.05rem; flex-shrink: 0; margin-top: 0.05rem; }
 
-/* Airbnb PIN callout */
 .pin-callout {
   display: flex;
   align-items: flex-start;
   gap: 0.875rem;
-  background: linear-gradient(135deg, rgba(212,176,120,0.1), rgba(175,135,75,0.06));
-  border: 1.5px solid rgba(175,135,75,0.25);
+  background: linear-gradient(135deg, rgba(201,150,58,0.09), rgba(160,117,40,0.05));
+  border: 1.5px solid rgba(201,150,58,0.28);
   border-radius: 1rem;
   padding: 1rem 1.125rem;
   margin-bottom: 0.875rem;
   font-size: 0.875rem;
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 .pin-callout .pc-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.05rem; }
-.pin-callout strong { color: var(--mahogany); }
-@media (prefers-color-scheme: dark) {
-  .pin-callout strong { color: var(--gold-light); }
-}
+.pin-callout strong { color: var(--mahogany); font-weight: 700; }
 
 /* ═══════════════════════════════════════════════════════════
    WIFI CARD
 ═══════════════════════════════════════════════════════════ */
-.wifi-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  margin-bottom: 0.875rem;
-}
+.wifi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.875rem; }
 .wifi-field {
   background: var(--surface-alt);
   border-radius: 0.875rem;
@@ -845,12 +772,12 @@ body::after {
   min-height: 50px;
   touch-action: manipulation;
 }
-.wifi-field:hover { border-color: var(--border-strong); background: var(--surface-warm); }
-.wifi-field.copied-ok { border-color: var(--green-ok); background: rgba(22,163,74,0.05); }
+.wifi-field:hover { border-color: var(--border-gold); background: var(--surface-warm); }
+.wifi-field.copied-ok { border-color: var(--green-ok); background: rgba(21,128,61,0.05); }
 .wifi-label {
   font-size: 0.62rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.13em;
   color: var(--gold-rich);
   font-weight: 700;
   margin-bottom: 0.3rem;
@@ -863,18 +790,9 @@ body::after {
   word-break: break-all;
   line-height: 1.4;
 }
-@media (prefers-color-scheme: dark) {
-  .wifi-value { color: var(--gold-light); }
-}
-.copy-status {
-  font-size: 0.62rem;
-  color: var(--text-muted);
-  margin-top: 0.3rem;
-  transition: color 0.2s;
-}
+.copy-status { font-size: 0.62rem; color: var(--text-muted); margin-top: 0.3rem; transition: color 0.2s; }
 .wifi-field.copied-ok .copy-status { color: var(--green-ok); font-weight: 700; }
 
-/* QR code toggle */
 .qr-toggle {
   display: flex;
   align-items: center;
@@ -893,10 +811,9 @@ body::after {
   width: 100%;
   touch-action: manipulation;
 }
-.qr-toggle:hover { border-color: var(--border-strong); }
+.qr-toggle:hover { border-color: var(--border-gold); }
 .qr-toggle .chevron { transition: transform 0.25s ease; font-size: 0.72rem; color: var(--gold); }
 .qr-toggle.open .chevron { transform: rotate(180deg); }
-
 .qr-panel {
   display: none;
   margin-top: 0.75rem;
@@ -908,23 +825,25 @@ body::after {
   animation: fadeUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .qr-panel.open { display: block; }
-.qr-panel p {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  margin-top: 0.625rem;
-  line-height: 1.5;
-}
-#wifi-qr canvas, #wifi-qr img {
-  border-radius: 0.875rem;
-  max-width: 164px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
+.qr-panel p { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.625rem; line-height: 1.5; }
+#wifi-qr canvas, #wifi-qr img { border-radius: 0.875rem; max-width: 164px; height: auto; display: block; margin: 0 auto; }
 
 /* ═══════════════════════════════════════════════════════════
-   FOOD DELIVERY
+   FOOD & DELIVERY SECTION — highlighted luxury style
 ═══════════════════════════════════════════════════════════ */
+
+/* Food section special card background */
+#section-food {
+  background: linear-gradient(160deg, #FBF7EE 0%, #F7F0E0 100%);
+  border-color: rgba(160,117,40,0.28);
+}
+#section-food::before {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-rich), var(--gold), var(--gold-light), transparent);
+  opacity: 1;
+}
+
+/* Delivery apps grid */
 .delivery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -936,23 +855,125 @@ body::after {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  gap: 0.28rem;
   padding: 0.875rem 0.375rem;
   border-radius: 1rem;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.72rem;
-  color: var(--text);
-  background: var(--surface-alt);
-  border: 1.5px solid var(--border);
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: var(--mahogany);
+  background: var(--surface);
+  border: 1.5px solid var(--border-gold);
   transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   min-height: 74px;
   text-align: center;
   touch-action: manipulation;
+  letter-spacing: 0.02em;
+  box-shadow: var(--shadow-xs);
 }
-.delivery-btn:hover { background: rgba(212,176,120,0.1); border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-xs); }
-.delivery-btn .dicon { font-size: 1.45rem; }
+.delivery-btn:hover { background: var(--parchment); border-color: var(--gold); transform: translateY(-3px); box-shadow: var(--shadow-gold); }
+.delivery-btn .dicon { font-size: 1.5rem; line-height: 1; display: flex; align-items: center; justify-content: center; }
+.delivery-btn .dicon svg { display: block; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.12)); }
+.delivery-icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  /* Subtle inset shadow for depth, no harsh box-shadow */
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.15), 0 1px 4px rgba(0,0,0,0.12);
+}
 
+/* Groceries callout — highlighted */
+.grocery-callout {
+  background: linear-gradient(135deg, rgba(201,150,58,0.1), rgba(160,117,40,0.06));
+  border: 1.5px solid rgba(201,150,58,0.3);
+  border-radius: 1rem;
+  padding: 1rem 1.125rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.84rem;
+  color: var(--text);
+  line-height: 1.65;
+  position: relative;
+  overflow: hidden;
+}
+.grocery-callout::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.grocery-callout-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--gold-rich);
+  margin-bottom: 0.5rem;
+}
+.grocery-apps {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
+  flex-wrap: wrap;
+}
+.grocery-app-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1.5px solid var(--border-gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--mahogany);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-xs);
+}
+.grocery-app-chip:hover { background: var(--parchment); border-color: var(--gold); transform: translateY(-1px); }
+
+/* Food tips */
+.food-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.84rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.food-tip .fticon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+.food-tip strong { color: var(--mahogany); }
+
+/* Sari-sari callout */
+.sarisari-tip {
+  background: rgba(201,150,58,0.07);
+  border: 1.5px solid rgba(201,150,58,0.22);
+  border-radius: 0.875rem;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.84rem;
+  color: var(--text);
+  line-height: 1.65;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+.sarisari-tip strong { color: var(--mahogany); }
+
+/* Grab ride row */
 .grab-ride-row {
   background: rgba(0,177,79,0.06);
   border: 1.5px solid rgba(0,177,79,0.2);
@@ -961,13 +982,11 @@ body::after {
   display: flex;
   align-items: center;
   gap: 0.875rem;
+  margin-top: 0.5rem;
 }
 .grab-ride-row .gr-icon { font-size: 1.55rem; flex-shrink: 0; }
 .grab-ride-row .gr-text { font-size: 0.84rem; color: var(--text); line-height: 1.5; flex: 1; }
-.grab-ride-row .gr-text strong { color: var(--mahogany); font-size: 0.86rem; }
-@media (prefers-color-scheme: dark) {
-  .grab-ride-row .gr-text strong { color: #4ade80; }
-}
+.grab-ride-row .gr-text strong { color: #14532d; font-size: 0.86rem; }
 .btn-grab {
   flex-shrink: 0;
   display: inline-flex;
@@ -988,15 +1007,8 @@ body::after {
 }
 .btn-grab:hover { background: #009B44; transform: translateY(-1px); }
 
-/* ═══════════════════════════════════════════════════════════
-   NEARBY / CHIPS
-═══════════════════════════════════════════════════════════ */
-.nearby-row {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-  flex-wrap: wrap;
-}
+/* Nearby chips */
+.nearby-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
 .nearby-chip {
   display: inline-flex;
   align-items: center;
@@ -1004,25 +1016,34 @@ body::after {
   padding: 0.5rem 0.875rem;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: var(--surface-alt);
+  background: var(--surface);
   font-size: 0.74rem;
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
   transition: all 0.2s ease;
-  min-height: 38px;
+  min-height: 36px;
 }
-.nearby-chip:hover { border-color: var(--border-strong); background: rgba(212,176,120,0.1); transform: translateY(-1px); }
+.nearby-chip:hover { border-color: var(--border-gold); background: var(--parchment); transform: translateY(-1px); }
+
+/* Coffee cards */
+.coffee-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; }
+.coffee-card {
+  background: var(--surface);
+  border-radius: 0.875rem;
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+  transition: all 0.22s ease;
+}
+.coffee-card:hover { border-color: var(--border-gold); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.coffee-card .cf-name { font-weight: 700; font-size: 0.84rem; color: var(--mahogany); margin-bottom: 0.2rem; }
+.coffee-card .cf-dist { font-size: 0.67rem; color: var(--gold-rich); font-weight: 600; margin-bottom: 0.25rem; }
+.coffee-card .cf-note { font-size: 0.74rem; color: var(--text-muted); line-height: 1.5; }
 
 /* ═══════════════════════════════════════════════════════════
    AMENITIES
 ═══════════════════════════════════════════════════════════ */
-.amenities-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.625rem;
-  margin-bottom: 0.75rem;
-}
+.amenities-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.625rem; margin-bottom: 0.75rem; }
 .amenity {
   background: var(--surface-alt);
   border-radius: 0.875rem;
@@ -1034,7 +1055,7 @@ body::after {
   position: relative;
   touch-action: manipulation;
 }
-.amenity.expandable:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-xs); }
+.amenity.expandable:hover { border-color: var(--border-gold); transform: translateY(-2px); box-shadow: var(--shadow-xs); }
 .amenity .aicon { font-size: 1.4rem; display: block; margin-bottom: 0.25rem; }
 .amenity .aname { font-size: 0.67rem; font-weight: 600; color: var(--text); line-height: 1.4; }
 .amenity .atip {
@@ -1054,7 +1075,7 @@ body::after {
   width: 5px; height: 5px;
   background: var(--gold);
   border-radius: 50%;
-  opacity: 0.55;
+  opacity: 0.6;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1071,29 +1092,18 @@ body::after {
   font-size: 0.85rem;
   color: var(--text);
   border: 1px solid var(--border);
-  line-height: 1.6;
+  line-height: 1.65;
   min-height: 46px;
   transition: border-color 0.18s;
 }
-.rule:hover { border-color: var(--border-strong); }
+.rule:hover { border-color: var(--border-gold); }
 .rule .ricon { font-size: 1.05rem; flex-shrink: 0; margin-top: 0.1rem; }
-.rule.important {
-  border-color: rgba(220,38,38,0.2);
-  background: rgba(255,245,245,0.65);
-}
-@media (prefers-color-scheme: dark) {
-  .rule.important { background: rgba(60,15,15,0.35); }
-}
+.rule.important { border-color: rgba(185,28,28,0.22); background: rgba(255,249,249,0.7); }
 
 /* ═══════════════════════════════════════════════════════════
    EMERGENCY
 ═══════════════════════════════════════════════════════════ */
-.emergency-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.625rem;
-  margin-bottom: 0.75rem;
-}
+.emergency-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; margin-bottom: 0.75rem; }
 .emergency-link {
   display: flex;
   flex-direction: column;
@@ -1106,21 +1116,17 @@ body::after {
   font-weight: 600;
   font-size: 0.75rem;
   color: #991b1b;
-  background: rgba(255,245,245,0.8);
-  border: 1.5px solid rgba(220,38,38,0.18);
+  background: rgba(255,249,249,0.85);
+  border: 1.5px solid rgba(185,28,28,0.18);
   text-align: center;
   min-height: 74px;
   transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   touch-action: manipulation;
 }
-@media (prefers-color-scheme: dark) {
-  .emergency-link { color: #f87171; background: rgba(60,15,15,0.35); border-color: rgba(220,38,38,0.3); }
-}
-.emergency-link:hover { background: rgba(254,202,202,0.5); transform: translateY(-2px); box-shadow: var(--shadow-xs); }
+.emergency-link:hover { background: rgba(254,202,202,0.55); transform: translateY(-2px); box-shadow: var(--shadow-xs); }
 .emergency-link .eicon { font-size: 1.4rem; }
-
 .hospital-note {
-  background: rgba(235,245,255,0.9);
+  background: rgba(239,246,255,0.9);
   border-radius: 1rem;
   padding: 1rem 1.125rem;
   border: 1px solid rgba(59,130,246,0.18);
@@ -1128,18 +1134,7 @@ body::after {
   color: #1e40af;
   line-height: 1.7;
 }
-@media (prefers-color-scheme: dark) {
-  .hospital-note { background: rgba(12,30,70,0.45); color: #93c5fd; border-color: rgba(59,130,246,0.25); }
-}
-.hospital-note strong {
-  display: block;
-  font-size: 0.875rem;
-  margin-bottom: 0.35rem;
-  color: #1e3a8a;
-}
-@media (prefers-color-scheme: dark) {
-  .hospital-note strong { color: #bfdbfe; }
-}
+.hospital-note strong { display: block; font-size: 0.875rem; margin-bottom: 0.35rem; color: #1e3a8a; }
 
 /* ═══════════════════════════════════════════════════════════
    FLOATING CONTACT BUTTON
@@ -1156,180 +1151,172 @@ body::after {
   gap: 0.5rem;
   padding: 0.875rem 1.375rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-rich) 100%);
-  color: #1A0E04;
+  background: rgba(28, 16, 6, 0.52);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--gold-light);
   font-weight: 700;
   font-size: 0.84rem;
-  border: none;
+  border: 1.5px solid rgba(201,150,58,0.4);
   cursor: pointer;
-  box-shadow: 0 4px 24px rgba(160,117,48,0.45);
+  touch-action: manipulation;
   transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  min-height: 54px;
+  box-shadow: 0 4px 24px rgba(28,16,6,0.22), 0 0 0 1px rgba(201,150,58,0.12), inset 0 1px 0 rgba(255,255,255,0.04);
   font-family: 'Raleway', sans-serif;
   letter-spacing: 0.03em;
-  touch-action: manipulation;
+  white-space: nowrap;
 }
-.float-btn-main:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 32px rgba(160,117,48,0.55); }
-.float-btn-main:active { transform: scale(0.97); }
+.float-btn-main:hover {
+  background: rgba(42, 26, 8, 0.68);
+  transform: scale(1.04) translateY(-2px);
+  box-shadow: 0 6px 32px rgba(28,16,6,0.3), 0 0 0 1px rgba(201,150,58,0.28);
+  border-color: rgba(201,150,58,0.6);
+  color: var(--gold);
+}
 
-/* Back-to-top button */
+/* Back to top */
 .back-top {
   position: fixed;
-  bottom: 5.75rem;
+  bottom: 5.5rem;
   right: 1.375rem;
-  z-index: 299;
-  width: 46px;
-  height: 46px;
+  z-index: 298;
+  width: 42px; height: 42px;
   border-radius: 50%;
   background: var(--surface);
-  border: 1.5px solid var(--border);
+  border: 1.5px solid var(--border-gold);
   color: var(--gold-rich);
   font-size: 1.1rem;
+  cursor: pointer;
   display: none;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   box-shadow: var(--shadow-sm);
-  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.2s ease;
   touch-action: manipulation;
+  font-family: 'Raleway', sans-serif;
 }
+.back-top:hover { background: var(--parchment); transform: translateY(-2px); border-color: var(--gold); }
 .back-top.visible { display: flex; }
-.back-top:hover { background: rgba(175,135,75,0.1); border-color: var(--border-strong); transform: translateY(-2px) scale(1.06); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--mahogany);
+  color: var(--gold-light);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.6rem 1.25rem;
+  border-radius: 999px;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+  border: 1px solid rgba(201,150,58,0.3);
+  max-width: calc(100vw - 2rem);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ═══════════════════════════════════════════════════════════
-   CONTACT OVERLAY / POPUP
+   CONTACT POPUP
 ═══════════════════════════════════════════════════════════ */
 .overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15,8,3,0.6);
-  backdrop-filter: blur(10px) saturate(0.9);
-  -webkit-backdrop-filter: blur(10px) saturate(0.9);
-  z-index: 400;
+  background: rgba(28,16,6,0.7);
+  z-index: 500;
+  display: none;
   align-items: flex-end;
   justify-content: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
-.overlay.open { display: flex; }
-
+.overlay.open { display: flex; animation: fadeIn 0.2s ease; }
 .popup {
   background: var(--surface);
-  border-radius: 1.625rem 1.625rem 1rem 1rem;
-  padding: 0 1.375rem 1.375rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+  padding: 0 1.5rem 2rem;
   width: 100%;
-  max-width: 500px;
-  animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  touch-action: none;
-  max-height: 90vh;
+  max-width: 480px;
+  max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 -4px 40px rgba(0,0,0,0.25);
+  position: relative;
+  animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-top: 1px solid var(--border-gold);
+  box-shadow: 0 -8px 48px rgba(0,0,0,0.25);
 }
-
-.popup-handle {
-  display: flex;
-  justify-content: center;
-  padding: 1rem 0 0.875rem;
-  cursor: grab;
-}
-.popup-handle-bar {
-  width: 42px;
-  height: 4px;
-  background: var(--soft-taupe);
-  border-radius: 2px;
-  opacity: 0.6;
-}
-
 @keyframes slideUp {
-  from { transform: translateY(80px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
 }
-
+.popup-handle { text-align: center; padding: 1rem 0 0.75rem; cursor: grab; }
+.popup-handle-bar { display: inline-block; width: 40px; height: 4px; background: var(--border-gold); border-radius: 2px; }
 .popup h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.35rem;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--mahogany);
   text-align: center;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  margin-bottom: 1.25rem;
 }
-@media (prefers-color-scheme: dark) {
-  .popup h3 { color: var(--gold-light); }
-}
-
-.contact-options { display: flex; flex-direction: column; gap: 0.625rem; }
+.contact-options { display: flex; flex-direction: column; gap: 0.5rem; }
 .contact-opt {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
   border-radius: 1rem;
-  text-decoration: none;
-  color: var(--text);
   background: var(--surface-alt);
   border: 1.5px solid var(--border);
-  transition: all 0.22s ease;
+  text-decoration: none;
+  color: var(--text);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  min-height: 58px;
+  transition: all 0.2s ease;
+  min-height: 60px;
   touch-action: manipulation;
 }
-.contact-opt:hover { border-color: var(--border-strong); background: rgba(175,135,75,0.07); transform: translateX(2px); }
-.contact-opt .cicon {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: rgba(212,176,120,0.15);
+.contact-opt:hover { border-color: var(--border-gold); background: var(--parchment); }
+.cicon {
+  width: 40px; height: 40px;
+  border-radius: 0.75rem;
+  background: rgba(201,150,58,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   flex-shrink: 0;
 }
-.contact-opt .csub { display: block; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.12rem; font-weight: 400; }
-
-.popup-close {
+.csub {
   display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-top: 0.1rem;
+}
+.popup-close {
   width: 100%;
   margin-top: 0.875rem;
   padding: 0.875rem;
-  border: none;
   background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 0.875rem;
   color: var(--text-muted);
-  font-size: 0.84rem;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 0.625rem;
   font-family: 'Raleway', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
   min-height: 50px;
   touch-action: manipulation;
-  transition: color 0.18s;
 }
-.popup-close:hover { color: var(--text); }
-
-/* ═══════════════════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════════════════ */
-.toast {
-  position: fixed;
-  bottom: 5.75rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  background: linear-gradient(135deg, #1C1208, #0F0A05);
-  color: rgba(255,255,255,0.95);
-  padding: 0.55rem 1.25rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  pointer-events: none;
-  opacity: 0;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 500;
-  white-space: nowrap;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  border: 1px solid rgba(175,135,75,0.25);
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.popup-close:hover { background: var(--surface-alt); border-color: var(--border-gold); }
 
 /* ═══════════════════════════════════════════════════════════
    FOOTER
@@ -1346,14 +1333,14 @@ body::after {
 .site-footer em {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-size: 0.85rem;
-  color: var(--gold);
+  font-size: 0.95rem;
+  color: var(--gold-rich);
   display: block;
   margin-bottom: 0.35rem;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   ANIMATIONS — spring & fluid
+   ANIMATIONS
 ═══════════════════════════════════════════════════════════ */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -1364,40 +1351,32 @@ body::after {
   to   { opacity: 1; }
 }
 
-/* Entry animations on scroll */
 .animate {
   will-change: opacity, transform;
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.animate.will-animate {
-  opacity: 0;
-  transform: translateY(22px);
-}
-.animate.visible {
-  opacity: 1 !important;
-  transform: none !important;
-}
+.animate.will-animate { opacity: 0; transform: translateY(20px); }
+.animate.visible { opacity: 1 !important; transform: none !important; }
 
-/* Stagger children */
 .animate.visible .step,
 .animate.visible .rule,
 .animate.visible .time-block {
-  animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: fadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.animate.visible .step:nth-child(1) { animation-delay: 0.06s; }
-.animate.visible .step:nth-child(2) { animation-delay: 0.12s; }
-.animate.visible .step:nth-child(3) { animation-delay: 0.18s; }
-.animate.visible .step:nth-child(4) { animation-delay: 0.24s; }
-.animate.visible .rule:nth-child(1)  { animation-delay: 0.04s; }
-.animate.visible .rule:nth-child(2)  { animation-delay: 0.09s; }
-.animate.visible .rule:nth-child(3)  { animation-delay: 0.14s; }
-.animate.visible .rule:nth-child(4)  { animation-delay: 0.19s; }
-.animate.visible .rule:nth-child(5)  { animation-delay: 0.24s; }
-.animate.visible .rule:nth-child(6)  { animation-delay: 0.29s; }
-.animate.visible .rule:nth-child(7)  { animation-delay: 0.34s; }
-.animate.visible .rule:nth-child(8)  { animation-delay: 0.39s; }
-.animate.visible .rule:nth-child(9)  { animation-delay: 0.44s; }
+.animate.visible .step:nth-child(1) { animation-delay: 0.05s; }
+.animate.visible .step:nth-child(2) { animation-delay: 0.11s; }
+.animate.visible .step:nth-child(3) { animation-delay: 0.17s; }
+.animate.visible .step:nth-child(4) { animation-delay: 0.23s; }
+.animate.visible .rule:nth-child(1) { animation-delay: 0.04s; }
+.animate.visible .rule:nth-child(2) { animation-delay: 0.09s; }
+.animate.visible .rule:nth-child(3) { animation-delay: 0.14s; }
+.animate.visible .rule:nth-child(4) { animation-delay: 0.19s; }
+.animate.visible .rule:nth-child(5) { animation-delay: 0.24s; }
+.animate.visible .rule:nth-child(6) { animation-delay: 0.29s; }
+.animate.visible .rule:nth-child(7) { animation-delay: 0.34s; }
+.animate.visible .rule:nth-child(8) { animation-delay: 0.39s; }
+.animate.visible .rule:nth-child(9) { animation-delay: 0.44s; }
 .animate.visible .time-block:nth-child(1) { animation-delay: 0.05s; }
 .animate.visible .time-block:nth-child(2) { animation-delay: 0.12s; }
 
@@ -1408,8 +1387,8 @@ body::after {
   bottom: 6.75rem;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(28,16,8,0.85);
-  color: rgba(255,255,255,0.9);
+  background: rgba(28,16,6,0.88);
+  color: var(--gold-light);
   font-size: 0.72rem;
   font-weight: 600;
   padding: 0.5rem 1.125rem;
@@ -1418,19 +1397,13 @@ body::after {
   pointer-events: none;
   white-space: nowrap;
   letter-spacing: 0.05em;
-  border: 1px solid rgba(175,135,75,0.25);
+  border: 1px solid rgba(201,150,58,0.3);
   animation: fadeIn 0.4s ease-out, fadeSwipeOut 0.4s ease-in 2.5s both;
 }
 @keyframes fadeSwipeOut {
   to { opacity: 0; transform: translateX(-50%) translateY(6px); }
 }
-@media (max-width: 600px) {
-  .swipe-hint { display: block; }
-}
-
-@supports (overscroll-behavior: contain) {
-  .container { overscroll-behavior-y: contain; }
-}
+@media (max-width: 600px) { .swipe-hint { display: block; } }
 
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE
@@ -1444,27 +1417,23 @@ body::after {
   .emergency-grid { grid-template-columns: 1fr 1fr; }
   .coffee-grid    { grid-template-columns: 1fr; }
 }
-
 @media (min-width: 540px) {
   .amenities-grid { grid-template-columns: repeat(3, 1fr); }
   .times-grid     { grid-template-columns: 1fr 1fr; }
 }
-
 @media (min-width: 600px) {
-  .container { padding: clamp(1.375rem, 3.5vw, 2.25rem) clamp(1.375rem, 3.5vw, 2rem); }
-  .card      { padding: clamp(1.375rem, 3.5vw, 2rem); }
+  .container     { padding: clamp(1.375rem, 3.5vw, 2.25rem) clamp(1.375rem, 3.5vw, 2rem); }
+  .card          { padding: clamp(1.375rem, 3.5vw, 2rem); }
   .float-contact { bottom: 1.875rem; right: 1.875rem; }
-  .back-top      { bottom: 6.25rem;  right: 1.875rem; }
+  .back-top      { bottom: 6.25rem; right: 1.875rem; }
   .delivery-grid { grid-template-columns: repeat(4, 1fr); }
 }
-
 @media (min-width: 900px) {
-  .amenities-grid   { grid-template-columns: repeat(4, 1fr); }
-  .quick-nav-inner  { justify-content: center; }
-  .qn-btn           { flex: 0 0 auto; max-width: none; }
-  .times-grid       { gap: 1.125rem; }
+  .amenities-grid  { grid-template-columns: repeat(4, 1fr); }
+  .quick-nav-inner { justify-content: center; }
+  .qn-btn          { flex: 0 0 auto; max-width: none; }
+  .times-grid      { gap: 1.125rem; }
 }
-
 @media (min-width: 1024px) {
   .container { padding: 2rem 1.75rem; gap: 1.375rem; }
 }
@@ -1474,151 +1443,493 @@ body::after {
 ═══════════════════════════════════════════════════════════ */
 @media print {
   .float-contact, .back-top, .quick-nav, .overlay, .toast, #scrollProgress { display: none !important; }
-  body::after { content: 'CONFIDENTIAL PROPERTY OF CASCADE HIDEAWAY — UNAUTHORIZED REPRODUCTION PROHIBITED'; }
   .card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
 }
 
 /* ═══════════════════════════════════════════════════════════
-   NOSCRIPT
+   WELCOME SPLASH
 ═══════════════════════════════════════════════════════════ */
-.noscript-banner {
-  background: rgba(212,176,120,0.12);
+#welcomeSplash {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 8888;
+  background: linear-gradient(160deg, #140C04 0%, #1C1208 50%, #0F0A05 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow-y: auto;
+  flex-direction: column;
+}
+.splash-inner {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  animation: splashEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes splashEnter {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.splash-crest {
+  font-size: 3.4rem;
+  margin-bottom: 0.75rem;
+  animation: splashEnter 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  filter: drop-shadow(0 4px 18px rgba(201,150,58,0.4));
+}
+.splash-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-weight: 600;
+  color: #FDF9F0;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  animation: splashEnter 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  text-shadow: 0 0 40px rgba(201,150,58,0.22);
+}
+.splash-tagline {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(212,176,120,0.7);
+  margin-top: 0.4rem;
+  animation: splashEnter 1.1s 0.35s both cubic-bezier(0.22,1,0.36,1);
+}
+.splash-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,150,58,0.45), transparent);
+  margin: 1.5rem 0;
+  animation: splashEnter 1.1s 0.45s both cubic-bezier(0.22,1,0.36,1);
+}
+.splash-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.25rem, 4vw, 1.55rem);
+  font-style: italic;
+  color: rgba(212,176,120,0.95);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  animation: splashEnter 1.1s 0.5s both cubic-bezier(0.22,1,0.36,1);
+}
+.splash-name-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  animation: splashEnter 1.1s 0.6s both cubic-bezier(0.22,1,0.36,1);
+}
+.splash-name-input {
+  flex: 1;
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(201,150,58,0.3);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.9rem;
+  color: #FDF9F0;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+.splash-name-input::placeholder { color: rgba(255,255,255,0.3); }
+.splash-name-input:focus { border-color: rgba(201,150,58,0.7); }
+.splash-cta {
+  width: 100%;
+  padding: 1.1rem 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #E0B86A, #A87528);
+  color: #1A0E04;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 28px rgba(201,150,58,0.45);
+  animation: splashEnter 1.1s 0.7s both cubic-bezier(0.22,1,0.36,1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  touch-action: manipulation;
+}
+.splash-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 36px rgba(201,150,58,0.55); }
+.splash-skip {
+  margin-top: 0.875rem;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.25);
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  animation: splashEnter 1.1s 0.85s both cubic-bezier(0.22,1,0.36,1);
+  background: none;
+  border: none;
+  font-family: 'Raleway', sans-serif;
+  padding: 0.5rem;
+}
+.splash-skip:hover { color: rgba(255,255,255,0.5); }
+
+/* ═══════════════════════════════════════════════════════════
+   CARD STAGGER ENTRANCE DELAYS
+═══════════════════════════════════════════════════════════ */
+.animate:nth-child(1)  { transition-delay: 0.00s; }
+.animate:nth-child(2)  { transition-delay: 0.06s; }
+.animate:nth-child(3)  { transition-delay: 0.12s; }
+.animate:nth-child(4)  { transition-delay: 0.18s; }
+.animate:nth-child(5)  { transition-delay: 0.24s; }
+.animate:nth-child(6)  { transition-delay: 0.30s; }
+.animate:nth-child(7)  { transition-delay: 0.36s; }
+.animate:nth-child(8)  { transition-delay: 0.42s; }
+.animate.visible { transition-delay: 0s !important; }
+
+/* ═══════════════════════════════════════════════════════════
+   WIFI RIPPLE + ADDRESS GOLD FLASH
+═══════════════════════════════════════════════════════════ */
+@keyframes rippleGreen {
+  0%   { box-shadow: 0 0 0 0 rgba(21,128,61,0.45); }
+  60%  { box-shadow: 0 0 0 10px rgba(21,128,61,0); }
+  100% { box-shadow: 0 0 0 0 rgba(21,128,61,0); }
+}
+@keyframes rippleGold {
+  0%   { box-shadow: 0 0 0 0 rgba(201,150,58,0.55); }
+  60%  { box-shadow: 0 0 0 12px rgba(201,150,58,0); }
+  100% { box-shadow: 0 0 0 0 rgba(201,150,58,0); }
+}
+.wifi-field.ripple-green  { animation: rippleGreen 0.6s ease-out; }
+.btn-copy-addr.ripple-gold { animation: rippleGold 0.6s ease-out; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN RESET
+═══════════════════════════════════════════════════════════ */
+#adminResetLink {
+  display: none;
+  margin-top: 0.75rem;
+  padding: 0.4rem 1rem;
+  background: rgba(185,28,28,0.08);
+  border: 1px solid rgba(185,28,28,0.2);
+  border-radius: 999px;
+  color: #991b1b;
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.07em;
+  font-family: 'Raleway', sans-serif;
+  text-transform: uppercase;
+}
+#adminResetLink:hover { background: rgba(185,28,28,0.15); }
+
+/* ═══════════════════════════════════════════════════════════
+   PREFERS REDUCED MOTION
+═══════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate.will-animate { opacity: 1 !important; transform: none !important; }
+  #welcomeSplash .splash-inner,
+  #welcomeSplash .splash-crest,
+  #welcomeSplash .splash-title,
+  #welcomeSplash .splash-tagline,
+  #welcomeSplash .splash-divider,
+  #welcomeSplash .splash-greeting,
+  #welcomeSplash .splash-name-row,
+  #welcomeSplash .splash-cta,
+  #welcomeSplash .splash-skip { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+  background: rgba(201,150,58,0.1);
   border-bottom: 2px solid var(--gold);
   padding: 0.875rem 1.25rem;
   text-align: center;
   font-size: 0.82rem;
   color: var(--mahogany);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   WELCOME BANNER — LUXURY HOTEL POSTCARD
+   Cream parchment card — inverted to match the guide's light cards
+   Background forced via inline style; CSS here handles layout only
+═══════════════════════════════════════════════════════════ */
+
+.welcome-banner {
+  display: none; /* JS sets to block */
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-radius: clamp(0.75rem, 2vw, 1.125rem);
+  /* Border + shadow matching the guide's light cards */
+  border: 1px solid rgba(160,117,40,0.22);
+  box-shadow:
+    0 6px 36px rgba(28,16,6,0.1),
+    0 1px 4px rgba(28,16,6,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.7);
+  position: relative;
+  overflow: hidden;
+  animation: wbReveal 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+@keyframes wbReveal {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+/* Gold hairline at top */
+.welcome-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(160,117,40,0.25) 15%,
+    rgba(201,150,58,0.7) 40%,
+    #C9963A 50%,
+    rgba(201,150,58,0.7) 60%,
+    rgba(160,117,40,0.25) 85%,
+    transparent 100%);
+  z-index: 2;
+}
+/* Paper texture overlay */
+.welcome-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(160,117,40,0.015) 2px,
+      rgba(160,117,40,0.015) 4px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Inner notecard body ── */
+.wb-inner {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1.75rem, 5vw, 2.5rem) clamp(1.5rem, 5vw, 2.5rem) clamp(1.5rem, 4vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.wb-crest {
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  line-height: 1;
+  margin-bottom: 0.55rem;
+  filter: drop-shadow(0 2px 8px rgba(160,117,40,0.25));
+}
+
+.wb-hotel {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  line-height: 1.1;
+  color: #1C1006;
+  margin: 0 0 0.3rem;
+}
+
+.wb-tagline {
+  font-family: 'Raleway', Arial, sans-serif;
+  font-size: clamp(0.5rem, 1.5vw, 0.58rem);
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: rgba(120,82,22,0.55);
+  margin: 0;
+}
+
+/* Ornamental rule */
+.wb-rule {
+  width: 100%;
+  max-width: 280px;
+  margin: clamp(0.875rem, 2.5vw, 1.1rem) auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+.wb-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(160,117,40,0.3), rgba(160,117,40,0.5));
+}
+.wb-rule-line.right {
+  background: linear-gradient(90deg, rgba(160,117,40,0.5), rgba(160,117,40,0.3), transparent);
+}
+.wb-rule-gem {
+  font-size: 0.45rem;
+  color: rgba(160,117,40,0.55);
+}
+
+/* Guest name — the hero */
+.wb-name-block {
+  display: none; /* shown by JS */
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.2rem;
+}
+.wb-dear {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.78rem, 2vw, 0.88rem);
+  font-style: italic;
+  letter-spacing: 0.16em;
+  color: rgba(120,82,22,0.65);
+  margin-bottom: 0.1rem;
+  display: block;
+}
+.wb-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.4rem, 9vw, 3.75rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.0;
+  /* Rich mahogany-to-gold gradient on the name */
+  color: #1C1006;
+  background: linear-gradient(135deg, #3A2008 20%, #A07528 60%, #7A4A10 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  text-transform: capitalize;
+  display: block;
+  max-width: 100%;
+}
+
+/* Greeting */
+.wb-greeting {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-style: italic;
+  font-weight: 400;
+  color: rgba(74,53,32,0.85);
+  line-height: 1.65;
+  margin: 0;
+  display: block;
+}
+
+/* Body */
+.wb-body {
+  font-family: 'Raleway', Arial, sans-serif;
+  font-size: clamp(0.78rem, 2.1vw, 0.85rem);
+  color: rgba(74,53,32,0.7);
+  line-height: 1.95;
+  max-width: 440px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Signature */
+.wb-sig {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.85rem, 2.3vw, 0.95rem);
+  font-style: italic;
+  color: rgba(74,53,32,0.65);
+  line-height: 1.75;
+  margin: 0;
+  display: block;
+}
+.wb-sig-name {
+  font-style: normal;
+  font-weight: 600;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: rgba(120,82,22,0.9);
+  letter-spacing: 0.02em;
+}
+
+/* Footer */
+.wb-footer {
+  font-family: 'Raleway', Arial, sans-serif;
+  font-size: clamp(0.48rem, 1.3vw, 0.55rem);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(120,82,22,0.35);
+  margin: 0;
+  display: block;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .wb-name  { font-size: clamp(2.2rem, 12vw, 3rem); }
+  .wb-hotel { font-size: clamp(1.3rem, 6vw, 1.7rem); }
+  .wb-inner { padding: 1.5rem 1.125rem 1.375rem; }
+}
+@media (max-width: 360px) {
+  .wb-name  { font-size: clamp(1.9rem, 13vw, 2.5rem); }
+}
+.delivery-btn .dicon img { display: block; width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.18)); border-radius: 8px; }
+
+/* ═══════════════════════════════════════════════════════════
+   NOSCRIPT BANNER
+═══════════════════════════════════════════════════════════ */
+.noscript-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, var(--mahogany), var(--mahogany-mid));
+  color: var(--gold-light);
+  font-family: 'Raleway', sans-serif;
+  font-size: clamp(0.78rem, 2.2vw, 0.88rem);
+  font-weight: 600;
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1.5px solid rgba(201,150,58,0.35);
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.35);
+}
 </style>
 </head>
 <body>
 <noscript>
-  <div class="noscript-banner">⚠️ JavaScript is disabled — some interactive features (live clock, copy buttons, QR code) won't work. Please enable JavaScript for the best experience.</div>
+  <div class="noscript-banner">⚠️ JavaScript is disabled — some interactive features won't work. Please enable JavaScript for the best experience.</div>
 </noscript>
 
-<!-- Scroll progress bar -->
 <!-- ═══════════════ EXPIRY OVERLAY ═══════════════ -->
-<div id="expiryOverlay" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:linear-gradient(160deg,#140C04 0%,#1C1208 50%,#0F0A05 100%);
-  align-items:center;
-  justify-content:center;
-  padding:2rem;
-  overflow-y:auto;
-">
-  <div style="
-    max-width:480px;
-    width:100%;
-    text-align:center;
-    animation:fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both;
-  ">
-    <!-- Ornament -->
+<div id="expiryOverlay" style="display:none;position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#140C04 0%,#1C1208 50%,#0F0A05 100%);align-items:center;justify-content:center;padding:2rem;overflow-y:auto;">
+  <div style="max-width:480px;width:100%;text-align:center;animation:fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both;">
     <div style="font-size:3rem;margin-bottom:1.25rem;opacity:0.9;">🌴</div>
-
-    <!-- Wordmark -->
-    <div style="
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(1.6rem,5vw,2.2rem);
-      font-weight:600;
-      color:#F2EDE5;
-      letter-spacing:0.06em;
-      line-height:1.15;
-      margin-bottom:0.35rem;
-    ">Cascade Hideaway</div>
-    <div style="
-      font-size:0.72rem;
-      text-transform:uppercase;
-      letter-spacing:0.18em;
-      color:rgba(212,176,120,0.6);
-      margin-bottom:2rem;
-    ">Bria Homes · General Santos City</div>
-
-    <!-- Divider -->
-    <div style="
-      height:1px;
-      background:linear-gradient(90deg,transparent,rgba(191,146,80,0.45),transparent);
-      margin-bottom:2rem;
-    "></div>
-
-    <!-- Message -->
-    <div style="
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(1.25rem,4vw,1.6rem);
-      font-weight:500;
-      font-style:italic;
-      color:#D4B078;
-      line-height:1.4;
-      margin-bottom:1.25rem;
-    ">Your guest guide has gently closed its doors.</div>
-
-    <p style="
-      font-family:'Raleway',sans-serif;
-      font-size:0.9rem;
-      color:rgba(242,237,229,0.72);
-      line-height:1.8;
-      margin-bottom:1.75rem;
-    ">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,5vw,2.2rem);font-weight:600;color:#F2EDE5;letter-spacing:0.06em;line-height:1.15;margin-bottom:0.35rem;">Cascade Hideaway</div>
+    <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.18em;color:rgba(212,176,120,0.6);margin-bottom:2rem;">Bria Homes · General Santos City</div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(201,150,58,0.45),transparent);margin-bottom:2rem;"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.25rem,4vw,1.6rem);font-weight:500;font-style:italic;color:#D4B078;line-height:1.4;margin-bottom:1.25rem;">Your guest guide has gently closed its doors.</div>
+    <p style="font-family:'Raleway',sans-serif;font-size:0.9rem;color:rgba(242,237,229,0.72);line-height:1.8;margin-bottom:1.75rem;">
       We hope your stay at Cascade was everything you deserved — restful, comfortable, and full of good moments.<br><br>
-      If the warmth of home ever calls you back to General Santos, we'd be truly delighted to welcome you again. Your next stay is just a message away.
+      If the warmth of home ever calls you back to General Santos, we'd be truly delighted to welcome you again.
     </p>
-
-    <!-- CTA buttons -->
     <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;">
-      <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        gap:0.5rem;
-        padding:1rem 1.5rem;
-        border-radius:999px;
-        background:linear-gradient(135deg,#D4B078,#A07530);
-        color:#1A0E04;
-        font-family:'Raleway',sans-serif;
-        font-weight:700;
-        font-size:0.9rem;
-        text-decoration:none;
-        letter-spacing:0.04em;
-        box-shadow:0 4px 24px rgba(191,146,80,0.4);
-        transition:all 0.22s ease;
-      ">🏠 Book Your Next Stay</a>
-
-      <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        gap:0.5rem;
-        padding:0.875rem 1.5rem;
-        border-radius:999px;
-        background:transparent;
-        border:1.5px solid rgba(191,146,80,0.35);
-        color:rgba(212,176,120,0.9);
-        font-family:'Raleway',sans-serif;
-        font-weight:600;
-        font-size:0.875rem;
-        text-decoration:none;
-        letter-spacing:0.03em;
-        transition:all 0.22s ease;
-      ">💬 Send Us a Message</a>
+      <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 1.5rem;border-radius:999px;background:linear-gradient(135deg,#E0B86A,#A87528);color:#1A0E04;font-family:'Raleway',sans-serif;font-weight:700;font-size:0.9rem;text-decoration:none;letter-spacing:0.04em;box-shadow:0 4px 24px rgba(201,150,58,0.4);">🏠 Book Your Next Stay</a>
+      <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.875rem 1.5rem;border-radius:999px;background:transparent;border:1.5px solid rgba(201,150,58,0.35);color:rgba(224,184,106,0.9);font-family:'Raleway',sans-serif;font-weight:600;font-size:0.875rem;text-decoration:none;">💬 Send Us a Message</a>
     </div>
-
-    <!-- Footer note -->
-    <div style="
-      font-size:0.68rem;
-      color:rgba(242,237,229,0.3);
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      line-height:1.6;
-    ">
-      This guide was prepared exclusively for your stay<br>
-      and has now expired · Thank you for choosing Cascade
-    </div>
+    <div style="font-size:0.68rem;color:rgba(242,237,229,0.3);letter-spacing:0.08em;text-transform:uppercase;line-height:1.6;">This guide was prepared exclusively for your stay<br>and has now expired · Thank you for choosing Cascade</div>
   </div>
 </div>
 
 <div id="scrollProgress"></div>
+
+<!-- ═══════════════ WELCOME SPLASH ═══════════════ -->
+<div id="welcomeSplash">
+  <div class="splash-inner">
+    <div class="splash-crest">🌴</div>
+    <div class="splash-title">Cascade Hideaway</div>
+    <div class="splash-tagline">Hotel Comfort. Home Warmth.</div>
+    <div class="splash-divider"></div>
+    <div class="splash-greeting">Welcome — you're all set ✨<br><span style="font-size:0.85em;opacity:0.75;">Your private sanctuary is ready for you.</span></div>
+    <div class="splash-name-row">
+      <input class="splash-name-input" id="guestNameInput" type="text" maxlength="32"
+        placeholder="Your first name (optional)"
+        aria-label="Enter your first name to personalise your guide"
+        onkeydown="if(event.key==='Enter')dismissWelcome()">
+    </div>
+    <button class="splash-cta" onclick="dismissWelcome()">Begin Your Stay →</button>
+    <button class="splash-skip" onclick="dismissWelcome()" aria-label="Skip personalisation">Skip</button>
+  </div>
+</div>
 
 <div id="app">
 
@@ -1635,48 +1946,109 @@ body::after {
     <em>Hotel Comfort. Home Warmth.</em>
   </h1>
   <p class="sub">Bria Homes · Conel Road · Block 47, Lot 39 · General Santos City</p>
-</header>
 
-<!-- ═══════════════ QUICK NAV ═══════════════ -->
-<nav class="quick-nav" aria-label="Quick navigation" id="quickNav">
-  <div class="quick-nav-inner">
-    <a class="qn-btn" href="#section-times" aria-label="Times">
-      <span class="qn-icon">⏰</span>
-      <span class="qn-label">Times</span>
-    </a>
-    <a class="qn-btn" href="#section-here" aria-label="Get Here">
-      <span class="qn-icon">📍</span>
-      <span class="qn-label">Get Here</span>
-    </a>
-    <a class="qn-btn" href="#section-entry" aria-label="Entry">
-      <span class="qn-icon">🔐</span>
-      <span class="qn-label">Entry</span>
-    </a>
-    <a class="qn-btn" href="#section-wifi" aria-label="Wi-Fi">
-      <span class="qn-icon">📶</span>
-      <span class="qn-label">Wi-Fi</span>
-    </a>
-    <a class="qn-btn" href="#section-food" aria-label="Food">
-      <span class="qn-icon">🍔</span>
-      <span class="qn-label">Food</span>
-    </a>
-    <a class="qn-btn" href="#section-amenities" aria-label="Amenities">
-      <span class="qn-icon">🏡</span>
-      <span class="qn-label">Amenities</span>
-    </a>
-    <a class="qn-btn" href="#section-rules" aria-label="Rules">
-      <span class="qn-icon">📋</span>
-      <span class="qn-label">Rules</span>
-    </a>
-    <a class="qn-btn" href="#section-emergency" aria-label="Emergency">
-      <span class="qn-icon">🆘</span>
-      <span class="qn-label">SOS</span>
-    </a>
-  </div>
-</nav>
+  <!-- ═══════════════ QUICK NAV (inside header) ═══════════════ -->
+  <nav class="quick-nav" aria-label="Quick navigation" id="quickNav">
+    <div class="quick-nav-inner">
+      <a class="qn-btn" href="#section-times" aria-label="Times">
+        <span class="qn-icon">⏰</span>
+        <span class="qn-label">Times</span>
+      </a>
+      <a class="qn-btn" href="#section-here" aria-label="Get Here">
+        <span class="qn-icon">📍</span>
+        <span class="qn-label">Get Here</span>
+      </a>
+      <a class="qn-btn" href="#section-entry" aria-label="Entry">
+        <span class="qn-icon">🔐</span>
+        <span class="qn-label">Entry</span>
+      </a>
+      <a class="qn-btn" href="#section-wifi" aria-label="Wi-Fi">
+        <span class="qn-icon">📶</span>
+        <span class="qn-label">Wi-Fi</span>
+      </a>
+      <a class="qn-btn" href="#section-food" aria-label="Food & Groceries">
+        <span class="qn-icon">🛒</span>
+        <span class="qn-label">Food</span>
+      </a>
+      <a class="qn-btn" href="#section-amenities" aria-label="Amenities">
+        <span class="qn-icon">🏡</span>
+        <span class="qn-label">Amenities</span>
+      </a>
+      <a class="qn-btn" href="#section-rules" aria-label="Rules">
+        <span class="qn-icon">📋</span>
+        <span class="qn-label">Rules</span>
+      </a>
+      <a class="qn-btn" href="#section-emergency" aria-label="Emergency">
+        <span class="qn-icon">🆘</span>
+        <span class="qn-label">SOS</span>
+      </a>
+    </div>
+  </nav>
+</header>
 
 <!-- ═══════════════ CONTENT ═══════════════ -->
 <div class="container">
+
+  <!-- WELCOME BANNER — luxury hotel postcard, shown after splash dismiss -->
+  <!-- Background forced inline — immune to CSS cascade stripping dark card -->
+  <div class="welcome-banner" id="welcomeBanner"
+       style="display:none; background-color:#FBF7EE; background-image:linear-gradient(160deg,#FDF9F2 0%,#F7F0E2 50%,#F9F4EA 100%);">
+    <div class="wb-inner">
+
+      <!-- ── Property header ── -->
+      <div class="wb-crest">🌴</div>
+      <div class="wb-hotel">Cascade Hideaway</div>
+      <div class="wb-tagline">Hotel Comfort &nbsp;·&nbsp; Home Warmth</div>
+
+      <!-- Ornamental rule -->
+      <div class="wb-rule" aria-hidden="true">
+        <div class="wb-rule-line"></div>
+        <div class="wb-rule-gem">✦</div>
+        <div class="wb-rule-line right"></div>
+      </div>
+
+      <!-- ── Guest name — hero section (hidden until name entered) ── -->
+      <div class="wb-name-block" id="wbNameBlock">
+        <span class="wb-dear">Dear</span>
+        <span class="wb-name" id="wbGuestName"></span>
+        <div class="wb-rule" aria-hidden="true" style="max-width:200px; margin-top:0.75rem; margin-bottom:0;">
+          <div class="wb-rule-line"></div>
+          <div class="wb-rule-gem">✦</div>
+          <div class="wb-rule-line right"></div>
+        </div>
+      </div>
+
+      <!-- ── Greeting ── -->
+      <div class="wb-greeting" id="wbGreeting" style="margin-bottom:0.75rem;">Welcome — your sanctuary awaits. ✨</div>
+
+      <!-- ── Body message ── -->
+      <div class="wb-body">
+        At Cascade Hideaway, every detail is thoughtfully prepared — soft light, calm spaces, and warmth that invites you to slow down and breathe. Whether you're here for work or rest, this home is entirely yours.
+      </div>
+
+      <!-- Ornamental rule -->
+      <div class="wb-rule" aria-hidden="true" style="margin-top:1rem;">
+        <div class="wb-rule-line"></div>
+        <div class="wb-rule-gem">✦</div>
+        <div class="wb-rule-line right"></div>
+      </div>
+
+      <!-- ── Signature ── -->
+      <div class="wb-sig">
+        With Warm Regards,<br>
+        <span class="wb-sig-name">Marifel &amp; The Cascade Team</span>
+      </div>
+
+      <!-- ── Footer ── -->
+      <div class="wb-rule" aria-hidden="true" style="max-width:180px; margin-top:1rem; margin-bottom:0.6rem;">
+        <div class="wb-rule-line"></div>
+        <div class="wb-rule-gem">✦</div>
+        <div class="wb-rule-line right"></div>
+      </div>
+      <div class="wb-footer">🌿 &nbsp; Hotel Comfort, Home Warmth &nbsp; 🌿</div>
+
+    </div><!-- /.wb-inner -->
+  </div><!-- /#welcomeBanner -->
 
   <!-- 1 · CHECK-IN / OUT TIMES -->
   <div class="card critical animate" id="section-times">
@@ -1685,13 +2057,16 @@ body::after {
       <div class="time-block">
         <div class="time-label">🔑 Check-In from</div>
         <div class="time-value">2:00 PM</div>
-        <div class="time-note" id="checkinCountdown">Your sanctuary is being prepared with care</div>
+        <div class="time-note" id="checkinCountdown"></div>
       </div>
       <div class="time-block checkout">
         <div class="time-label">🌅 Check-Out by</div>
         <div class="time-value">12:00 NN</div>
-        <div class="time-note">Need a little more time? We're happy to check — just send us a message and we'll do our best to accommodate.</div>
+        <div class="time-note">Need more time? Just message us — we're happy to check availability. Late check-out may be arranged subject to schedule.</div>
       </div>
+    </div>
+    <div class="callout gold" style="margin-top:0.75rem;">
+      <strong>💡 Airbnb guests:</strong> No cash deposit is required — all transactions are handled securely through Airbnb's platform. For direct or Booking.com reservations, a refundable ₱1,000 security deposit is kindly requested, returned in full upon a smooth check-out. Payment via GCash (0956 011 5744) or UnionBank (1094 2361 1134 · Marifel Suzanne Boncales).
     </div>
   </div>
 
@@ -1711,35 +2086,34 @@ body::after {
         <span>Copy</span>
       </button>
     </div>
-    <div class="btn-row" style="margin-bottom: 0.625rem;">
-      <a class="btn btn-outline" href="https://maps.app.goo.gl/9vn8KyDwNrXPmJqT9" target="_blank" rel="noopener noreferrer" aria-label="Open in Google Maps">
+    <div class="btn-row" style="margin-bottom:0.625rem;">
+      <a class="btn btn-outline" href="https://maps.app.goo.gl/9vn8KyDwNrXPmJqT9" target="_blank" rel="noopener noreferrer">
         <span>🗺️</span> Google Maps
       </a>
-      <a class="btn btn-outline" href="waze://ul?q=Bria+Homes+Conel+Road+General+Santos&navigate=yes" onclick="openWaze(event)" aria-label="Open in Waze">
+      <a class="btn btn-outline" href="waze://ul?q=Bria+Homes+Conel+Road+General+Santos&navigate=yes" onclick="openWaze(event)">
         <span>🚗</span> Waze
       </a>
     </div>
     <div class="callout gold">
-      <strong>🚦 A quick note at the gate:</strong> Just tell the security guard you're a guest at <strong>"Cascade Hideaway, Block 47, Lot 39"</strong> and they'll wave you right through. No fuss at all.
+      <strong>🚦 A note at the gate:</strong> Upon arrival, simply let the security personnel know you're a guest at <strong>"Cascade Hideaway, Block 47, Lot 39"</strong> — you'll be welcomed through without delay. Your dedicated parking slot awaits directly in front of the unit, within the compound's CCTV-monitored grounds.
     </div>
-
-    <!-- Transport Tips Panel -->
     <div class="transport-panel">
-      <div class="transport-panel-title">🚕 Getting Here from the Airport</div>
+      <div class="transport-panel-title">🚕 Getting Here</div>
       <div class="transport-row recommended">
         <span class="ticon">🚗</span>
         <div>
-          <strong>Grab</strong><span class="rec-badge">✦ Our Pick</span>
-          <br/>The easiest and most comfortable way here — especially from the airport. Your fare is shown upfront before you confirm, so there are no surprises. Just open the app, enter our address, and we'll see you soon.
-          <div class="pick-chips" style="margin-top: 0.5rem;">
+          <strong>Grab</strong><span class="rec-badge">✦ Our Recommendation</span>
+          <br/>The most seamless way to arrive — particularly from the airport. Your fare is displayed upfront before you confirm, ensuring a completely transparent and comfortable journey. Simply open the app, enter our address, and we'll be ready to welcome you.
+          <div class="pick-chips" style="margin-top:0.5rem;">
             <a class="pick-chip" href="grab://open" onclick="openGrabApp(event)">📱 Open Grab App</a>
           </div>
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.35rem;">💡 In GenSan, select <strong>Grab Taxi</strong> for faster booking — most vehicles here are taxis.</div>
         </div>
       </div>
       <div class="transport-row">
         <span class="ticon">🛺</span>
         <div>
-          <strong>Tricycles</strong> — For short hops around the neighborhood, tricycles wait just outside the Bria gate. Always agree on the fare before you hop in — and it helps to have <strong>small bills and coins ready</strong>, as drivers may not always have change. Cash only.
+          <strong>Tricycles</strong> — Wait just outside the Bria gate. Great for short hops. Always agree on fare first — keep <strong>small bills and coins</strong> ready. Cash only.
           <div class="pick-chips">
             <span class="pick-chip">Bria Gate Stop</span>
             <span class="pick-chip">Robinsons Mall</span>
@@ -1750,7 +2124,7 @@ body::after {
       <div class="transport-row">
         <span class="ticon">🚌</span>
         <div>
-          <strong>Multicab / Jeepney</strong> — Budget-friendly and very local. Flag one heading toward Dadiangas / City Center along Conel Road and tell the driver "Bria Homes." Same tip applies — <strong>keep small bills handy</strong>.
+          <strong>Multicab / Jeepney</strong> — Budget-friendly and very local. Tell driver "Bria Homes" along Conel Road. Keep small bills handy.
         </div>
       </div>
     </div>
@@ -1759,19 +2133,16 @@ body::after {
   <!-- 3 · ENTRY -->
   <div class="card critical animate" id="section-entry">
     <p class="card-title">🔐 Entering Your Home Away from Home</p>
-
-    <!-- Airbnb PIN callout -->
     <div class="pin-callout">
       <span class="pc-icon">🔑</span>
       <div>
-        <strong>Your door PIN is waiting in your Airbnb inbox.</strong> Check your Airbnb message thread from your host before you arrive — you'll need it to step inside. If you can't find it, just reach out and we'll send it right over.
+        <strong>Your personal door PIN awaits in your Airbnb inbox.</strong> Kindly check your Airbnb message thread before you arrive — you'll need it to step inside your sanctuary. If you're unable to locate it, simply reach out and we'll have it with you immediately.
       </div>
     </div>
-
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-text">Give the keypad a gentle tap or swipe in the center to <strong>wake it up</strong> — the numbers will light up in a moment</div>
+        <div class="step-text">Gently tap or swipe the center of the keypad to <strong>awaken it</strong> — the numbers will illuminate in a moment</div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
@@ -1779,20 +2150,20 @@ body::after {
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-text">Turn the handle and step inside — <strong>welcome home</strong> 🌴</div>
+        <div class="step-text">Turn the handle and step inside — <strong>your sanctuary welcomes you</strong> 🌴</div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
-        <div class="step-text">When heading out, simply close the door firmly — the smart lock takes care of the rest automatically</div>
+        <div class="step-text">When stepping out, simply close the door firmly — the smart lock will engage automatically and secure your home</div>
       </div>
     </div>
     <div class="info-note">
       <span class="ni">🪪</span>
-      <span>You'll also find a <strong>key card</strong> inside near the TV and A/C remotes — it's on a Cascade keychain, hard to miss. Tap it on the keypad anytime to unlock. Please keep it safe — there's a ₱1,000 replacement fee if it goes missing.</span>
+      <span>A <strong>key card</strong> on a Cascade keychain has been thoughtfully placed inside near the TV and A/C remotes — simply tap it on the keypad to unlock anytime during your stay. We kindly ask that you keep it safe, as a ₱1,000 replacement fee applies should it go missing.</span>
     </div>
-    <a class="btn btn-danger" href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="margin-top: 0.75rem;">
-      <span>🆘</span> Having trouble getting in? We're here — contact us now
-    </a>
+    <button class="btn btn-danger" onclick="openContact()" style="margin-top:0.75rem;width:100%;border:none;cursor:pointer;">
+      <span>🆘</span> Having trouble getting in? Contact us now
+    </button>
   </div>
 
   <!-- 4 · WIFI -->
@@ -1800,7 +2171,7 @@ body::after {
     <p class="card-title">📶 Connect to Wi-Fi</p>
     <div class="wifi-grid">
       <div class="wifi-field" id="wf-ssid"
-        onclick="copyWifi(this, 'WelcomeToCascade-5G', 'wf-ssid')"
+        onclick="copyWifi(this,'WelcomeToCascade-5G','wf-ssid')"
         onkeydown="if(event.key==='Enter'||event.key===' ')copyWifi(this,'WelcomeToCascade-5G','wf-ssid')"
         role="button" tabindex="0" aria-label="Copy Wi-Fi network name">
         <div class="wifi-label">Network Name</div>
@@ -1808,7 +2179,7 @@ body::after {
         <div class="copy-status">Tap to copy</div>
       </div>
       <div class="wifi-field" id="wf-pass"
-        onclick="copyWifi(this, 'EnjoyYourStay@CH', 'wf-pass')"
+        onclick="copyWifi(this,'EnjoyYourStay@CH','wf-pass')"
         onkeydown="if(event.key==='Enter'||event.key===' ')copyWifi(this,'EnjoyYourStay@CH','wf-pass')"
         role="button" tabindex="0" aria-label="Copy Wi-Fi password">
         <div class="wifi-label">Password</div>
@@ -1833,172 +2204,218 @@ body::after {
     <div class="section-divider-line"></div>
   </div>
 
-  <!-- 5 · FOOD & DELIVERY -->
+  <!-- 5 · FOOD, DELIVERY & GROCERIES -->
   <div class="card animate" id="section-food">
-    <p class="card-title">🍔 Food, Groceries &amp; Getting Around</p>
+    <p class="card-title">✦ Dining, Delivery &amp; Groceries</p>
+
+    <!-- Delivery apps with real brand SVG logos -->
     <div class="delivery-grid">
-      <a class="delivery-btn" href="https://www.foodpanda.ph/" target="_blank" rel="noopener noreferrer">
-        <span class="dicon">🐼</span>
-        <span>Foodpanda</span>
+      <!-- FoodPanda: muted dusty rose + panda -->
+      <a class="delivery-btn" href="https://www.foodpanda.ph/" target="_blank" rel="noopener noreferrer" aria-label="Foodpanda" onclick="openFoodpanda(event)">
+        <span class="dicon">
+          <span class="delivery-icon-circle" style="background:rgba(183,42,99,0.15); border:1.5px solid rgba(183,42,99,0.25);">🐼</span>
+        </span>
+        <span>foodpanda</span>
       </a>
-      <a class="delivery-btn" href="https://food.grab.com/ph/en/" target="_blank" rel="noopener noreferrer">
-        <span class="dicon">🍱</span>
-        <span>Grab Food</span>
+      <!-- GrabFood: muted sage green + scooter -->
+      <a class="delivery-btn" href="https://food.grab.com/ph/en/" target="_blank" rel="noopener noreferrer" aria-label="GrabFood">
+        <span class="dicon">
+          <span class="delivery-icon-circle" style="background:rgba(0,140,70,0.12); border:1.5px solid rgba(0,140,70,0.22);">🛵</span>
+        </span>
+        <span>GrabFood</span>
       </a>
-      <a class="delivery-btn" href="https://www.jollibeedelivery.com/" target="_blank" rel="noopener noreferrer">
-        <span class="dicon">🐝</span>
+      <!-- Jollibee: muted warm red + bee -->
+      <a class="delivery-btn" href="https://www.jollibeedelivery.com/" target="_blank" rel="noopener noreferrer" aria-label="Jollibee">
+        <span class="dicon">
+          <span class="delivery-icon-circle" style="background:rgba(190,24,36,0.12); border:1.5px solid rgba(190,24,36,0.22);">🐝</span>
+        </span>
         <span>Jollibee</span>
       </a>
-      <a class="delivery-btn" href="https://www.mcdelivery.com.ph/" target="_blank" rel="noopener noreferrer">
-        <span class="dicon">🍟</span>
+      <!-- McDelivery: muted red + fries -->
+      <a class="delivery-btn" href="https://www.mcdelivery.com.ph/" target="_blank" rel="noopener noreferrer" aria-label="McDelivery">
+        <span class="dicon">
+          <span class="delivery-icon-circle" style="background:rgba(196,30,20,0.12); border:1.5px solid rgba(196,30,20,0.22);">🍟</span>
+        </span>
         <span>McDelivery</span>
       </a>
     </div>
 
-    <!-- Groceries tip -->
-    <div class="callout gold" style="margin-bottom: 0.75rem;">
-      🛒 <strong>No need to go out for groceries or drinks</strong> — both Foodpanda and GrabFood have a <strong>Mart</strong> or <strong>Grocery</strong> section with same-day delivery options. Stock up on essentials, snacks, or drinks right from the app and have them delivered straight to your door.
+    <!-- Groceries highlighted callout -->
+    <div class="grocery-callout">
+      <div class="grocery-callout-title">✦ Groceries &amp; Essentials — Delivered to Your Doorstep</div>
+      <div>There is truly no need to venture out for supplies. Both foodpanda and GrabFood carry a dedicated <strong>Mart &amp; Grocery</strong> section offering same-day delivery — fresh drinks, snacks, toiletries, and daily essentials brought directly to your sanctuary.</div>
+      <div class="grocery-apps">
+        <a class="grocery-app-chip" href="https://www.foodpanda.ph/shops" target="_blank" rel="noopener noreferrer" onclick="openFoodpanda(event)">
+          <svg width="13" height="13" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="29" fill="#D70F64"/><circle cx="13" cy="16" r="8.5" fill="#1a1a1a"/><circle cx="47" cy="16" r="8.5" fill="#1a1a1a"/><circle cx="30" cy="34" r="19.5" fill="white"/><ellipse cx="21.5" cy="28.5" rx="7" ry="6" fill="#1a1a1a" transform="rotate(-20 21.5 28.5)"/><ellipse cx="38.5" cy="28.5" rx="7" ry="6" fill="#1a1a1a" transform="rotate(20 38.5 28.5)"/></svg>
+          Foodpanda Mart
+        </a>
+        <a class="grocery-app-chip" href="https://food.grab.com/ph/en/" target="_blank" rel="noopener noreferrer">
+          <svg width="13" height="13" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="29" fill="#00B14F"/><path d="M44 29H31.5v7h7.2C36.8 40.2 33.6 42 30 42C23.9 42 19 37.1 19 31C19 24.9 23.9 20 30 20C32.8 20 35.3 21.1 37.1 22.9L41.5 18.4C38.7 15.7 34.6 14 30 14C20.6 14 13 21.6 13 31C13 40.4 20.6 48 30 48C39 48 46 41.2 46 32.1V29H44Z" fill="white"/></svg>
+          GrabMart
+        </a>
+      </div>
     </div>
 
-    <!-- Food delivery tips -->
+    <!-- Food tips — luxury tone -->
     <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.75rem;">
-      <div style="display:flex;align-items:flex-start;gap:0.7rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:0.875rem;padding:0.75rem 0.875rem;font-size:0.84rem;color:var(--text);line-height:1.6;">
-        <span style="font-size:1.1rem;flex-shrink:0;margin-top:0.05rem;">⏱️</span>
-        <span><strong style="color:var(--mahogany);">Plan ahead — delivery takes 30–40 min on average.</strong> If you're feeling hungry, it's always a good idea to order a little earlier than you think. Traffic and distance from the restaurant can add up, especially during meal hours.</span>
+      <div class="food-tip">
+        <span class="fticon">⏱️</span>
+        <span>Deliveries typically arrive in <strong>30–40 minutes</strong> — we suggest ordering a touch earlier than your appetite dictates, particularly during the lively meal hours when kitchens are at their busiest.</span>
       </div>
-      <div style="display:flex;align-items:flex-start;gap:0.7rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:0.875rem;padding:0.75rem 0.875rem;font-size:0.84rem;color:var(--text);line-height:1.6;">
-        <span style="font-size:1.1rem;flex-shrink:0;margin-top:0.05rem;">💵</span>
-        <span><strong style="color:var(--mahogany);">Paying cash?</strong> It helps to have small bills or coins ready — riders sometimes don't carry change. If you can, settling via GCash or card in-app saves the hassle entirely.</span>
+      <div class="food-tip">
+        <span class="fticon">💵</span>
+        <span><strong>Settling in cash?</strong> It's worth keeping small bills at hand — riders don't always carry change. Paying via GCash or card in-app is the most seamless experience, with no waiting at the door.</span>
       </div>
-      <div style="display:flex;align-items:flex-start;gap:0.7rem;background:rgba(212,176,120,0.08);border:1.5px solid rgba(175,135,75,0.2);border-radius:0.875rem;padding:0.75rem 0.875rem;font-size:0.84rem;color:var(--text);line-height:1.6;">
+      <div class="sarisari-tip">
         <span style="font-size:1.1rem;flex-shrink:0;margin-top:0.05rem;">🏪</span>
-        <span>Need a quick snack, drinks, or a few essentials? <strong style="color:var(--mahogany);">There's a small sari-sari store just around the corner</strong> — head out the gate and it's the first store on your left at the corner of the street. Perfect for anything quick without waiting for delivery.</span>
+        <div>
+          <span>For something immediate — a <strong>neighbourhood sari-sari store</strong> sits just around the corner from the gate, first on your left. Cold drinks, snacks, or small essentials, no delivery wait required.</span>
+          <div style="margin-top:0.5rem;">
+            <a href="https://www.google.com/maps/search/?api=1&query=sari+sari+store+Bria+Homes+Conel+Road+General+Santos" target="_blank" rel="noopener noreferrer" class="pick-chip" style="font-size:0.67rem;">📍 View on Maps</a>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- Grab ride row -->
     <div class="grab-ride-row">
-      <span class="gr-icon">🚗</span>
+      <span class="gr-icon">
+        <svg width="30" height="30" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="29" fill="#00B14F"/><path d="M44 29H31.5v7h7.2C36.8 40.2 33.6 42 30 42C23.9 42 19 37.1 19 31C19 24.9 23.9 20 30 20C32.8 20 35.3 21.1 37.1 22.9L41.5 18.4C38.7 15.7 34.6 14 30 14C20.6 14 13 21.6 13 31C13 40.4 20.6 48 30 48C39 48 46 41.2 46 32.1V29H44Z" fill="white"/></svg>
+      </span>
       <div class="gr-text">
         <strong>Need a Grab ride?</strong><br/>
-        Taxis, cars, and airport transfers — all in one tap
+        Airport transfers, city excursions, late-night returns — all arranged in a single tap
+        <div style="font-size:0.72rem;color:#14532d;margin-top:0.35rem;font-weight:600;">💡 Most Grab rides in GenSan are taxis — choose <strong>Grab Taxi</strong> for faster booking.</div>
       </div>
-      <a class="btn-grab" href="grab://open" onclick="openGrabApp(event)" aria-label="Open Grab app">
-        Open Grab
-      </a>
+      <a class="btn-grab" href="grab://open" onclick="openGrabApp(event)" aria-label="Open Grab app">Open Grab</a>
     </div>
 
-    <div style="margin-top: 0.75rem;">
-      <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem;">🏬 What's Nearby</div>
+    <!-- Nearby -->
+    <div style="margin-top:0.875rem;">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.5rem;">✦ What's Nearby</div>
       <div class="nearby-row">
         <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=Robinsons+Mall+General+Santos" target="_blank" rel="noopener noreferrer">
-          🏬 Robinsons Mall <span style="opacity:0.6; font-size:0.65rem; margin-left:0.2rem">~1–2 km · closest</span>
+          🏬 Robinsons Place <span style="opacity:0.55;font-size:0.65rem;margin-left:0.2rem">~1–2 km · closest</span>
         </a>
         <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=SM+City+General+Santos" target="_blank" rel="noopener noreferrer">
-          🏬 SM City GenSan <span style="opacity:0.6; font-size:0.65rem; margin-left:0.2rem">~3 km</span>
+          🏬 SM City GenSan <span style="opacity:0.55;font-size:0.65rem;margin-left:0.2rem">~3 km</span>
         </a>
         <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=Mercury+Drug+General+Santos" target="_blank" rel="noopener noreferrer">
           💊 Mercury Drug
         </a>
       </div>
-      <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.5rem;">Tricycles wait just outside the Bria gate — agree on a fare beforehand and keep small change ready. Cash only.</div>
+      <!-- Neighbourhood Gems -->
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin:0.875rem 0 0.5rem;">🌟 Neighbourhood Gems</div>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:0.875rem;padding:0.75rem 0.875rem;">
+          <div style="font-weight:700;font-size:0.84rem;color:var(--mahogany);margin-bottom:0.3rem;">🔥 Ate Kris's BBQ</div>
+          <div style="font-size:0.78rem;color:var(--text);line-height:1.65;">As afternoon light fades, the irresistible aroma of sizzling Filipino BBQ fills the air. Just two houses down, Ate Kris grills authentic street food perfection — tender, smoky, and utterly delicious.</div>
+          <div style="font-size:0.67rem;color:var(--gold-rich);font-weight:600;margin-top:0.35rem;">⏱️ Late afternoon onwards · Authentic Filipino flavors</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:0.875rem;padding:0.625rem 0.875rem;">
+          <div>
+            <div style="font-weight:700;font-size:0.84rem;color:var(--mahogany);">🏪 Square Space Mini Grocery</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.1rem;">Convenient mini grocery within the subdivision — quality products at welcoming prices, no need to leave the neighborhood</div>
+          </div>
+          <a href="https://maps.app.goo.gl/GeVVnhSYxyp2XgWu6" target="_blank" rel="noopener noreferrer" class="pick-chip" style="white-space:nowrap;flex-shrink:0;">📍 Map</a>
+        </div>
+      </div>
+      <div style="font-size:0.73rem;color:var(--text-muted);margin-top:0.5rem;">Tricycles wait just outside the Bria gate — kindly agree on a fare before boarding, and keep small bills at hand. Cash only.</div>
     </div>
 
-    <!-- Coffee shops -->
-    <div style="margin-top: 1rem;">
-      <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.625rem;">☕ Coffee Shops Worth Visiting</div>
+    <!-- Coffee shops — luxury descriptions -->
+    <div style="margin-top:1rem;">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.625rem;">☕ Cafés Worth the Journey</div>
       <div class="coffee-grid">
         <div class="coffee-card">
           <div class="cf-name">☕ Coffee Project</div>
-          <div class="cf-dist">📍 ~2.6 km · Closest · ~5 min by Grab</div>
-          <div class="cf-note">GenSan's most Instagrammable café — gorgeous floral interiors, lovely coffee, and perfect for a quick morning stop.</div>
+          <div class="cf-dist">📍 ~2.6 km · ~5 min by Grab</div>
+          <div class="cf-note">GenSan's most celebrated café — breathtaking floral interiors, carefully crafted coffee, and the perfect beginning to a leisurely morning.</div>
           <a href="https://www.google.com/maps?q=Coffee+Project+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
         </div>
         <div class="coffee-card">
           <div class="cf-name">🌙 Oona Café &amp; Co.</div>
           <div class="cf-dist">📍 General Santos City</div>
-          <div class="cf-note">A cozy late-night haven with soulful coffee and comfort food — open until 2 AM. Lovely for a quiet evening out.</div>
+          <div class="cf-note">A soulful late-night retreat — intimate atmosphere, exquisite coffee, and comfort food. Open until 2 AM for unhurried evenings out.</div>
           <a href="https://www.google.com/maps?q=Oona+Café+%26+Co+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
         </div>
         <div class="coffee-card">
           <div class="cf-name">☕ Blackthorn Coffee</div>
           <div class="cf-dist">📍 General Santos City</div>
-          <div class="cf-note">For guests who appreciate specialty coffee — expertly crafted, carefully sourced beans.</div>
+          <div class="cf-note">For the discerning palate — specialty-grade beans, expertly prepared, in a refined setting made for those who appreciate the craft.</div>
           <a href="https://www.google.com/maps?q=Blackthorn+Coffee+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
         </div>
         <div class="coffee-card">
           <div class="cf-name">💼 Bo's Coffee</div>
           <div class="cf-dist">📍 General Santos City</div>
-          <div class="cf-note">Reliable Filipino coffee chain with a welcoming atmosphere — great if you're getting work done or need a familiar spot.</div>
+          <div class="cf-note">A beloved Filipino institution — welcoming, consistent, and wonderful for a productive afternoon with good coffee and an even better chair.</div>
           <a href="https://www.google.com/maps?q=Bos+Coffee+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
         </div>
       </div>
-      <a class="nearby-chip" href="https://www.google.com/maps/search/?api=1&query=coffee+near+Bria+Homes+General+Santos" target="_blank" rel="noopener noreferrer" style="margin-top:0.625rem;display:inline-flex;">
-        ☕ Explore all coffee shops near us →
-      </a>
     </div>
   </div>
 
   <!-- 6 · AMENITIES -->
   <div class="card animate" id="section-amenities">
-    <p class="card-title">🏡 Your Unit at a Glance <span style="font-weight: 400; opacity: 0.55; font-size: 0.58rem;">· tap icons for tips</span></p>
+    <p class="card-title">🏡 Your Unit at a Glance <span style="font-weight:400;opacity:0.55;font-size:0.58rem;">· tap icons for tips</span></p>
     <div class="amenities-grid">
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">🛏️</span>
         <span class="aname">Queen Bed<br/>Hotel Linens</span>
-        <div class="atip">Sumptuous hotel-grade linens and plush pillows for complete rest and rejuvenation.</div>
+        <div class="atip">Drift into restful sleep on our hotel-grade queen bed. Extra pillow and blanket on the wardrobe top shelf. A/C and TV remotes on the bedside table.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">📺</span>
         <span class="aname">55" Smart TV<br/>Netflix · YouTube</span>
-        <div class="atip">55" Samsung Smart TV with Netflix, YouTube Premium, and Samsung TV Plus live channels. Remotes are on the bedside table.</div>
+        <div class="atip">55″ Samsung Smart TV with Netflix, YouTube Premium, and Samsung TV Plus live channels. No passwords needed — just tap the home button.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">❄️</span>
         <span class="aname">2.5HP A/C<br/>+ Air Purifier</span>
-        <div class="atip">Powerful 2.5 HP split-type A/C keeps your sanctuary perfectly cool. An air purifier is also provided — great for guests with sensitivities.</div>
+        <div class="atip">Powerful 2.5HP split-type A/C keeps your sanctuary perfectly cool. Remote is on the bedside table. Air purifier also included — great for allergy-sensitive guests.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">🍳</span>
         <span class="aname">Kitchenette<br/>Cookware Ready</span>
-        <div class="atip">Essential appliances and cookware for light meal prep, morning coffee, and beverages throughout your stay.</div>
+        <div class="atip">Equipped with essential appliances and cookware for light meal prep and morning coffee rituals. Please rinse utensils after use.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">🚿</span>
         <span class="aname">Hot Shower<br/>+ Plush Towels</span>
-        <div class="atip">Private ensuite with a reliable water heater for warm showers. Hotel-quality towels are provided for your comfort.</div>
+        <div class="atip">Private ensuite with a reliable water heater for warm showers. Hotel-quality towels provided. Water heater switch is beside the shower.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">🧺</span>
         <span class="aname">Washing<br/>Machine</span>
-        <div class="atip">In-unit automatic washing machine — perfect for extended stays or keeping your wardrobe fresh.</div>
+        <div class="atip">In-unit automatic washing machine — perfect for extended stays or keeping your wardrobe fresh. Please message us if you need laundry supplies.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">☕</span>
         <span class="aname">Coffee &amp;<br/>Drinking Water</span>
-        <div class="atip">Complimentary coffee selections and purified drinking water are thoughtfully arranged for your arrival.</div>
+        <div class="atip">Complimentary coffee selections, purified drinking water, and essential toiletries thoughtfully arranged for your arrival. Refills available — just ask.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">👔</span>
         <span class="aname">Wardrobe &amp;<br/>Cloth Steamer</span>
-        <div class="atip">Single-door wardrobe with quality hangers for easy unpacking. Complimentary cloth steamer available for wrinkle-free garments.</div>
+        <div class="atip">Single-door wardrobe with quality hangers. Complimentary cloth steamer available for wrinkle-free garments. Extra pillow and blanket stored on the top shelf.</div>
       </div>
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
         <span class="tip-dot"></span>
         <span class="aicon">💻</span>
         <span class="aname">Dedicated<br/>Workspace</span>
-        <div class="atip">A clean, well-lit dedicated desk area — ideal for remote work, video calls, or catching up on emails.</div>
+        <div class="atip">Dedicated desk with comfortable seating and ample surface area — ideal for remote work, video calls, or planning your next adventure.</div>
       </div>
     </div>
-    <div style="background: var(--surface-alt); border-radius: 0.875rem; padding: 0.875rem 1rem; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; border: 1px solid var(--border);">
-      🅿️ <strong style="color: var(--text);">Parking:</strong> Your slot is directly in front of the unit. CCTV-monitored within the Bria compound. One vehicle per reservation. Additional parking may be arranged in advance — just contact us.
+    <div style="background:var(--surface-alt);border-radius:0.875rem;padding:0.875rem 1rem;font-size:0.82rem;color:var(--text-muted);line-height:1.65;border:1px solid var(--border);">
+      🅿️ <strong style="color:var(--text);">Parking:</strong> Your dedicated slot is positioned directly in front of the unit — easily accessible and monitored around the clock by CCTV within the Bria compound. One vehicle per reservation. Should you require additional parking, simply let us know in advance and we'll arrange it with pleasure.
     </div>
   </div>
 
@@ -2006,15 +2423,15 @@ body::after {
   <div class="card animate" id="section-rules">
     <p class="card-title">📋 A Few Things to Keep in Mind</p>
     <div class="rules-list">
-      <div class="rule"><span class="ricon">👟</span><span>We kindly ask that you remove your shoes at the entrance — a shoe rack with complimentary slippers is waiting for you just inside the door</span></div>
-      <div class="rule important"><span class="ricon">🚭</span><span><strong>Please keep the unit smoke-free.</strong> There's a designated outdoor area if needed. We appreciate your understanding — it helps keep the space fresh for everyone.</span></div>
-      <div class="rule"><span class="ricon">🌙</span><span><strong>Quiet hours begin at 10:00 PM.</strong> We're nestled in a warm residential community — a little consideration for the neighbors goes a long way, and we truly appreciate it.</span></div>
-      <div class="rule"><span class="ricon">🏠</span><span><strong>No gatherings or parties, please.</strong> Cascade is a peaceful retreat — only registered guests are welcome inside to preserve the calm for everyone nearby.</span></div>
-      <div class="rule"><span class="ricon">👥</span><span>Only guests included in your booking may stay overnight. If your plans change and your group grows, just let us know ahead of time — we're happy to sort it out.</span></div>
-      <div class="rule"><span class="ricon">💡</span><span>When stepping out, please switch off the A/C, lights, and appliances — small habits that make a big difference, and we're grateful for your mindfulness.</span></div>
-      <div class="rule important"><span class="ricon">💧</span><span><strong>Kindly use the bin provided for tissue, toilet paper, and sanitary items</strong> — not the toilet. Our plumbing is a little sensitive and we want to keep everything flowing smoothly for you and future guests.</span></div>
-      <div class="rule"><span class="ricon">🗑️</span><span>If the indoor bins fill up, tie the bags and leave them in the large outdoor bin provided — or just message us and we'll arrange pickup. No trouble at all.</span></div>
-      <div class="rule"><span class="ricon">✨</span><span>Please help us care for the space. If anything breaks or seems off, let us know right away — no judgment, things happen, and we'd rather know so we can fix it for you.</span></div>
+      <div class="rule"><span class="ricon">👟</span><span>Please remove shoes at the entrance — a shoe rack with complimentary slippers is waiting just inside the door</span></div>
+      <div class="rule important"><span class="ricon">🚭</span><span><strong>Smoke-free unit.</strong> A designated outdoor area is available if needed. We appreciate your understanding.</span></div>
+      <div class="rule"><span class="ricon">🌙</span><span><strong>Quiet hours begin at 10:00 PM.</strong> We're in a warm residential community — a little consideration for the neighbors goes a long way.</span></div>
+      <div class="rule"><span class="ricon">🏠</span><span><strong>No gatherings or parties, please.</strong> Only registered guests are welcome inside to preserve the calm.</span></div>
+      <div class="rule"><span class="ricon">👥</span><span>Only guests in your booking may stay overnight. If your group grows, just let us know in advance — we're happy to sort it out.</span></div>
+      <div class="rule"><span class="ricon">💡</span><span>When stepping out, please switch off the A/C, lights, and appliances — small habits, big difference. Thank you for your mindfulness.</span></div>
+      <div class="rule important"><span class="ricon">💧</span><span><strong>Use the bin for tissue, toilet paper, and sanitary items</strong> — not the toilet. Our plumbing is sensitive and we want everything flowing smoothly.</span></div>
+      <div class="rule"><span class="ricon">🗑️</span><span>If indoor bins fill up, tie bags and leave them in the outdoor bin — or message us and we'll arrange pickup. No trouble at all.</span></div>
+      <div class="rule"><span class="ricon">✨</span><span>Please help us care for the space. If anything breaks or seems off, let us know right away — no judgment, we'd rather know so we can fix it for you.</span></div>
     </div>
   </div>
 
@@ -2044,15 +2461,15 @@ body::after {
       </a>
     </div>
     <div class="hospital-note">
-      <strong>🏥 Nearest Emergency Room — St. Elizabeth Hospital</strong>
+      <strong>🏥 Nearest ER — St. Elizabeth Hospital</strong>
       National Highway, Corner Santiago Blvd, General Santos City 9500<br/>
-      <a href="tel:+63835523162" style="color: inherit; font-weight: 700;">(083) 552-3162</a>
+      <a href="tel:+63835523162" style="color:inherit;font-weight:700;">(083) 552-3162</a>
       &nbsp;·&nbsp;
-      <a href="tel:+639623160213" style="color: inherit; font-weight: 700;">+63 962 316 0213</a>
+      <a href="tel:+639623160213" style="color:inherit;font-weight:700;">+63 962 316 0213</a>
     </div>
-    <div style="margin-top: 0.75rem; font-size: 0.74rem; color: var(--text-muted); text-align: center; line-height: 1.7;">
+    <div style="margin-top:0.75rem;font-size:0.74rem;color:var(--text-muted);text-align:center;line-height:1.7;">
       💊 Mercury Drug near St. Elizabeth &nbsp;·&nbsp; Watsons at Robinsons &amp; SM<br/>
-      <span style="font-size:0.7rem;opacity:0.8;">We're also just a message away if you need any help at all — please don't hesitate to reach out.</span>
+      <span style="font-size:0.7rem;opacity:0.8;">We are always just a message away — please never hesitate to reach out should you need anything at all.</span>
     </div>
   </div>
 
@@ -2061,7 +2478,8 @@ body::after {
 <!-- ═══════════════ FOOTER ═══════════════ -->
 <footer class="site-footer">
   <em>Prepared with love, exclusively for our valued guests.</em>
-  © Cascade Hideaway · Bria Homes, General Santos City 🌴
+  <span id="footerCopyright" style="cursor:default;user-select:none;display:block;" title="">© Cascade Hideaway · Bria Homes, General Santos City 🌴</span>
+  <button id="adminResetLink" onclick="adminReset()" aria-label="Admin: reset guide for new guest">🔒 Admin: Reset Guide</button>
 </footer>
 
 </div><!-- /app -->
@@ -2095,11 +2513,11 @@ body::after {
         onkeydown="if(event.key==='Enter'||event.key===' ')copyJary()"
         role="button" tabindex="0"
         aria-label="Copy Ms. Jary contact number"
-        style="border-color: rgba(212,176,120,0.45); background: rgba(212,176,120,0.08);">
-        <div class="cicon" style="background: rgba(212,176,120,0.22);">📞</div>
+        style="border-color:rgba(201,150,58,0.4);background:rgba(201,150,58,0.07);">
+        <div class="cicon" style="background:rgba(201,150,58,0.15);">📞</div>
         <div>
-          <span style="font-weight: 700;">Ms. Jarely "Jary" · 09618056979</span>
-          <span class="csub" style="color: var(--gold-rich); font-weight: 600;">For anything urgent — tap to copy her number</span>
+          <span style="font-weight:700;">Ms. Jarely "Jary" · 09618056979</span>
+          <span class="csub" style="color:var(--gold-rich);font-weight:600;">For anything urgent — tap to copy her number</span>
         </div>
       </div>
       <a class="contact-opt" href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer">
@@ -2116,10 +2534,10 @@ body::after {
           <span class="csub">Facebook · We reply quickly</span>
         </div>
       </a>
-      <a class="contact-opt" href="mailto:cascadereservations@gmail.com">
+      <a class="contact-opt" href="mailto:cascadesgsc@gmail.com" target="_blank" rel="noopener noreferrer">
         <div class="cicon">✉️</div>
         <div>
-          <span>cascadereservations@gmail.com</span>
+          <span>cascadesgsc@gmail.com</span>
           <span class="csub">Email us anytime</span>
         </div>
       </a>
@@ -2130,9 +2548,24 @@ body::after {
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
-/* ─────────────────────────────────────────
-   CONFIG — update these per booking
-───────────────────────────────────────── */
+
+/* BACKGROUND WEATHER FETCH — powers badge for evening/night */
+(function() {
+  const LAT = 6.1164, LON = 125.1716;
+  const WMO_ICON = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+    51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'⛈️',
+    71:'🌨️',73:'🌨️',75:'🌨️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️'};
+  fetch(`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weathercode&timezone=Asia%2FManila`)
+    .then(r => r.json())
+    .then(d => {
+      window._cascadeWeather = {
+        temp: Math.round(d.current.temperature_2m),
+        icon: WMO_ICON[d.current.weathercode] || '🌡️'
+      };
+    }).catch(() => {});
+})();
+
+/* CONFIG */
 const CONFIG = {
   WIFI_SSID: 'WelcomeToCascade-5G',
   WIFI_PASS: 'EnjoyYourStay@CH',
@@ -2141,21 +2574,33 @@ const CONFIG = {
   HOST_PHONE_2: '09560115744',
 };
 
-/* ─────────────────────────────────────────
-   SCROLL PROGRESS BAR
-───────────────────────────────────────── */
+/* SCROLL PROGRESS */
 const progressBar = document.getElementById('scrollProgress');
+const siteHeader  = document.getElementById('siteHeader');
+const SHRINK_PX   = 60; // pixels scrolled before header collapses
+
 function updateProgress() {
-  const scrollTop  = window.scrollY || document.documentElement.scrollTop;
-  const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
-  const pct        = docHeight > 0 ? Math.round((scrollTop / docHeight) * 1000) / 10 : 0;
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+  /* Header shrink — compact transparent on scroll */
+  if (siteHeader) {
+    const wasScrolled = siteHeader.classList.contains('scrolled');
+    const isScrolled  = scrollTop > SHRINK_PX;
+    if (isScrolled !== wasScrolled) {
+      siteHeader.classList.toggle('scrolled', isScrolled);
+      /* Re-measure header height so quick-nav top offset stays correct */
+      requestAnimationFrame(setHeaderHeight);
+    }
+  }
+
+  /* Scroll progress bar */
+  const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 1000) / 10 : 0;
   if (progressBar) progressBar.style.width = pct + '%';
 }
 window.addEventListener('scroll', updateProgress, { passive: true });
 
-/* ─────────────────────────────────────────
-   SET HEADER HEIGHT + SCROLL PADDING
-───────────────────────────────────────── */
+/* HEADER HEIGHT */
 function setHeaderHeight() {
   const header = document.getElementById('siteHeader');
   const nav    = document.getElementById('quickNav');
@@ -2169,84 +2614,80 @@ function setHeaderHeight() {
 setHeaderHeight();
 window.addEventListener('resize', setHeaderHeight);
 
-/* ─────────────────────────────────────────
-   LIVE CLOCK (GenSan / PH Time)
-───────────────────────────────────────── */
+/* LIVE CLOCK */
 function getPHTime() {
-  const now = new Date();
-  return new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+  return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
 }
-
 function updateClock() {
   const el = document.getElementById('liveClock');
   if (!el) return;
   try {
     const ph = getPHTime();
-    const h  = ph.getHours(), m = ph.getMinutes();
+    const h = ph.getHours(), m = ph.getMinutes();
     const ampm = h >= 12 ? 'PM' : 'AM';
     const h12  = h % 12 || 12;
     el.textContent = `${h12}:${String(m).padStart(2,'0')} ${ampm}`;
   } catch(e) { el.textContent = '—'; }
 }
 
-/* ─────────────────────────────────────────
-   DYNAMIC BADGE + CHECK-IN COUNTDOWN
-───────────────────────────────────────── */
+/* DYNAMIC BADGE + COUNTDOWN */
 function updateBadgeAndCountdown() {
   const ph = getPHTime();
   const h = ph.getHours(), m = ph.getMinutes();
   const badge     = document.getElementById('headerBadge');
   const countdown = document.getElementById('checkinCountdown');
+  const wx = window._cascadeWeather || null;
+  const wxStr = wx ? ` · ${wx.icon} ${wx.temp}°C outside` : '';
 
-  let badgeText = '✈️ Arriving Today';
-  if (h >= 5  && h < 12) badgeText = '🌅 Good Morning — Welcome, You\'re Arriving Today';
-  else if (h >= 12 && h < 14) badgeText = '☀️ Almost Time — Your Home Is Being Prepared';
-  else if (h >= 14 && h < 18) badgeText = '🔑 Welcome — Your Sanctuary Is Ready';
-  else if (h >= 18 && h < 21) badgeText = '🌆 Good Evening — Welcome Home';
-  else                         badgeText = '🌙 Late Arrival — We\'ve Got You, Come Right In';
+  /* Only update badge text if guest name hasn't been applied yet */
+  let guestNameInBadge = false;
+  try {
+    if (badge && badge.dataset.guestName) {
+      guestNameInBadge = true;
+    }
+  } catch(e) {}
 
-  if (badge) badge.textContent = badgeText;
+  if (!guestNameInBadge) {
+    let badgeText = '✈️ Arriving Today';
+    if (h >= 5  && h < 12) badgeText = '🌅 Good Morning — Welcome, You\'re Arriving Today';
+    else if (h >= 12 && h < 14) badgeText = '☀️ Almost Time — Your Home Is Being Prepared';
+    else if (h >= 14 && h < 18) badgeText = '🔑 Welcome — Your Sanctuary Is Ready';
+    else if (h >= 18 && h < 21) badgeText = `🌆 Good Evening — Welcome Home${wxStr}`;
+    else                         badgeText = `🌙 Step right in${wxStr ? ` · ${wx.icon} ${wx.temp}°C — your A/C awaits` : ' — your A/C awaits 🛋️'}`;
+    if (badge) badge.textContent = badgeText;
+  }
 
   if (badge) {
     const checkInMinutes = (14 * 60) - (h * 60 + m);
-    if (checkInMinutes > 0 && checkInMinutes <= 60) {
-      badge.classList.add('pulse');
-    } else {
-      badge.classList.remove('pulse');
-    }
+    badge.classList.toggle('pulse', checkInMinutes > 0 && checkInMinutes <= 60);
   }
-
   if (countdown) {
-    if (h < 14) {
-      const checkInMinutes = (14 * 60) - (h * 60 + m);
-      if (checkInMinutes > 60) {
-        const hrs  = Math.floor(checkInMinutes / 60);
-        const mins = checkInMinutes % 60;
-        countdown.textContent = `Your sanctuary will be ready in ${hrs}h ${mins}m`;
-      } else if (checkInMinutes > 0) {
-        countdown.textContent = `Almost ready — ${checkInMinutes} min to go! 🔑`;
-      } else {
-        countdown.textContent = 'Your home away from home is ready ✓';
-      }
+    if (h >= 14) {
+      countdown.textContent = 'Your sanctuary is ready ✓';
     } else {
-      countdown.textContent = 'Your home away from home is ready ✓';
+      const totalMinsUntil = (14 * 60) - (h * 60 + m);
+      const hrsLeft = Math.floor(totalMinsUntil / 60);
+      const minsLeft = totalMinsUntil % 60;
+      if (hrsLeft > 0) {
+        countdown.textContent = `Check-in opens in ${hrsLeft}h ${minsLeft}m`;
+      } else {
+        countdown.textContent = `Check-in opens in ${minsLeft} min`;
+      }
     }
   }
 }
 
 updateClock();
 updateBadgeAndCountdown();
-setInterval(() => { updateClock(); updateBadgeAndCountdown(); }, 30000);
+setInterval(() => { updateClock(); updateBadgeAndCountdown(); }, 10000);
 
-/* ─────────────────────────────────────────
-   SCROLL ANIMATIONS — staggered, fluid
-───────────────────────────────────────── */
+/* SCROLL ANIMATIONS */
 try {
   const animEls = document.querySelectorAll('.animate');
   if ('IntersectionObserver' in window) {
     animEls.forEach((el, i) => {
       el.classList.add('will-animate');
-      el.style.transitionDelay = `${Math.min(i * 0.03, 0.15)}s`;
+      el.style.transitionDelay = `${Math.min(i * 0.03, 0.12)}s`;
     });
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -2268,12 +2709,9 @@ try {
   document.querySelectorAll('.animate').forEach(el => el.classList.add('visible'));
 }
 
-/* ─────────────────────────────────────────
-   QUICK NAV ACTIVE HIGHLIGHT
-───────────────────────────────────────── */
+/* QUICK NAV ACTIVE HIGHLIGHT */
 const sections = document.querySelectorAll('[id^="section-"]');
 const navBtns  = document.querySelectorAll('.qn-btn');
-
 if ('IntersectionObserver' in window) {
   const navObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -2288,24 +2726,31 @@ if ('IntersectionObserver' in window) {
   sections.forEach(s => navObserver.observe(s));
 }
 
-/* ─────────────────────────────────────────
-   BACK TO TOP
-───────────────────────────────────────── */
+/* BACK TO TOP */
 const backTop = document.getElementById('backTop');
 window.addEventListener('scroll', () => {
   if (backTop) backTop.classList.toggle('visible', window.scrollY > 400);
 }, { passive: true });
 
-/* ─────────────────────────────────────────
-   SWIPE SUPPORT — section-to-section
-───────────────────────────────────────── */
+/* SMOOTH SCROLL — native enhanced, no rubber band */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const target = document.getElementById(this.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    const headerH = document.getElementById('siteHeader')?.offsetHeight || 0;
+    const navH    = document.getElementById('quickNav')?.offsetHeight || 0;
+    const offset  = target.getBoundingClientRect().top + window.scrollY - headerH - navH - 8;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  });
+});
+
+/* SWIPE — section-to-section */
 (function() {
   const sectionEls = Array.from(document.querySelectorAll('[id^="section-"]'));
-  let touchStartX = 0, touchStartY = 0;
-  let swipeLocked = false;
-
+  let touchStartX = 0, touchStartY = 0, swipeLocked = false;
   const hint = document.getElementById('swipeHint');
-  if (hint) setTimeout(() => { hint.style.display = 'none'; }, 3200);
+  if (hint) setTimeout(() => { hint.style.display = 'none'; }, 2900);
 
   document.addEventListener('touchstart', function(e) {
     if (e.touches.length !== 1) return;
@@ -2322,12 +2767,11 @@ window.addEventListener('scroll', () => {
     const inPopup       = e.target.closest('.popup');
     if (!isVertical || !isSignificant || inPopup) return;
 
-    let currentIdx = 0;
-    let bestRatio  = 0;
+    let currentIdx = 0, bestRatio = 0;
     sectionEls.forEach((s, i) => {
-      const r       = s.getBoundingClientRect();
+      const r = s.getBoundingClientRect();
       const visible = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
-      const ratio   = visible / r.height;
+      const ratio = visible / r.height;
       if (ratio > bestRatio) { bestRatio = ratio; currentIdx = i; }
     });
 
@@ -2336,70 +2780,61 @@ window.addEventListener('scroll', () => {
 
     if (targetIdx !== currentIdx) {
       swipeLocked = true;
-      sectionEls[targetIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const target = sectionEls[targetIdx];
+      const headerH = document.getElementById('siteHeader')?.offsetHeight || 0;
+      const navH    = document.getElementById('quickNav')?.offsetHeight || 0;
+      const offset  = target.getBoundingClientRect().top + window.scrollY - headerH - navH - 8;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
       setTimeout(() => { swipeLocked = false; }, 700);
     }
   }, { passive: true });
 })();
 
-/* ─────────────────────────────────────────
-   COPY ADDRESS
-───────────────────────────────────────── */
+/* COPY ADDRESS */
 function copyAddress(btn) {
   const addr = 'Cascade Hideaway, Block 47, Lot 39, Bria Homes, Conel Road, Brgy. San Isidro, General Santos City, 9500';
   navigator.clipboard.writeText(addr).then(() => {
-    btn.classList.add('copied');
+    btn.classList.add('copied', 'ripple-gold');
     btn.querySelector('span:last-child').textContent = '✓';
     showToast('📋 Address copied for delivery apps!');
     setTimeout(() => {
-      btn.classList.remove('copied');
+      btn.classList.remove('copied', 'ripple-gold');
       btn.querySelector('span:last-child').textContent = 'Copy';
     }, 3000);
   }).catch(() => showToast('Long-press to copy the address'));
 }
 
-/* ─────────────────────────────────────────
-   COPY WIFI
-───────────────────────────────────────── */
+/* COPY WIFI */
 function copyWifi(el, text, id) {
   navigator.clipboard.writeText(text).then(() => {
-    el.classList.add('copied-ok');
+    el.classList.add('copied-ok', 'ripple-green');
     el.querySelector('.copy-status').textContent = '✓ Copied!';
     showToast('✓ ' + (id === 'wf-ssid' ? 'Network name' : 'Password') + ' copied!');
     setTimeout(() => {
-      el.classList.remove('copied-ok');
+      el.classList.remove('copied-ok', 'ripple-green');
       el.querySelector('.copy-status').textContent = 'Tap to copy';
     }, 3000);
   }).catch(() => showToast('Please copy manually'));
 }
 
-/* ─────────────────────────────────────────
-   WIFI QR CODE (dark-mode aware)
-───────────────────────────────────────── */
+/* WIFI QR CODE */
 let qrGenerated = false;
 function toggleQR() {
   const panel  = document.getElementById('qrPanel');
   const toggle = document.getElementById('qrToggle');
   const isOpen = panel.classList.contains('open');
-
   if (!isOpen) {
     panel.classList.add('open');
     toggle.classList.add('open');
     toggle.setAttribute('aria-expanded', 'true');
-
     if (!qrGenerated) {
-      const isDark    = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const colorDark  = isDark ? '#F9F6EF' : '#1C1008';
-      const colorLight = isDark ? '#191208' : '#F9F6EF';
       const qrStr = `WIFI:T:WPA;S:${CONFIG.WIFI_SSID};P:${CONFIG.WIFI_PASS};;`;
-
       const generate = () => {
         if (typeof QRCode !== 'undefined') {
           try {
             new QRCode(document.getElementById('wifi-qr'), {
-              text: qrStr,
-              width: 164, height: 164,
-              colorDark, colorLight,
+              text: qrStr, width: 164, height: 164,
+              colorDark: '#1C1006', colorLight: '#F2ECD8',
               correctLevel: QRCode.CorrectLevel.M
             });
             qrGenerated = true;
@@ -2419,9 +2854,7 @@ function toggleQR() {
   }
 }
 
-/* ─────────────────────────────────────────
-   WAZE OPEN WITH FALLBACK
-───────────────────────────────────────── */
+/* WAZE */
 function openWaze(e) {
   e.preventDefault();
   const wazeApp      = 'waze://ul?q=Bria+Homes+Conel+Road+General+Santos&navigate=yes';
@@ -2435,9 +2868,7 @@ function openWaze(e) {
   }
 }
 
-/* ─────────────────────────────────────────
-   GRAB APP OPEN
-───────────────────────────────────────── */
+/* GRAB */
 function openGrabApp(e) {
   e.preventDefault();
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -2449,16 +2880,22 @@ function openGrabApp(e) {
   }
 }
 
-/* ─────────────────────────────────────────
-   AMENITY TIPS (tap to expand)
-───────────────────────────────────────── */
-function toggleAmenity(el) {
-  el.classList.toggle('expanded');
+/* FOODPANDA */
+function openFoodpanda(e) {
+  e.preventDefault();
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.location.href = 'panda://';
+    setTimeout(() => window.open('https://www.foodpanda.ph/', '_blank'), 1200);
+  } else {
+    window.open('https://www.foodpanda.ph/', '_blank');
+  }
 }
 
-/* ─────────────────────────────────────────
-   COPY PHONE NUMBERS
-───────────────────────────────────────── */
+/* AMENITY TIPS */
+function toggleAmenity(el) { el.classList.toggle('expanded'); }
+
+/* COPY PHONES */
 function copyPhone() {
   navigator.clipboard.writeText(CONFIG.HOST_PHONE_2)
     .then(() => showToast('✓ Phone number copied!'))
@@ -2470,9 +2907,7 @@ function copyJary() {
     .catch(() => showToast(CONFIG.HOST_PHONE));
 }
 
-/* ─────────────────────────────────────────
-   TOAST
-───────────────────────────────────────── */
+/* TOAST */
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -2482,9 +2917,7 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2300);
 }
 
-/* ─────────────────────────────────────────
-   CONTACT POPUP
-───────────────────────────────────────── */
+/* CONTACT POPUP */
 function openContact() {
   document.getElementById('overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -2499,45 +2932,166 @@ function closeContact() {
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('overlay')) closeContact();
 }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContact(); });
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeContact();
-});
-
-/* ─────────────────────────────────────────
-   SWIPE-DOWN TO CLOSE POPUP
-───────────────────────────────────────── */
+/* SWIPE-DOWN TO CLOSE POPUP */
 (function() {
   let startY = 0, isDragging = false;
   const handle = document.getElementById('popupHandle');
   const popup  = document.getElementById('popup');
   if (!handle || !popup) return;
-
   handle.addEventListener('pointerdown', function(e) {
     startY = e.clientY;
     isDragging = true;
     popup.style.transition = 'none';
     handle.setPointerCapture(e.pointerId);
   });
-
   handle.addEventListener('pointermove', function(e) {
     if (!isDragging) return;
     const y = e.clientY - startY;
     if (y > 0) popup.style.transform = `translateY(${y}px)`;
   });
-
-  handle.addEventListener('pointerup', function(e) {
+  function endDrag(e) {
     if (!isDragging) return;
     isDragging = false;
     const y = e.clientY - startY;
     popup.style.transition = '';
-    if (y > 80) {
+    if (y > 90) {
       closeContact();
     } else {
       popup.style.transform = '';
     }
+  }
+  handle.addEventListener('pointerup', endDrag);
+  handle.addEventListener('pointercancel', endDrag);
+})();
+
+/* ── WELCOME SPLASH ── */
+(function() {
+  const WELCOME_KEY = 'ch_welcome_seen';
+  const splash = document.getElementById('welcomeSplash');
+  const app    = document.getElementById('app');
+  if (!splash) return;
+
+  // Check if expired overlay is visible — if so skip splash entirely
+  const expiry = document.getElementById('expiryOverlay');
+  if (expiry && expiry.style.display !== 'none' && expiry.style.display !== '') return;
+
+  if (!localStorage.getItem(WELCOME_KEY)) {
+    splash.style.display = 'flex';
+    if (app) app.style.visibility = 'hidden';
+  }
+})();
+
+function dismissWelcome() {
+  const splash     = document.getElementById('welcomeSplash');
+  const app        = document.getElementById('app');
+  const nameInput  = document.getElementById('guestNameInput');
+  const badge      = document.getElementById('headerBadge');
+  const banner     = document.getElementById('welcomeBanner');
+  const greeting   = document.getElementById('wbGreeting');
+  const nameBlock  = document.getElementById('wbNameBlock');
+  const nameDisplay= document.getElementById('wbGuestName');
+  const name       = nameInput ? nameInput.value.trim() : '';
+
+  try { localStorage.setItem('ch_welcome_seen', '1'); } catch(e) {}
+
+  if (name) {
+    try { localStorage.setItem('ch_guest_name', name); } catch(e) {}
+    if (badge)        { badge.textContent = `Welcome, ${name} ✈️`; badge.dataset.guestName = name; }
+    if (greeting)     greeting.textContent     = `Your sanctuary awaits. ✨`;
+    if (nameDisplay)  nameDisplay.textContent  = name;
+    if (nameBlock) {
+      nameBlock.style.display       = 'flex';
+      nameBlock.style.flexDirection = 'column';
+      nameBlock.style.alignItems    = 'center';
+    }
+  } else {
+    if (greeting) greeting.textContent = 'Welcome — your sanctuary awaits. ✨';
+    if (nameBlock) nameBlock.style.display = 'none';
+  }
+
+  if (banner) {
+    banner.style.display = 'block';
+  }
+
+  if (splash) {
+    splash.style.opacity = '0';
+    splash.style.transform = 'scale(1.04)';
+    splash.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    setTimeout(() => {
+      splash.style.display = 'none';
+      if (app) { app.style.visibility = ''; }
+    }, 560);
+  } else {
+    if (app) app.style.visibility = '';
+  }
+}
+
+/* Apply stored guest name on reload (welcome already seen) */
+(function() {
+  try {
+    const name     = localStorage.getItem('ch_guest_name');
+    const seen     = localStorage.getItem('ch_welcome_seen');
+    const banner   = document.getElementById('welcomeBanner');
+    const greeting = document.getElementById('wbGreeting');
+    const badge    = document.getElementById('headerBadge');
+    const nameBlock   = document.getElementById('wbNameBlock');
+    const nameDisplay = document.getElementById('wbGuestName');
+    if (seen && banner) {
+      banner.style.display = 'block';
+      if (name) {
+        if (nameDisplay)  nameDisplay.textContent = name;
+        if (nameBlock) {
+          nameBlock.style.display       = 'flex';
+          nameBlock.style.flexDirection = 'column';
+          nameBlock.style.alignItems    = 'center';
+        }
+        if (greeting)     greeting.textContent    = `Welcome back. Your home is ready. ✨`;
+        setTimeout(() => {
+          if (badge) badge.textContent = `Welcome back, ${name} ✈️`;
+          /* Mark badge as name-personalised so periodic updates don't overwrite it */
+          if (badge) badge.dataset.guestName = name;
+        }, 200);
+      } else {
+        if (greeting) greeting.textContent = 'Welcome — your sanctuary awaits. ✨';
+      }
+    }
+  } catch(e) {}
+})();
+
+
+
+/* ── ADMIN EASTER EGG RESET ── */
+(function() {
+  const footer = document.getElementById('footerCopyright');
+  if (!footer) return;
+  let tapCount = 0, tapTimer;
+  footer.addEventListener('click', function() {
+    tapCount++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { tapCount = 0; }, 1800);
+    if (tapCount >= 5) {
+      tapCount = 0;
+      const resetLink = document.getElementById('adminResetLink');
+      if (resetLink) {
+        resetLink.style.display = resetLink.style.display === 'none' ? 'inline-block' : 'none';
+      }
+               }
   });
 })();
+function adminReset() {
+  try {
+    localStorage.removeItem('ch_welcome_seen');
+    localStorage.removeItem('ch_guest_name');
+    localStorage.removeItem('ch_first_access');
+  } catch(e) {}
+  const btn = document.getElementById('adminResetLink');
+  if (btn) { btn.textContent = '✓ Reset! Reloading…'; btn.disabled = true; }
+  setTimeout(() => location.reload(), 900);
+}
+
+
 </script>
 </body>
 </html>
