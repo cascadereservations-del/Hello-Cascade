@@ -2421,10 +2421,10 @@ body::after {
           <span class="csub">Facebook · We respond promptly and warmly</span>
         </div>
       </a>
-      <a class="contact-opt" href="mailto:cascadereservations@gmail.com" target="_blank" rel="noopener noreferrer">
+      <a class="contact-opt" href="/cdn-cgi/l/email-protection#355654465654515047504650474354415c5a5b46755258545c591b565a58" target="_blank" rel="noopener noreferrer">
         <div class="cicon">✉️</div>
         <div>
-          <span>cascadereservations@gmail.com</span>
+          <span><span class="__cf_email__" data-cfemail="98fbf9ebfbf9fcfdeafdebfdeaeef9ecf1f7f6ebd8fff5f9f1f4b6fbf7f5">[email&#160;protected]</span></span>
           <span class="csub">Write to us — we read every message</span>
         </div>
       </a>
@@ -2434,7 +2434,7 @@ body::after {
 </div>
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* BACKGROUND WEATHER FETCH */
 (function() {
@@ -2870,9 +2870,13 @@ function dismissWelcome() {
     setTimeout(() => {
       splash.style.display = 'none';
       if (app) app.style.visibility = '';
+      /* FIX v7.5: scroll to top so welcome banner is the first thing visible,
+         not the check-in card which was being shown due to restored scroll position */
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }, 560);
   } else {
     if (app) app.style.visibility = '';
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 }
 
@@ -2929,13 +2933,4 @@ function dismissWelcome() {
 })();
 function adminReset() {
   try {
-    localStorage.removeItem('ch_welcome_seen');
-    localStorage.removeItem('ch_guest_name');
-    localStorage.removeItem('ch_first_access');
-    showToast('🔒 Guide reset — reloading for new guest…');
-    setTimeout(() => location.reload(), 1200);
-  } catch(e) {}
-}
-</script>
-</body>
-</html>
+    localStorage.removeItem('ch_welc
