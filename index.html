@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="Cascade Guide"/>
 <meta name="theme-color" content="#1C1006"/>
 <title>Cascade Hideaway — You're Arriving Today</title>
-<!-- v7.4: CF email fix · countdown logic · badge race fix · noscript styles · callout radius · swipe timing · clock interval · greeting consistency · luxury tone -->
+<!-- v7.5: rubber-band scroll fix · QR retry cap · 1s clock · scroll-padding fix · 7-day expiry -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -54,35 +54,24 @@
    DESIGN TOKENS — Dark Mahogany · Champagne Gold · Warm Cream
 ═══════════════════════════════════════════════════════════ */
 :root {
-  /* Gold spectrum */
   --gold:         #C9963A;
   --gold-rich:    #A87528;
   --gold-light:   #E0B86A;
   --gold-pale:    #F5E6C3;
   --gold-line:    #D4A852;
-
-  /* Dark bases */
   --mahogany:     #1C1006;
   --mahogany-mid: #2A1A08;
   --mahogany-3:   #3A2410;
-
-  /* Creamy surfaces */
   --bg:           #F7F2E8;
   --surface:      #FBF8F0;
   --surface-alt:  #F2ECD8;
   --surface-warm: #FDF9F0;
   --parchment:    #EEE5CC;
-
-  /* Text — dark warm hierarchy */
   --text:         #1C1006;
   --text-mid:     #4A3520;
   --text-muted:   #7A6040;
-
-  /* Alerts */
   --red-alert:    #b91c1c;
   --green-ok:     #15803d;
-
-  /* Interface */
   --border:         rgba(160,117,40,0.18);
   --border-strong:  rgba(160,117,40,0.38);
   --border-gold:    rgba(201,150,58,0.4);
@@ -91,8 +80,6 @@
   --shadow-md:  0 4px 28px rgba(28,16,6,0.12), 0 2px 7px rgba(28,16,6,0.06);
   --shadow-lg:  0 8px 52px rgba(28,16,6,0.16), 0 2px 10px rgba(28,16,6,0.07);
   --shadow-gold: 0 4px 24px rgba(201,150,58,0.25);
-
-  /* Legacy compat */
   --accent-gold: var(--gold);
   --dark-bronze: var(--mahogany);
   --warm-cream:  var(--surface-alt);
@@ -118,15 +105,21 @@
 
 /* ═══════════════════════════════════════════════════════════
    BASE
+   FIX v7.5: overscroll-behavior:none on both html+body prevents
+   iOS rubber-band / Android over-scroll bounce at page boundaries.
+   The JS section-snap swipe handler has been fully removed — it was
+   intercepting normal vertical scroll on long cards and forcing a
+   jump to the next section, producing the "rubber band" effect.
+   Scrolling is now 100% native: smooth, continuous, document-like.
 ═══════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 * { -webkit-tap-highlight-color: rgba(160,117,40,0.15); }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 120px;
+  /* FIX v7.5: JS sets this precisely after header measures — CSS fallback only */
+  scroll-padding-top: 80px;
   -webkit-text-size-adjust: 100%;
-  /* Kill rubber-band overscroll */
   overscroll-behavior: none;
   height: 100%;
 }
@@ -142,13 +135,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   line-height: 1.65;
-  /* Prevent rubber-band bounce */
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
 
-/* Subtle warm linen texture */
 body::before {
   content: '';
   position: fixed;
@@ -160,7 +151,6 @@ body::before {
   background-size: 160px;
 }
 
-/* Confidential watermark */
 body::after {
   content: 'CONFIDENTIAL — CASCADE HIDEAWAY';
   position: fixed;
@@ -183,7 +173,7 @@ body::after {
 #app { position: relative; z-index: 2; }
 
 /* ═══════════════════════════════════════════════════════════
-   HEADER — rich dark mahogany with gold accents
+   HEADER
 ═══════════════════════════════════════════════════════════ */
 .site-header {
   background: linear-gradient(160deg, #231408 0%, #160D04 55%, #1E1208 100%);
@@ -194,7 +184,6 @@ body::after {
   top: 0;
   z-index: 200;
   box-shadow: 0 4px 36px rgba(0,0,0,0.45);
-  /* Smooth transition for all scroll-shrink properties */
   transition:
     padding 0.35s cubic-bezier(0.4,0,0.2,1),
     background 0.35s ease,
@@ -202,7 +191,6 @@ body::after {
     backdrop-filter 0.35s ease;
   will-change: padding, background;
 }
-/* Scrolled — compact transparent bar */
 .site-header.scrolled {
   padding: 0.45rem clamp(1rem,4vw,2rem) 0.45rem;
   background: rgba(20, 10, 3, 0.72);
@@ -210,23 +198,15 @@ body::after {
   -webkit-backdrop-filter: blur(18px) saturate(1.4);
   box-shadow: 0 1px 0 rgba(201,150,58,0.18), 0 2px 24px rgba(0,0,0,0.35);
 }
-/* Hide h1 tagline + sub when scrolled */
 .site-header.scrolled h1 em,
-.site-header.scrolled .sub {
-  display: none;
-}
-/* Shrink h1 title when scrolled */
+.site-header.scrolled .sub { display: none; }
 .site-header.scrolled h1 {
   font-size: clamp(1rem, 3.5vw, 1.35rem);
   margin: 0;
   animation: none;
   text-shadow: none;
 }
-/* Compact header-top spacing when scrolled */
-.site-header.scrolled .header-top {
-  margin-bottom: 0.2rem;
-}
-/* Badge smaller when scrolled */
+.site-header.scrolled .header-top { margin-bottom: 0.2rem; }
 .site-header.scrolled .badge {
   font-size: clamp(0.52rem, 1.5vw, 0.62rem);
   padding: 0.2rem 0.6rem;
@@ -421,7 +401,7 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CARDS — creamy parchment with golden top line
+   CARDS
 ═══════════════════════════════════════════════════════════ */
 .card {
   background: var(--surface);
@@ -460,7 +440,6 @@ body::after {
   gap: 0.4rem;
 }
 
-/* Section divider */
 .section-divider {
   display: flex;
   align-items: center;
@@ -561,7 +540,6 @@ body::after {
 }
 .btn-danger:hover { background: rgba(185,28,28,0.13); transform: translateY(-1px); }
 
-/* Address box */
 .address-box {
   display: flex;
   align-items: center;
@@ -829,10 +807,8 @@ body::after {
 #wifi-qr canvas, #wifi-qr img { border-radius: 0.875rem; max-width: 164px; height: auto; display: block; margin: 0 auto; }
 
 /* ═══════════════════════════════════════════════════════════
-   FOOD & DELIVERY SECTION — highlighted luxury style
+   FOOD & DELIVERY SECTION
 ═══════════════════════════════════════════════════════════ */
-
-/* Food section special card background */
 #section-food {
   background: linear-gradient(160deg, #FBF7EE 0%, #F7F0E0 100%);
   border-color: rgba(160,117,40,0.28);
@@ -843,7 +819,6 @@ body::after {
   opacity: 1;
 }
 
-/* Delivery apps grid */
 .delivery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -884,11 +859,9 @@ body::after {
   font-size: 1.2rem;
   line-height: 1;
   flex-shrink: 0;
-  /* Subtle inset shadow for depth, no harsh box-shadow */
   box-shadow: inset 0 1px 2px rgba(255,255,255,0.15), 0 1px 4px rgba(0,0,0,0.12);
 }
 
-/* Groceries callout — highlighted */
 .grocery-callout {
   background: linear-gradient(135deg, rgba(201,150,58,0.1), rgba(160,117,40,0.06));
   border: 1.5px solid rgba(201,150,58,0.3);
@@ -942,7 +915,6 @@ body::after {
 }
 .grocery-app-chip:hover { background: var(--parchment); border-color: var(--gold); transform: translateY(-1px); }
 
-/* Food tips */
 .food-tip {
   display: flex;
   align-items: flex-start;
@@ -958,7 +930,6 @@ body::after {
 .food-tip .fticon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
 .food-tip strong { color: var(--mahogany); }
 
-/* Sari-sari callout */
 .sarisari-tip {
   background: rgba(201,150,58,0.07);
   border: 1.5px solid rgba(201,150,58,0.22);
@@ -973,7 +944,6 @@ body::after {
 }
 .sarisari-tip strong { color: var(--mahogany); }
 
-/* Grab ride row */
 .grab-ride-row {
   background: rgba(0,177,79,0.06);
   border: 1.5px solid rgba(0,177,79,0.2);
@@ -1007,7 +977,6 @@ body::after {
 }
 .btn-grab:hover { background: #009B44; transform: translateY(-1px); }
 
-/* Nearby chips */
 .nearby-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
 .nearby-chip {
   display: inline-flex;
@@ -1026,7 +995,6 @@ body::after {
 }
 .nearby-chip:hover { border-color: var(--border-gold); background: var(--parchment); transform: translateY(-1px); }
 
-/* Coffee cards */
 .coffee-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; }
 .coffee-card {
   background: var(--surface);
@@ -1174,7 +1142,6 @@ body::after {
   color: var(--gold);
 }
 
-/* Back to top */
 .back-top {
   position: fixed;
   bottom: 5.5rem;
@@ -1198,7 +1165,6 @@ body::after {
 .back-top:hover { background: var(--parchment); transform: translateY(-2px); border-color: var(--gold); }
 .back-top.visible { display: flex; }
 
-/* Toast */
 .toast {
   position: fixed;
   bottom: 5.5rem;
@@ -1380,30 +1346,7 @@ body::after {
 .animate.visible .time-block:nth-child(1) { animation-delay: 0.05s; }
 .animate.visible .time-block:nth-child(2) { animation-delay: 0.12s; }
 
-/* Swipe hint */
-.swipe-hint {
-  display: none;
-  position: fixed;
-  bottom: 6.75rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(28,16,6,0.88);
-  color: var(--gold-light);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 0.5rem 1.125rem;
-  border-radius: 999px;
-  z-index: 298;
-  pointer-events: none;
-  white-space: nowrap;
-  letter-spacing: 0.05em;
-  border: 1px solid rgba(201,150,58,0.3);
-  animation: fadeIn 0.4s ease-out, fadeSwipeOut 0.4s ease-in 2.5s both;
-}
-@keyframes fadeSwipeOut {
-  to { opacity: 0; transform: translateX(-50%) translateY(6px); }
-}
-@media (max-width: 600px) { .swipe-hint { display: block; } }
+/* FIX v7.5: swipe-hint removed — no section-snap swipe anymore */
 
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE
@@ -1594,7 +1537,6 @@ body::after {
 .wifi-field.ripple-green  { animation: rippleGreen 0.6s ease-out; }
 .btn-copy-addr.ripple-gold { animation: rippleGold 0.6s ease-out; }
 
-
 /* ═══════════════════════════════════════════════════════════
    ADMIN RESET
 ═══════════════════════════════════════════════════════════ */
@@ -1638,19 +1580,15 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   WELCOME BANNER — LUXURY HOTEL POSTCARD
-   Cream parchment card — inverted to match the guide's light cards
-   Background forced via inline style; CSS here handles layout only
+   WELCOME BANNER
 ═══════════════════════════════════════════════════════════ */
-
 .welcome-banner {
-  display: none; /* JS sets to block */
+  display: none;
   width: 100%;
   max-width: 560px;
   margin: 0 auto;
   box-sizing: border-box;
   border-radius: clamp(0.75rem, 2vw, 1.125rem);
-  /* Border + shadow matching the guide's light cards */
   border: 1px solid rgba(160,117,40,0.22);
   box-shadow:
     0 6px 36px rgba(28,16,6,0.1),
@@ -1664,7 +1602,6 @@ body::after {
   from { opacity: 0; transform: translateY(18px) scale(0.985); }
   to   { opacity: 1; transform: translateY(0)   scale(1); }
 }
-/* Gold hairline at top */
 .welcome-banner::before {
   content: '';
   position: absolute;
@@ -1679,7 +1616,6 @@ body::after {
     transparent 100%);
   z-index: 2;
 }
-/* Paper texture overlay */
 .welcome-banner::after {
   content: '';
   position: absolute;
@@ -1696,7 +1632,6 @@ body::after {
   z-index: 0;
 }
 
-/* ── Inner notecard body ── */
 .wb-inner {
   position: relative;
   z-index: 1;
@@ -1733,7 +1668,6 @@ body::after {
   margin: 0;
 }
 
-/* Ornamental rule */
 .wb-rule {
   width: 100%;
   max-width: 280px;
@@ -1756,9 +1690,8 @@ body::after {
   color: rgba(160,117,40,0.55);
 }
 
-/* Guest name — the hero */
 .wb-name-block {
-  display: none; /* shown by JS */
+  display: none;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -1779,7 +1712,6 @@ body::after {
   font-weight: 600;
   letter-spacing: 0.05em;
   line-height: 1.0;
-  /* Rich mahogany-to-gold gradient on the name */
   color: #1C1006;
   background: linear-gradient(135deg, #3A2008 20%, #A07528 60%, #7A4A10 100%);
   -webkit-background-clip: text;
@@ -1793,7 +1725,6 @@ body::after {
   max-width: 100%;
 }
 
-/* Greeting */
 .wb-greeting {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(1rem, 3vw, 1.25rem);
@@ -1805,7 +1736,6 @@ body::after {
   display: block;
 }
 
-/* Body */
 .wb-body {
   font-family: 'Raleway', Arial, sans-serif;
   font-size: clamp(0.78rem, 2.1vw, 0.85rem);
@@ -1816,7 +1746,6 @@ body::after {
   display: block;
 }
 
-/* Signature */
 .wb-sig {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(0.85rem, 2.3vw, 0.95rem);
@@ -1834,7 +1763,6 @@ body::after {
   letter-spacing: 0.02em;
 }
 
-/* Footer */
 .wb-footer {
   font-family: 'Raleway', Arial, sans-serif;
   font-size: clamp(0.48rem, 1.3vw, 0.55rem);
@@ -1845,7 +1773,6 @@ body::after {
   display: block;
 }
 
-/* ── Responsive ── */
 @media (max-width: 480px) {
   .wb-name  { font-size: clamp(2.2rem, 12vw, 3rem); }
   .wb-hotel { font-size: clamp(1.3rem, 6vw, 1.7rem); }
@@ -1939,7 +1866,7 @@ body::after {
   </h1>
   <p class="sub">Bria Homes · Conel Road · Block 47, Lot 39 · General Santos City</p>
 
-  <!-- ═══════════════ QUICK NAV (inside header) ═══════════════ -->
+  <!-- QUICK NAV -->
   <nav class="quick-nav" aria-label="Quick navigation" id="quickNav">
     <div class="quick-nav-inner">
       <a class="qn-btn" href="#section-times" aria-label="Times">
@@ -1981,25 +1908,18 @@ body::after {
 <!-- ═══════════════ CONTENT ═══════════════ -->
 <div class="container">
 
-  <!-- WELCOME BANNER — luxury hotel postcard, shown after splash dismiss -->
-  <!-- Background forced inline — immune to CSS cascade stripping dark card -->
+  <!-- WELCOME BANNER -->
   <div class="welcome-banner" id="welcomeBanner"
        style="display:none; background-color:#FBF7EE; background-image:linear-gradient(160deg,#FDF9F2 0%,#F7F0E2 50%,#F9F4EA 100%);">
     <div class="wb-inner">
-
-      <!-- ── Property header ── -->
       <div class="wb-crest">🌴</div>
       <div class="wb-hotel">Cascade Hideaway</div>
       <div class="wb-tagline">Hotel Comfort &nbsp;·&nbsp; Home Warmth</div>
-
-      <!-- Ornamental rule -->
       <div class="wb-rule" aria-hidden="true">
         <div class="wb-rule-line"></div>
         <div class="wb-rule-gem">✦</div>
         <div class="wb-rule-line right"></div>
       </div>
-
-      <!-- ── Guest name — hero section (hidden until name entered) ── -->
       <div class="wb-name-block" id="wbNameBlock">
         <span class="wb-dear">Dear</span>
         <span class="wb-name" id="wbGuestName"></span>
@@ -2009,38 +1929,27 @@ body::after {
           <div class="wb-rule-line right"></div>
         </div>
       </div>
-
-      <!-- ── Greeting ── -->
       <div class="wb-greeting" id="wbGreeting" style="margin-bottom:0.75rem;">Welcome — your sanctuary awaits. ✨</div>
-
-      <!-- ── Body message ── -->
       <div class="wb-body">
         At Cascade Hideaway, every detail has been lovingly curated — soft light, unhurried spaces, and the kind of warmth that invites you to slow down and truly breathe. Whether you're here to rest, to work, or simply to be — this sanctuary is entirely and completely yours.
       </div>
-
-      <!-- Ornamental rule -->
       <div class="wb-rule" aria-hidden="true" style="margin-top:1rem;">
         <div class="wb-rule-line"></div>
         <div class="wb-rule-gem">✦</div>
         <div class="wb-rule-line right"></div>
       </div>
-
-      <!-- ── Signature ── -->
       <div class="wb-sig">
         With Warm Regards,<br>
         <span class="wb-sig-name">Marifel &amp; The Cascade Team</span>
       </div>
-
-      <!-- ── Footer ── -->
       <div class="wb-rule" aria-hidden="true" style="max-width:180px; margin-top:1rem; margin-bottom:0.6rem;">
         <div class="wb-rule-line"></div>
         <div class="wb-rule-gem">✦</div>
         <div class="wb-rule-line right"></div>
       </div>
       <div class="wb-footer">🌿 &nbsp; Hotel Comfort, Home Warmth &nbsp; 🌿</div>
-
-    </div><!-- /.wb-inner -->
-  </div><!-- /#welcomeBanner -->
+    </div>
+  </div>
 
   <!-- 1 · CHECK-IN / OUT TIMES -->
   <div class="card critical animate" id="section-times">
@@ -2200,30 +2109,25 @@ body::after {
   <div class="card animate" id="section-food">
     <p class="card-title">✦ Dining, Delivery &amp; Culinary Discoveries</p>
 
-    <!-- Delivery apps with real brand SVG logos -->
     <div class="delivery-grid">
-      <!-- FoodPanda: muted dusty rose + panda -->
       <a class="delivery-btn" href="https://www.foodpanda.ph/" target="_blank" rel="noopener noreferrer" aria-label="Foodpanda" onclick="openFoodpanda(event)">
         <span class="dicon">
           <span class="delivery-icon-circle" style="background:rgba(183,42,99,0.15); border:1.5px solid rgba(183,42,99,0.25);">🐼</span>
         </span>
         <span>foodpanda</span>
       </a>
-      <!-- GrabFood: muted sage green + scooter -->
       <a class="delivery-btn" href="https://food.grab.com/ph/en/" target="_blank" rel="noopener noreferrer" aria-label="GrabFood">
         <span class="dicon">
           <span class="delivery-icon-circle" style="background:rgba(0,140,70,0.12); border:1.5px solid rgba(0,140,70,0.22);">🛵</span>
         </span>
         <span>GrabFood</span>
       </a>
-      <!-- Jollibee: muted warm red + bee -->
       <a class="delivery-btn" href="https://www.jollibeedelivery.com/" target="_blank" rel="noopener noreferrer" aria-label="Jollibee">
         <span class="dicon">
           <span class="delivery-icon-circle" style="background:rgba(190,24,36,0.12); border:1.5px solid rgba(190,24,36,0.22);">🐝</span>
         </span>
         <span>Jollibee</span>
       </a>
-      <!-- McDelivery: muted red + fries -->
       <a class="delivery-btn" href="https://www.mcdelivery.com.ph/" target="_blank" rel="noopener noreferrer" aria-label="McDelivery">
         <span class="dicon">
           <span class="delivery-icon-circle" style="background:rgba(196,30,20,0.12); border:1.5px solid rgba(196,30,20,0.22);">🍟</span>
@@ -2232,7 +2136,6 @@ body::after {
       </a>
     </div>
 
-    <!-- Groceries highlighted callout -->
     <div class="grocery-callout">
       <div class="grocery-callout-title">✦ Groceries &amp; Essentials — Delivered to Your Doorstep</div>
       <div>There is truly no need to venture out for supplies. Both foodpanda and GrabFood offer a dedicated <strong>Mart &amp; Grocery</strong> section — fresh drinks, wholesome snacks, toiletries, and daily essentials delivered directly and swiftly to your sanctuary.</div>
@@ -2248,7 +2151,6 @@ body::after {
       </div>
     </div>
 
-    <!-- Food tips — luxury tone -->
     <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.75rem;">
       <div class="food-tip">
         <span class="fticon">⏱️</span>
@@ -2269,7 +2171,6 @@ body::after {
       </div>
     </div>
 
-    <!-- Grab ride row -->
     <div class="grab-ride-row">
       <span class="gr-icon">
         <svg width="30" height="30" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="29" fill="#00B14F"/><path d="M44 29H31.5v7h7.2C36.8 40.2 33.6 42 30 42C23.9 42 19 37.1 19 31C19 24.9 23.9 20 30 20C32.8 20 35.3 21.1 37.1 22.9L41.5 18.4C38.7 15.7 34.6 14 30 14C20.6 14 13 21.6 13 31C13 40.4 20.6 48 30 48C39 48 46 41.2 46 32.1V29H44Z" fill="white"/></svg>
@@ -2282,7 +2183,6 @@ body::after {
       <a class="btn-grab" href="grab://open" onclick="openGrabApp(event)" aria-label="Open Grab app">Open Grab</a>
     </div>
 
-    <!-- Nearby -->
     <div style="margin-top:0.875rem;">
       <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.5rem;">✦ Nearby Conveniences</div>
       <div class="nearby-row">
@@ -2296,7 +2196,6 @@ body::after {
           💊 Mercury Drug
         </a>
       </div>
-      <!-- Neighbourhood Gems -->
       <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin:0.875rem 0 0.5rem;">🌟 Neighbourhood Treasures</div>
       <div style="display:flex;flex-direction:column;gap:0.5rem;">
         <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:0.875rem;padding:0.75rem 0.875rem;">
@@ -2315,7 +2214,6 @@ body::after {
       <div style="font-size:0.73rem;color:var(--text-muted);margin-top:0.5rem;">Tricycles wait patiently just outside the Bria gate — kindly agree on a fare before boarding, and do keep small bills and coins at hand. Cash only.</div>
     </div>
 
-    <!-- Coffee shops — luxury descriptions -->
     <div style="margin-top:1rem;">
       <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.625rem;">☕ Cafés Worth Discovering</div>
       <div class="coffee-grid">
@@ -2471,7 +2369,7 @@ body::after {
 <footer class="site-footer">
   <em>Prepared with care and warmth, exclusively for our cherished guests.</em>
   <span id="footerCopyright" style="cursor:default;user-select:none;display:block;" title="">© Cascade Hideaway · Bria Homes, General Santos City 🌴</span>
-  <button id="adminResetLink" onclick="adminReset()" aria-label="Admin: reset guide for new guest">🔒 Admin: Reset Guide</button>
+  <button id="adminResetLink" style="display:none;" onclick="adminReset()" aria-label="Admin: reset guide for new guest">🔒 Admin: Reset Guide</button>
 </footer>
 
 </div><!-- /app -->
@@ -2481,9 +2379,6 @@ body::after {
 
 <!-- ═══════════════ BACK TO TOP ═══════════════ -->
 <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
-
-<!-- ═══════════════ SWIPE HINT ═══════════════ -->
-<div class="swipe-hint" id="swipeHint">Swipe up to explore ↑</div>
 
 <!-- ═══════════════ FLOATING CONTACT ═══════════════ -->
 <div class="float-contact">
@@ -2541,7 +2436,7 @@ body::after {
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script>
 
-/* BACKGROUND WEATHER FETCH — powers badge for evening/night */
+/* BACKGROUND WEATHER FETCH */
 (function() {
   const LAT = 6.1164, LON = 125.1716;
   const WMO_ICON = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
@@ -2569,44 +2464,43 @@ const CONFIG = {
 /* SCROLL PROGRESS */
 const progressBar = document.getElementById('scrollProgress');
 const siteHeader  = document.getElementById('siteHeader');
-const SHRINK_PX   = 60; // pixels scrolled before header collapses
+const SHRINK_PX   = 60;
 
 function updateProgress() {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 
-  /* Header shrink — compact transparent on scroll */
   if (siteHeader) {
     const wasScrolled = siteHeader.classList.contains('scrolled');
     const isScrolled  = scrollTop > SHRINK_PX;
     if (isScrolled !== wasScrolled) {
       siteHeader.classList.toggle('scrolled', isScrolled);
-      /* Re-measure header height so quick-nav top offset stays correct */
       requestAnimationFrame(setHeaderHeight);
     }
   }
 
-  /* Scroll progress bar */
   const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 1000) / 10 : 0;
   if (progressBar) progressBar.style.width = pct + '%';
 }
 window.addEventListener('scroll', updateProgress, { passive: true });
 
-/* HEADER HEIGHT */
+/* HEADER HEIGHT
+   FIX v7.5: sets scroll-padding-top precisely based on actual rendered header height,
+   so Quick Nav anchor links land correctly on every device and orientation. */
 function setHeaderHeight() {
   const header = document.getElementById('siteHeader');
-  const nav    = document.getElementById('quickNav');
   if (header) {
     const hh = header.offsetHeight;
     document.documentElement.style.setProperty('--header-h', hh + 'px');
-    const nh = nav ? nav.offsetHeight : 0;
-    document.documentElement.style.scrollPaddingTop = (hh + nh + 12) + 'px';
+    document.documentElement.style.scrollPaddingTop = (hh + 8) + 'px';
   }
 }
 setHeaderHeight();
 window.addEventListener('resize', setHeaderHeight);
 
-/* LIVE CLOCK */
+/* LIVE CLOCK
+   FIX v7.5: interval changed from 10000ms → 1000ms so the clock updates every second
+   rather than appearing frozen for up to 10 seconds at a time. */
 function getPHTime() {
   return new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
 }
@@ -2631,12 +2525,9 @@ function updateBadgeAndCountdown() {
   const wx = window._cascadeWeather || null;
   const wxStr = wx ? ` · ${wx.icon} ${wx.temp}°C outside` : '';
 
-  /* Only update badge text if guest name hasn't been applied yet */
   let guestNameInBadge = false;
   try {
-    if (badge && badge.dataset.guestName) {
-      guestNameInBadge = true;
-    }
+    if (badge && badge.dataset.guestName) guestNameInBadge = true;
   } catch(e) {}
 
   if (!guestNameInBadge) {
@@ -2645,7 +2536,7 @@ function updateBadgeAndCountdown() {
     else if (h >= 12 && h < 14) badgeText = '☀️ Almost Time — Your Home Is Being Prepared';
     else if (h >= 14 && h < 18) badgeText = '🔑 Welcome — Your Sanctuary Is Ready';
     else if (h >= 18 && h < 21) badgeText = `🌆 Good Evening — Welcome Home${wxStr}`;
-    else                         badgeText = `🌙 Step right in${wxStr ? ` · ${wx.icon} ${wx.temp}°C — your A/C awaits` : ' — your A/C awaits 🛋️'}`;
+    else                         badgeText = `🌙 Step right in${wx ? ` · ${wx.icon} ${wx.temp}°C — your A/C awaits` : ' — your A/C awaits 🛋️'}`;
     if (badge) badge.textContent = badgeText;
   }
 
@@ -2658,20 +2549,20 @@ function updateBadgeAndCountdown() {
       countdown.textContent = 'Your sanctuary is ready ✓';
     } else {
       const totalMinsUntil = (14 * 60) - (h * 60 + m);
-      const hrsLeft = Math.floor(totalMinsUntil / 60);
+      const hrsLeft  = Math.floor(totalMinsUntil / 60);
       const minsLeft = totalMinsUntil % 60;
-      if (hrsLeft > 0) {
-        countdown.textContent = `Check-in opens in ${hrsLeft}h ${minsLeft}m`;
-      } else {
-        countdown.textContent = `Check-in opens in ${minsLeft} min`;
-      }
+      countdown.textContent = hrsLeft > 0
+        ? `Check-in opens in ${hrsLeft}h ${minsLeft}m`
+        : `Check-in opens in ${minsLeft} min`;
     }
   }
 }
 
 updateClock();
 updateBadgeAndCountdown();
-setInterval(() => { updateClock(); updateBadgeAndCountdown(); }, 10000);
+/* FIX v7.5: clock ticks every 1s; badge/countdown still runs at 10s to reduce CPU */
+setInterval(updateClock, 1000);
+setInterval(updateBadgeAndCountdown, 10000);
 
 /* SCROLL ANIMATIONS */
 try {
@@ -2724,63 +2615,32 @@ window.addEventListener('scroll', () => {
   if (backTop) backTop.classList.toggle('visible', window.scrollY > 400);
 }, { passive: true });
 
-/* SMOOTH SCROLL — native enhanced, no rubber band */
+/* SMOOTH SCROLL — native enhanced */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', function(e) {
     const target = document.getElementById(this.getAttribute('href').slice(1));
     if (!target) return;
     e.preventDefault();
     const headerH = document.getElementById('siteHeader')?.offsetHeight || 0;
-    const navH    = document.getElementById('quickNav')?.offsetHeight || 0;
-    const offset  = target.getBoundingClientRect().top + window.scrollY - headerH - navH - 8;
+    const offset  = target.getBoundingClientRect().top + window.scrollY - headerH - 8;
     window.scrollTo({ top: offset, behavior: 'smooth' });
   });
 });
 
-/* SWIPE — section-to-section */
-(function() {
-  const sectionEls = Array.from(document.querySelectorAll('[id^="section-"]'));
-  let touchStartX = 0, touchStartY = 0, swipeLocked = false;
-  const hint = document.getElementById('swipeHint');
-  if (hint) setTimeout(() => { hint.style.display = 'none'; }, 2900);
-
-  document.addEventListener('touchstart', function(e) {
-    if (e.touches.length !== 1) return;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
-
-  document.addEventListener('touchend', function(e) {
-    if (swipeLocked) return;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    const dy = e.changedTouches[0].clientY - touchStartY;
-    const isVertical    = Math.abs(dy) > Math.abs(dx) * 1.5;
-    const isSignificant = Math.abs(dy) > 60;
-    const inPopup       = e.target.closest('.popup');
-    if (!isVertical || !isSignificant || inPopup) return;
-
-    let currentIdx = 0, bestRatio = 0;
-    sectionEls.forEach((s, i) => {
-      const r = s.getBoundingClientRect();
-      const visible = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
-      const ratio = visible / r.height;
-      if (ratio > bestRatio) { bestRatio = ratio; currentIdx = i; }
-    });
-
-    let targetIdx = dy < 0 ? currentIdx + 1 : currentIdx - 1;
-    targetIdx = Math.max(0, Math.min(sectionEls.length - 1, targetIdx));
-
-    if (targetIdx !== currentIdx) {
-      swipeLocked = true;
-      const target = sectionEls[targetIdx];
-      const headerH = document.getElementById('siteHeader')?.offsetHeight || 0;
-      const navH    = document.getElementById('quickNav')?.offsetHeight || 0;
-      const offset  = target.getBoundingClientRect().top + window.scrollY - headerH - navH - 8;
-      window.scrollTo({ top: offset, behavior: 'smooth' });
-      setTimeout(() => { swipeLocked = false; }, 700);
-    }
-  }, { passive: true });
-})();
+/*
+ * FIX v7.5: SECTION-SNAP SWIPE HANDLER REMOVED ENTIRELY
+ *
+ * The original touchstart/touchend handler intercepted any vertical swipe > 60px
+ * and called window.scrollTo() to the next/previous section. On long cards (Food,
+ * Amenities, Rules), a normal reading scroll of > 60px triggered this — snapping
+ * the viewport away mid-read and creating the "rubber band" effect reported.
+ *
+ * Removal restores 100% native scroll behaviour: smooth, continuous, document-like.
+ * Quick Nav buttons remain for section-to-section navigation on demand.
+ *
+ * The swipeHint UI element is also removed from the HTML since there is no swipe
+ * gesture to hint at anymore.
+ */
 
 /* COPY ADDRESS */
 function copyAddress(btn) {
@@ -2809,7 +2669,9 @@ function copyWifi(el, text, id) {
   }).catch(() => showToast('Please copy manually'));
 }
 
-/* WIFI QR CODE */
+/* WIFI QR CODE
+   FIX v7.5: retry loop now capped at 10 attempts (max ~8s wait) to prevent
+   infinite recursion if the QRCode library fails to load. */
 let qrGenerated = false;
 function toggleQR() {
   const panel  = document.getElementById('qrPanel');
@@ -2821,6 +2683,7 @@ function toggleQR() {
     toggle.setAttribute('aria-expanded', 'true');
     if (!qrGenerated) {
       const qrStr = `WIFI:T:WPA;S:${CONFIG.WIFI_SSID};P:${CONFIG.WIFI_PASS};;`;
+      let attempts = 0;
       const generate = () => {
         if (typeof QRCode !== 'undefined') {
           try {
@@ -2833,8 +2696,11 @@ function toggleQR() {
           } catch(e) {
             document.getElementById('wifi-qr').innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;">QR unavailable — use tap-to-copy above.</p>';
           }
-        } else {
+        } else if (attempts < 10) {
+          attempts++;
           setTimeout(generate, 800);
+        } else {
+          document.getElementById('wifi-qr').innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;">QR unavailable — use tap-to-copy above.</p>';
         }
       };
       generate();
@@ -2888,11 +2754,6 @@ function openFoodpanda(e) {
 function toggleAmenity(el) { el.classList.toggle('expanded'); }
 
 /* COPY PHONES */
-function copyPhone() {
-  navigator.clipboard.writeText(CONFIG.HOST_PHONE_2)
-    .then(() => showToast('✓ Phone number copied!'))
-    .catch(() => showToast(CONFIG.HOST_PHONE_2));
-}
 function copyJary() {
   navigator.clipboard.writeText(CONFIG.HOST_PHONE)
     .then(() => showToast(`✓ ${CONFIG.HOST_PHONE_LABEL}'s number copied!`))
@@ -2958,17 +2819,14 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContact
   handle.addEventListener('pointercancel', endDrag);
 })();
 
-/* ── WELCOME SPLASH ── */
+/* WELCOME SPLASH */
 (function() {
   const WELCOME_KEY = 'ch_welcome_seen';
   const splash = document.getElementById('welcomeSplash');
   const app    = document.getElementById('app');
   if (!splash) return;
-
-  // Check if expired overlay is visible — if so skip splash entirely
   const expiry = document.getElementById('expiryOverlay');
   if (expiry && expiry.style.display !== 'none' && expiry.style.display !== '') return;
-
   if (!localStorage.getItem(WELCOME_KEY)) {
     splash.style.display = 'flex';
     if (app) app.style.visibility = 'hidden';
@@ -3003,9 +2861,7 @@ function dismissWelcome() {
     if (nameBlock) nameBlock.style.display = 'none';
   }
 
-  if (banner) {
-    banner.style.display = 'block';
-  }
+  if (banner) banner.style.display = 'block';
 
   if (splash) {
     splash.style.opacity = '0';
@@ -3013,14 +2869,14 @@ function dismissWelcome() {
     splash.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
     setTimeout(() => {
       splash.style.display = 'none';
-      if (app) { app.style.visibility = ''; }
+      if (app) app.style.visibility = '';
     }, 560);
   } else {
     if (app) app.style.visibility = '';
   }
 }
 
-/* Apply stored guest name on reload (welcome already seen) */
+/* Apply stored guest name on reload */
 (function() {
   try {
     const name     = localStorage.getItem('ch_guest_name');
@@ -3040,7 +2896,12 @@ function dismissWelcome() {
           nameBlock.style.alignItems    = 'center';
         }
         if (greeting)     greeting.textContent    = `Welcome back. Your home is ready. ✨`;
-        setTimeout(() => { if (badge) badge.textContent = `Welcome back, ${name} ✈️`; }, 200);
+        setTimeout(() => {
+          if (badge) {
+            badge.textContent = `Welcome back, ${name} ✈️`;
+            badge.dataset.guestName = '1'; /* FIX v7.5: prevent updateBadgeAndCountdown overwriting on reload */
+          }
+        }, 200);
       } else {
         if (greeting) greeting.textContent = 'Welcome — your sanctuary awaits. ✨';
       }
@@ -3048,9 +2909,7 @@ function dismissWelcome() {
   } catch(e) {}
 })();
 
-
-
-/* ── ADMIN EASTER EGG RESET ── */
+/* ADMIN EASTER EGG RESET */
 (function() {
   const footer = document.getElementById('footerCopyright');
   if (!footer) return;
@@ -3065,7 +2924,7 @@ function dismissWelcome() {
       if (resetLink) {
         resetLink.style.display = resetLink.style.display === 'none' ? 'inline-block' : 'none';
       }
-               }
+    }
   });
 })();
 function adminReset() {
