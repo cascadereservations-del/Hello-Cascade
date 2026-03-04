@@ -2369,7 +2369,7 @@ body::after {
 <footer class="site-footer">
   <em>Prepared with care and warmth, exclusively for our cherished guests.</em>
   <span id="footerCopyright" style="cursor:default;user-select:none;display:block;" title="">© Cascade Hideaway · Bria Homes, General Santos City 🌴</span>
-  <button id="adminResetLink" style="display:none;" onclick="adminReset()" aria-label="Admin: reset guide for new guest">🔒 Admin: Reset Guide</button>
+  <button id="adminResetLink" onclick="adminReset()" aria-label="Admin: reset guide for new guest">🔒 Admin: Reset Guide</button>
 </footer>
 
 </div><!-- /app -->
@@ -2421,10 +2421,10 @@ body::after {
           <span class="csub">Facebook · We respond promptly and warmly</span>
         </div>
       </a>
-      <a class="contact-opt" href="/cdn-cgi/l/email-protection#355654465654515047504650474354415c5a5b46755258545c591b565a58" target="_blank" rel="noopener noreferrer">
+      <a class="contact-opt" href="mailto:cascadereservations@gmail.com" target="_blank" rel="noopener noreferrer">
         <div class="cicon">✉️</div>
         <div>
-          <span><span class="__cf_email__" data-cfemail="98fbf9ebfbf9fcfdeafdebfdeaeef9ecf1f7f6ebd8fff5f9f1f4b6fbf7f5">[email&#160;protected]</span></span>
+          <span>cascadereservations@gmail.com</span>
           <span class="csub">Write to us — we read every message</span>
         </div>
       </a>
@@ -2435,6 +2435,10 @@ body::after {
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+/* SCROLL RESTORATION — prevent browser from restoring previous scroll position
+   so the welcome banner is always the first thing guests see on entry */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 /* BACKGROUND WEATHER FETCH */
 (function() {
@@ -2489,6 +2493,7 @@ window.addEventListener('scroll', updateProgress, { passive: true });
    so Quick Nav anchor links land correctly on every device and orientation. */
 function setHeaderHeight() {
   const header = document.getElementById('siteHeader');
+  const nav    = document.getElementById('quickNav');
   if (header) {
     const hh = header.offsetHeight;
     document.documentElement.style.setProperty('--header-h', hh + 'px');
@@ -2754,6 +2759,11 @@ function openFoodpanda(e) {
 function toggleAmenity(el) { el.classList.toggle('expanded'); }
 
 /* COPY PHONES */
+function copyPhone() {
+  navigator.clipboard.writeText(CONFIG.HOST_PHONE_2)
+    .then(() => showToast('✓ Phone number copied!'))
+    .catch(() => showToast(CONFIG.HOST_PHONE_2));
+}
 function copyJary() {
   navigator.clipboard.writeText(CONFIG.HOST_PHONE)
     .then(() => showToast(`✓ ${CONFIG.HOST_PHONE_LABEL}'s number copied!`))
@@ -2870,13 +2880,12 @@ function dismissWelcome() {
     setTimeout(() => {
       splash.style.display = 'none';
       if (app) app.style.visibility = '';
-      /* FIX v7.5: scroll to top so welcome banner is the first thing visible,
-         not the check-in card which was being shown due to restored scroll position */
+      /* Ensure welcome banner is always the first thing the guest sees —
+         reset scroll position to top after the splash fades out */
       window.scrollTo({ top: 0, behavior: 'instant' });
     }, 560);
   } else {
     if (app) app.style.visibility = '';
-    window.scrollTo({ top: 0, behavior: 'instant' });
   }
 }
 
@@ -2900,12 +2909,7 @@ function dismissWelcome() {
           nameBlock.style.alignItems    = 'center';
         }
         if (greeting)     greeting.textContent    = `Welcome back. Your home is ready. ✨`;
-        setTimeout(() => {
-          if (badge) {
-            badge.textContent = `Welcome back, ${name} ✈️`;
-            badge.dataset.guestName = '1'; /* FIX v7.5: prevent updateBadgeAndCountdown overwriting on reload */
-          }
-        }, 200);
+        setTimeout(() => { if (badge) badge.textContent = `Welcome back, ${name} ✈️`; }, 200);
       } else {
         if (greeting) greeting.textContent = 'Welcome — your sanctuary awaits. ✨';
       }
@@ -2933,4 +2937,12 @@ function dismissWelcome() {
 })();
 function adminReset() {
   try {
-    localStorage.removeItem('ch_welc
+    localStorage.removeItem('ch_welcome_seen');
+    localStorage.removeItem('ch_guest_name');
+    localStorage.removeItem('ch_first_access');
+  } catch(e) {}
+  location.reload();
+}
+</script>
+</body>
+</html>
