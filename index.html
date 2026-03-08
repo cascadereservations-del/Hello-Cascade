@@ -14,11 +14,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Cascade Guide"/>
 <meta name="theme-color" content="#1C1006"/>
-<title>Cascade Hideaway — You're Arriving Today</title>
-<!-- v7.5: rubber-band scroll fix · QR retry cap · 1s clock · scroll-padding fix · 7-day expiry -->
+<title>Cascade Hideaway — Welcome to Your Sanctuary</title>
+<!-- v9.0: font→Nunito (warm luxury) · checklist note moved as subtitle · tone & spacing refinements -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <script>
 (function() {
   var KEY = 'ch_first_access';
@@ -125,16 +125,16 @@ html {
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(14.5px, 2.2vw, 16.5px);
   background: var(--bg);
   color: var(--text);
-  letter-spacing: 0.018em;
+  letter-spacing: 0.012em;
   padding-bottom: 110px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
-  line-height: 1.65;
+  line-height: 1.72;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
   height: 100%;
@@ -233,6 +233,27 @@ body::after {
   bottom: 0; left: 0; right: 0;
   height: 1px;
   background: transparent;
+}
+
+.header-crest {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+  filter: drop-shadow(0 2px 10px rgba(201,150,58,0.4));
+  transition: opacity 0.35s ease, font-size 0.35s ease;
+}
+.site-header.scrolled .header-crest { display: none; }
+
+/* Nav horizontal scroll right-fade indicator */
+.quick-nav::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 28px;
+  background: linear-gradient(to right, transparent, rgba(16,8,2,0.55));
+  pointer-events: none;
+  border-radius: 0 0 0 0;
+  z-index: 2;
 }
 
 .header-top {
@@ -432,7 +453,7 @@ body::after {
   font-size: clamp(0.66rem, 1.9vw, 0.78rem);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   color: var(--gold-rich);
   margin-bottom: clamp(1rem, 2.5vw, 1.25rem);
   display: flex;
@@ -513,7 +534,7 @@ body::after {
   min-height: 50px;
   letter-spacing: 0.03em;
   touch-action: manipulation;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 .btn-row {
   display: grid;
@@ -573,7 +594,7 @@ body::after {
   font-weight: 700;
   color: var(--gold-rich);
   cursor: pointer;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
   min-height: 50px;
   min-width: 58px;
@@ -783,7 +804,7 @@ body::after {
   font-size: 0.84rem;
   font-weight: 600;
   color: var(--text);
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   transition: all 0.2s ease;
   min-height: 50px;
   width: 100%;
@@ -1130,7 +1151,7 @@ body::after {
   touch-action: manipulation;
   transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 4px 24px rgba(28,16,6,0.22), 0 0 0 1px rgba(201,150,58,0.12), inset 0 1px 0 rgba(255,255,255,0.04);
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   letter-spacing: 0.03em;
   white-space: nowrap;
 }
@@ -1160,7 +1181,7 @@ body::after {
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
   touch-action: manipulation;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 .back-top:hover { background: var(--parchment); transform: translateY(-2px); border-color: var(--gold); }
 .back-top.visible { display: flex; }
@@ -1172,7 +1193,7 @@ body::after {
   transform: translateX(-50%) translateY(12px);
   background: var(--mahogany);
   color: var(--gold-light);
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
   padding: 0.6rem 1.25rem;
@@ -1274,7 +1295,7 @@ body::after {
   border: 1.5px solid var(--border);
   border-radius: 0.875rem;
   color: var(--text-muted);
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
@@ -1467,7 +1488,7 @@ body::after {
   border: 1.5px solid rgba(201,150,58,0.3);
   border-radius: 0.75rem;
   padding: 0.75rem 1rem;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: 0.9rem;
   color: #FDF9F0;
   outline: none;
@@ -1482,7 +1503,7 @@ body::after {
   border-radius: 999px;
   background: linear-gradient(135deg, #E0B86A, #A87528);
   color: #1A0E04;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-weight: 700;
   font-size: 1rem;
   border: none;
@@ -1503,7 +1524,7 @@ body::after {
   animation: splashEnter 1.1s 0.85s both cubic-bezier(0.22,1,0.36,1);
   background: none;
   border: none;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   padding: 0.5rem;
 }
 .splash-skip:hover { color: rgba(255,255,255,0.5); }
@@ -1552,7 +1573,7 @@ body::after {
   font-weight: 600;
   cursor: pointer;
   letter-spacing: 0.07em;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   text-transform: uppercase;
 }
 #adminResetLink:hover { background: rgba(185,28,28,0.15); }
@@ -1583,10 +1604,9 @@ body::after {
    WELCOME BANNER
 ═══════════════════════════════════════════════════════════ */
 .welcome-banner {
-  display: none;
   width: 100%;
   max-width: 560px;
-  margin: 0 auto;
+  margin: 0 auto clamp(0.875rem, 2.5vw, 1.25rem);
   box-sizing: border-box;
   border-radius: clamp(0.75rem, 2vw, 1.125rem);
   border: 1px solid rgba(160,117,40,0.22);
@@ -1596,11 +1616,13 @@ body::after {
     inset 0 1px 0 rgba(255,255,255,0.7);
   position: relative;
   overflow: hidden;
-  animation: wbReveal 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
 }
 @keyframes wbReveal {
   from { opacity: 0; transform: translateY(18px) scale(0.985); }
   to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+.welcome-banner.visible {
+  animation: wbReveal 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
 }
 .welcome-banner::before {
   content: '';
@@ -1660,7 +1682,7 @@ body::after {
 }
 
 .wb-tagline {
-  font-family: 'Raleway', Arial, sans-serif;
+  font-family: 'Nunito', Arial, sans-serif;
   font-size: clamp(0.5rem, 1.5vw, 0.58rem);
   text-transform: uppercase;
   letter-spacing: 0.26em;
@@ -1737,7 +1759,7 @@ body::after {
 }
 
 .wb-body {
-  font-family: 'Raleway', Arial, sans-serif;
+  font-family: 'Nunito', Arial, sans-serif;
   font-size: clamp(0.78rem, 2.1vw, 0.85rem);
   color: rgba(74,53,32,0.7);
   line-height: 1.95;
@@ -1764,7 +1786,7 @@ body::after {
 }
 
 .wb-footer {
-  font-family: 'Raleway', Arial, sans-serif;
+  font-family: 'Nunito', Arial, sans-serif;
   font-size: clamp(0.48rem, 1.3vw, 0.55rem);
   text-transform: uppercase;
   letter-spacing: 0.25em;
@@ -1784,6 +1806,147 @@ body::after {
 .delivery-btn .dicon img { display: block; width: 38px; height: 38px; object-fit: contain; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.18)); border-radius: 8px; }
 
 /* ═══════════════════════════════════════════════════════════
+   CASCADE CONCIERGE SECTION — Dark inverted card
+═══════════════════════════════════════════════════════════ */
+.concierge-card {
+  background: linear-gradient(160deg, #1C1006 0%, #231408 55%, #1A0E04 100%);
+  border-color: rgba(201,150,58,0.28);
+  box-shadow: 0 6px 40px rgba(0,0,0,0.28), 0 2px 8px rgba(0,0,0,0.16);
+  position: relative;
+  overflow: hidden;
+}
+.concierge-card::before {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-rich), var(--gold), var(--gold-light), transparent);
+  opacity: 1;
+}
+.concierge-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% -10%, rgba(201,150,58,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.concierge-label {
+  font-size: clamp(0.58rem, 1.6vw, 0.68rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(201,150,58,0.65);
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.concierge-label::before,
+.concierge-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,150,58,0.3));
+}
+.concierge-label::after {
+  background: linear-gradient(90deg, rgba(201,150,58,0.3), transparent);
+}
+.concierge-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.35rem, 4vw, 1.85rem);
+  font-weight: 600;
+  color: #FDF9F0;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 30px rgba(201,150,58,0.15);
+}
+.concierge-sub {
+  font-size: 0.78rem;
+  color: rgba(224,184,106,0.55);
+  text-align: center;
+  margin-bottom: 1.125rem;
+  line-height: 1.55;
+}
+.concierge-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 400px) { .concierge-grid { grid-template-columns: 1fr; } }
+.concierge-tile {
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(201,150,58,0.2);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  transition: background 0.22s ease, border-color 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+.concierge-tile:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(201,150,58,0.38);
+}
+.concierge-tile.primary {
+  border-color: rgba(201,150,58,0.35);
+  background: rgba(201,150,58,0.07);
+}
+.concierge-tile-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-bottom: 0.15rem;
+}
+.concierge-tile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(201,150,58,0.15);
+  border: 1px solid rgba(201,150,58,0.3);
+  color: rgba(224,184,106,0.9);
+  margin-bottom: 0.2rem;
+  width: fit-content;
+}
+.concierge-tile-title {
+  font-weight: 700;
+  font-size: 0.87rem;
+  color: #FDF9F0;
+  line-height: 1.25;
+}
+.concierge-tile-desc {
+  font-size: 0.74rem;
+  color: rgba(224,184,106,0.6);
+  line-height: 1.6;
+}
+.concierge-cta {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(201,150,58,0.08);
+  border: 1px solid rgba(201,150,58,0.25);
+  border-radius: 0.875rem;
+  padding: 0.875rem 1rem;
+  font-size: 0.82rem;
+  color: rgba(224,184,106,0.85);
+  line-height: 1.6;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.concierge-cta a { color: var(--gold-light); font-weight: 700; text-decoration: none; }
+.concierge-cta a:hover { text-decoration: underline; }
+
+/* ═══════════════════════════════════════════════════════════
    NOSCRIPT BANNER
 ═══════════════════════════════════════════════════════════ */
 .noscript-banner {
@@ -1792,7 +1955,7 @@ body::after {
   z-index: 9999;
   background: linear-gradient(135deg, var(--mahogany), var(--mahogany-mid));
   color: var(--gold-light);
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-size: clamp(0.78rem, 2.2vw, 0.88rem);
   font-weight: 600;
   text-align: center;
@@ -1802,6 +1965,497 @@ body::after {
   line-height: 1.5;
   box-shadow: 0 2px 18px rgba(0,0,0,0.35);
 }
+
+/* ═══════════════════════════════════════════════════════════
+   POWER OUTAGE SECTION
+═══════════════════════════════════════════════════════════ */
+.outage-card {
+  background: linear-gradient(160deg, #FDF9F2 0%, #F9F3E6 100%);
+  border-color: rgba(160,117,40,0.22);
+}
+.outage-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.outage-bolt {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(201,150,58,0.35));
+}
+.outage-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.15rem, 3.5vw, 1.5rem);
+  font-weight: 600;
+  color: var(--mahogany);
+  line-height: 1.2;
+  margin-bottom: 0.2rem;
+}
+.outage-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+.outage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.625rem;
+  margin-bottom: 0.875rem;
+}
+@media (max-width: 480px) {
+  .outage-grid { grid-template-columns: 1fr; }
+}
+.outage-item {
+  background: var(--surface);
+  border-radius: 1rem;
+  padding: 1rem 0.875rem;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: box-shadow 0.2s ease;
+}
+.outage-item:hover { box-shadow: var(--shadow-sm); }
+.outage-item.featured {
+  border: 1.5px solid rgba(201,150,58,0.45);
+  background: linear-gradient(160deg, #FFFDF6, #FBF7EE);
+  box-shadow: 0 2px 14px rgba(201,150,58,0.14);
+}
+.outage-item-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+.outage-item-title {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--mahogany);
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+}
+.outage-item-desc {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.outage-item.featured .outage-item-desc strong {
+  color: var(--gold-rich);
+}
+.outage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(160,117,40,0.35);
+  background: rgba(201,150,58,0.06);
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--gold-rich);
+  letter-spacing: 0.05em;
+}
+.outage-footer {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(201,150,58,0.06);
+  border: 1px solid rgba(201,150,58,0.2);
+  border-radius: 0.875rem;
+  padding: 0.875rem 1rem;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+.outage-footer .of-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.05rem; }
+.outage-footer a { color: var(--gold-rich); font-weight: 700; text-decoration: none; }
+.outage-footer a:hover { text-decoration: underline; }
+
+/* ═══════════════════════════════════════════════════════════
+   EXPLORE SECTION
+═══════════════════════════════════════════════════════════ */
+.explore-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+  margin-bottom: 0.75rem;
+}
+@media (max-width: 380px) { .explore-grid { grid-template-columns: 1fr; } }
+.explore-card {
+  background: var(--surface-alt);
+  border-radius: 1rem;
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
+}
+.explore-card:hover { border-color: var(--border-gold); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.explore-card.featured { border-color: rgba(201,150,58,0.3); background: linear-gradient(135deg,rgba(201,150,58,0.07),rgba(160,117,40,0.04)); }
+.explore-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.explore-tag.must { background: rgba(201,150,58,0.14); color: var(--gold-rich); border: 1px solid rgba(201,150,58,0.25); }
+.explore-tag.scenic { background: rgba(21,128,61,0.09); color: #15803d; border: 1px solid rgba(21,128,61,0.2); }
+.explore-tag.hike { background: rgba(124,58,237,0.08); color: #6d28d9; border: 1px solid rgba(124,58,237,0.18); }
+.explore-tag.beach { background: rgba(59,130,246,0.09); color: #1e40af; border: 1px solid rgba(59,130,246,0.2); }
+.explore-card-icon { font-size: 1.35rem; display: block; margin-bottom: 0.35rem; }
+.explore-card-name { font-weight: 700; font-size: 0.84rem; color: var(--mahogany); margin-bottom: 0.2rem; line-height: 1.3; }
+.explore-card-dist { font-size: 0.67rem; color: var(--gold-rich); font-weight: 600; margin-bottom: 0.25rem; }
+.explore-card-note { font-size: 0.73rem; color: var(--text-muted); line-height: 1.55; }
+.explore-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.5rem;
+  font-size: 0.67rem;
+  color: var(--gold-rich);
+  font-weight: 600;
+  text-decoration: none;
+}
+.explore-card-link:hover { text-decoration: underline; }
+.explore-dining-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.explore-dining-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
+  padding: 0.75rem 0.875rem;
+  transition: border-color 0.18s;
+}
+.explore-dining-item:hover { border-color: var(--border-gold); }
+.explore-dining-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.05rem; }
+.explore-dining-name { font-weight: 700; font-size: 0.84rem; color: var(--mahogany); margin-bottom: 0.15rem; }
+.explore-dining-note { font-size: 0.75rem; color: var(--text-muted); line-height: 1.55; }
+.explore-dining-meta { font-size: 0.67rem; color: var(--gold-rich); font-weight: 600; margin-top: 0.2rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   TAB SYSTEM
+═══════════════════════════════════════════════════════════ */
+.guide-container {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: clamp(0.875rem, 3vw, 1.5rem) clamp(0.75rem, 3vw, 1.25rem) 0;
+}
+
+/* Tab panels wrapper — clips to show one panel */
+.tab-panels-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-panels {
+  display: flex;
+  will-change: transform;
+  transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-panel {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2.2vw, 1.125rem);
+  padding-bottom: calc(var(--tab-bar-h, 68px) + 1.5rem);
+  /* Panels are side-by-side in the flex row; only active one visible */
+}
+
+/* ─── Tab Bar ────────────────────────────────────────── */
+:root {
+  --tab-bar-h: 60px;
+}
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 300;
+  display: flex;
+  align-items: stretch;
+  background: rgba(24, 14, 4, 0.82);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-top: 1px solid rgba(201,150,58,0.22);
+  box-shadow: 0 -4px 28px rgba(0,0,0,0.35);
+  height: var(--tab-bar-h);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  padding: 0.4rem 0.2rem 0.5rem;
+  position: relative;
+  transition: background 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+.tab-btn:hover { background: rgba(201,150,58,0.08); }
+.tab-btn.active { background: rgba(201,150,58,0.12); }
+.tab-btn.active::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-line), var(--gold), var(--gold-line), transparent);
+  border-radius: 0 0 2px 2px;
+}
+.tb-icon {
+  font-size: clamp(0.95rem, 2.8vw, 1.2rem);
+  line-height: 1;
+  filter: grayscale(0.3);
+  transition: filter 0.2s;
+}
+.tab-btn.active .tb-icon { filter: none; }
+.tb-label {
+  font-size: clamp(0.42rem, 1.1vw, 0.52rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(224,184,106,0.45);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.tab-btn.active .tb-label { color: var(--gold-light); }
+
+/* Swipe transition classes */
+.tab-panels.no-transition { transition: none !important; }
+
+/* ─── Override old container styles ─────────────────── */
+.container { display: none; } /* old container hidden — replaced by .guide-container */
+
+/* ─── Concierge light variant (matches outage-card) ─── */
+.concierge-light {
+  background: linear-gradient(160deg, #FDF9F2 0%, #F9F3E6 100%);
+  border-color: rgba(160,117,40,0.22);
+}
+.concierge-light .concierge-label {
+  color: var(--text-muted);
+}
+.concierge-light .concierge-label::before {
+  background: linear-gradient(90deg, transparent, rgba(160,117,40,0.25));
+}
+.concierge-light .concierge-label::after {
+  background: linear-gradient(90deg, rgba(160,117,40,0.25), transparent);
+}
+.concierge-light .concierge-heading {
+  color: var(--mahogany);
+  text-shadow: none;
+}
+.concierge-light .concierge-sub {
+  color: var(--text-muted);
+}
+.concierge-light .concierge-tile {
+  background: var(--surface);
+  border-color: var(--border);
+}
+.concierge-light .concierge-tile:hover {
+  background: var(--surface-warm);
+  border-color: var(--border-gold);
+}
+.concierge-light .concierge-tile.primary {
+  background: linear-gradient(160deg, #FFFDF6, #FBF7EE);
+  border-color: rgba(201,150,58,0.35);
+  box-shadow: 0 2px 14px rgba(201,150,58,0.1);
+}
+.concierge-light .concierge-tile-badge {
+  background: rgba(201,150,58,0.1);
+  border-color: rgba(201,150,58,0.28);
+  color: var(--gold-rich);
+}
+.concierge-light .concierge-tile-title {
+  color: var(--mahogany);
+}
+.concierge-light .concierge-tile-desc {
+  color: var(--text-muted);
+}
+.concierge-light .concierge-tile-desc strong {
+  color: var(--gold-rich);
+}
+.concierge-light .concierge-cta {
+  background: rgba(201,150,58,0.07);
+  border-color: rgba(201,150,58,0.22);
+  color: var(--text-muted);
+}
+.concierge-light .concierge-cta a {
+  color: var(--gold-rich);
+  font-weight: 700;
+}
+
+/* ─── Typography: more fluid clamp throughout ───────── */
+/* Ensure body text expands gracefully */
+body {
+  font-size: clamp(14px, 2.4vw, 17px);
+}
+.card {
+  padding: clamp(1.125rem, 3.5vw, 1.875rem);
+}
+
+/* ─── Remove old scroll progress positioning conflicts ─ */
+/* Progress bar still works, just above tab bar */
+#scrollProgress {
+  z-index: 400;
+}
+
+/* ─── Swipe hint indicator (dots) ────────────────────── */
+.swipe-dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 0.5rem 0 0.25rem;
+  pointer-events: none;
+}
+.swipe-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(160,117,40,0.25);
+  transition: all 0.25s ease;
+}
+.swipe-dot.active {
+  background: var(--gold);
+  transform: scaleX(2.2);
+  border-radius: 3px;
+}
+
+/* ─── Responsive overrides for tab layout ───────────── */
+@media (min-width: 600px) {
+  .guide-container { padding: clamp(1.25rem, 3.5vw, 2rem) clamp(1.25rem, 3.5vw, 1.75rem) 0; }
+  :root { --tab-bar-h: 64px; }
+}
+@media (min-width: 1024px) {
+  .guide-container { padding: 1.75rem 1.75rem 0; }
+  :root { --tab-bar-h: 60px; }
+}
+@media print {
+  .tab-bar, .swipe-dots { display: none !important; }
+  .tab-panel { display: flex !important; }
+  .tab-panels { display: block !important; transform: none !important; }
+}
+
+/* ─── Prefers reduced motion ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tab-panels { transition: none !important; }
+  .tab-btn { transition: none !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RULES LIST
+═══════════════════════════════════════════════════════════ */
+.rules-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--surface-alt);
+  border-radius: 0.875rem;
+  padding: 0.875rem;
+  border: 1px solid var(--border);
+  font-size: 0.875rem;
+  color: var(--text);
+  line-height: 1.65;
+  transition: border-color 0.2s;
+}
+.rule:hover { border-color: var(--border-gold); }
+.rule.important { border-color: rgba(201,150,58,0.28); background: rgba(201,150,58,0.05); }
+.rule strong { color: var(--mahogany); }
+.ricon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   EMERGENCY GRID
+═══════════════════════════════════════════════════════════ */
+.emergency-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.625rem;
+  margin-bottom: 0.875rem;
+}
+@media (min-width: 480px) { .emergency-grid { grid-template-columns: repeat(4, 1fr); } }
+.emergency-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 1rem 0.5rem;
+  background: var(--surface-alt);
+  border: 1.5px solid var(--border);
+  border-radius: 1rem;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.74rem;
+  text-align: center;
+  transition: all 0.22s ease;
+  min-height: 80px;
+}
+.emergency-link:hover { border-color: var(--border-gold); background: var(--parchment); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.eicon { font-size: 1.5rem; display: block; margin-bottom: 0.15rem; }
+.emergency-link strong { font-size: 0.9rem; color: var(--mahogany); display: block; margin-top: 0.1rem; }
+.hospital-note {
+  background: rgba(185,28,28,0.04);
+  border: 1px solid rgba(185,28,28,0.15);
+  border-radius: 0.875rem;
+  padding: 0.875rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+.hospital-note strong { color: var(--mahogany); }
+
+/* ═══════════════════════════════════════════════════════════
+   TIP DOT (amenity expandable indicator)
+═══════════════════════════════════════════════════════════ */
+.tip-dot {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.amenity.expanded .tip-dot { opacity: 0; }
+.amenity.expanded .atip { display: block; margin-top: 0.5rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   FLOAT CONTACT BUTTON
+═══════════════════════════════════════════════════════════ */
+.float-contact {
+  position: fixed;
+  bottom: calc(var(--tab-bar-h, 60px) + 0.875rem);
+  right: 1.375rem;
+  z-index: 299;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TIME NOTE
+═══════════════════════════════════════════════════════════ */
+.time-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  line-height: 1.55;
+}
+
 </style>
 </head>
 <body>
@@ -1817,13 +2471,13 @@ body::after {
     <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.18em;color:rgba(212,176,120,0.6);margin-bottom:2rem;">Bria Homes · General Santos City</div>
     <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(201,150,58,0.45),transparent);margin-bottom:2rem;"></div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.25rem,4vw,1.6rem);font-weight:500;font-style:italic;color:#D4B078;line-height:1.4;margin-bottom:1.25rem;">Your guest guide has gently closed its doors.</div>
-    <p style="font-family:'Raleway',sans-serif;font-size:0.9rem;color:rgba(242,237,229,0.72);line-height:1.8;margin-bottom:1.75rem;">
+    <p style="font-family:'Nunito',sans-serif;font-size:0.9rem;color:rgba(242,237,229,0.72);line-height:1.8;margin-bottom:1.75rem;">
       We hope your time at Cascade was everything you deserved — deeply restful, beautifully comfortable, and filled with moments worth carrying home.<br><br>
       Should the warmth of your sanctuary ever call you back to General Santos, it would be our greatest honour to welcome you once more.
     </p>
     <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;">
-      <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 1.5rem;border-radius:999px;background:linear-gradient(135deg,#E0B86A,#A87528);color:#1A0E04;font-family:'Raleway',sans-serif;font-weight:700;font-size:0.9rem;text-decoration:none;letter-spacing:0.04em;box-shadow:0 4px 24px rgba(201,150,58,0.4);">🏠 Book Your Next Stay</a>
-      <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.875rem 1.5rem;border-radius:999px;background:transparent;border:1.5px solid rgba(201,150,58,0.35);color:rgba(224,184,106,0.9);font-family:'Raleway',sans-serif;font-weight:600;font-size:0.875rem;text-decoration:none;">💬 Send Us a Message</a>
+      <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 1.5rem;border-radius:999px;background:linear-gradient(135deg,#E0B86A,#A87528);color:#1A0E04;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.9rem;text-decoration:none;letter-spacing:0.04em;box-shadow:0 4px 24px rgba(201,150,58,0.4);">🏠 Book Your Next Stay</a>
+      <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.875rem 1.5rem;border-radius:999px;background:transparent;border:1.5px solid rgba(201,150,58,0.35);color:rgba(224,184,106,0.9);font-family:'Nunito',sans-serif;font-weight:600;font-size:0.875rem;text-decoration:none;">💬 Send Us a Message</a>
     </div>
     <div style="font-size:0.68rem;color:rgba(242,237,229,0.3);letter-spacing:0.08em;text-transform:uppercase;line-height:1.6;">This guide was prepared exclusively for your stay<br>and has now expired · Thank you for choosing Cascade</div>
   </div>
@@ -1861,56 +2515,25 @@ body::after {
       <span class="clock-time" id="liveClock">—</span>
     </div>
   </div>
+  <div class="header-crest" aria-hidden="true">🌴</div>
   <h1 class="serif">Cascade Hideaway
     <em>Hotel Comfort. Home Warmth.</em>
   </h1>
   <p class="sub">Bria Homes · Conel Road · Block 47, Lot 39 · General Santos City</p>
-
-  <!-- QUICK NAV -->
-  <nav class="quick-nav" aria-label="Quick navigation" id="quickNav">
-    <div class="quick-nav-inner">
-      <a class="qn-btn" href="#section-times" aria-label="Times">
-        <span class="qn-icon">⏰</span>
-        <span class="qn-label">Times</span>
-      </a>
-      <a class="qn-btn" href="#section-here" aria-label="Get Here">
-        <span class="qn-icon">📍</span>
-        <span class="qn-label">Get Here</span>
-      </a>
-      <a class="qn-btn" href="#section-entry" aria-label="Entry">
-        <span class="qn-icon">🔐</span>
-        <span class="qn-label">Entry</span>
-      </a>
-      <a class="qn-btn" href="#section-wifi" aria-label="Wi-Fi">
-        <span class="qn-icon">📶</span>
-        <span class="qn-label">Wi-Fi</span>
-      </a>
-      <a class="qn-btn" href="#section-food" aria-label="Food & Groceries">
-        <span class="qn-icon">🛒</span>
-        <span class="qn-label">Food</span>
-      </a>
-      <a class="qn-btn" href="#section-amenities" aria-label="Amenities">
-        <span class="qn-icon">🏡</span>
-        <span class="qn-label">Amenities</span>
-      </a>
-      <a class="qn-btn" href="#section-rules" aria-label="Rules">
-        <span class="qn-icon">📋</span>
-        <span class="qn-label">Rules</span>
-      </a>
-      <a class="qn-btn" href="#section-emergency" aria-label="Emergency">
-        <span class="qn-icon">🆘</span>
-        <span class="qn-label">SOS</span>
-      </a>
-    </div>
-  </nav>
 </header>
 
 <!-- ═══════════════ CONTENT ═══════════════ -->
-<div class="container">
+<div class="guide-container">
 
-  <!-- WELCOME BANNER -->
-  <div class="welcome-banner" id="welcomeBanner"
-       style="display:none; background-color:#FBF7EE; background-image:linear-gradient(160deg,#FDF9F2 0%,#F7F0E2 50%,#F9F4EA 100%);">
+  <div class="tab-panels-wrap" id="tabPanelsWrap">
+    <div class="tab-panels" id="tabPanels">
+
+  <!-- ══════════ TAB 0 · WELCOME ══════════ -->
+  <div class="tab-panel active" data-panel="0" id="tab-panel-welcome" role="tabpanel">
+
+  <!-- Welcome Banner — full-width in welcome tab -->
+  <div class="welcome-banner" id="welcomeBannerInner"
+       style="background-color:#FBF7EE; background-image:linear-gradient(160deg,#FDF9F2 0%,#F7F0E2 50%,#F9F4EA 100%);">
     <div class="wb-inner">
       <div class="wb-crest">🌴</div>
       <div class="wb-hotel">Cascade Hideaway</div>
@@ -1947,32 +2570,63 @@ body::after {
         <div class="wb-rule-gem">✦</div>
         <div class="wb-rule-line right"></div>
       </div>
-      <div class="wb-footer">🌿 &nbsp; Hotel Comfort, Home Warmth &nbsp; 🌿</div>
+      <div class="wb-footer">Hotel Comfort &nbsp;·&nbsp; Home Warmth</div>
+      <div style="margin-top:1.25rem;text-align:center;">
+        <button onclick="window.cascade_goToTab&&window.cascade_goToTab(1)" style="display:inline-flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid rgba(160,117,40,0.35);border-radius:2rem;padding:0.55rem 1.25rem;font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-rich);cursor:pointer;transition:all 0.25s ease;" onmouseover="this.style.background='rgba(201,150,58,0.08)';this.style.borderColor='rgba(201,150,58,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(160,117,40,0.35)'">
+          Explore Your Guide &nbsp;→
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- 1 · CHECK-IN / OUT TIMES -->
-  <div class="card critical animate" id="section-times">
-    <p class="card-title">⏰ Check-In &amp; Check-Out</p>
-    <div class="times-grid">
-      <div class="time-block">
-        <div class="time-label">🔑 Check-In from</div>
-        <div class="time-value">2:00 PM</div>
-        <div class="time-note" id="checkinCountdown"></div>
+
+  </div>
+  <!-- ══════════ TAB 1 · ARRIVAL ══════════ -->
+  <div class="tab-panel" data-panel="1" id="tab-panel-arrival" role="tabpanel">
+
+<div class="card animate" id="section-pre-arrival">
+    <p class="card-title">✦ Before You Arrive</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+
+      <!-- Step 1 — Guest Registration -->
+      <div style="display:flex;align-items:flex-start;gap:0.875rem;background:linear-gradient(135deg,rgba(201,150,58,0.06),rgba(201,150,58,0.02));border:1.5px solid rgba(201,150,58,0.22);border-radius:1rem;padding:1rem 1.125rem;">
+        <div style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);font-weight:700;font-size:0.82rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(201,150,58,0.35);margin-top:0.05rem;">1</div>
+        <div style="flex:1;">
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold-rich);margin-bottom:0.35rem;">Guest Registration</div>
+          <div style="font-size:0.84rem;color:var(--text);line-height:1.65;">Please share a clear photo of a <strong>valid government-issued ID</strong> for each registered guest prior to arrival — required for security and local compliance.</div>
+        </div>
       </div>
-      <div class="time-block checkout">
-        <div class="time-label">🌅 Check-Out by</div>
-        <div class="time-value">12:00 NN</div>
-        <div class="time-note">Wish to linger a little longer? Simply send us a message — we'll check availability with pleasure. Late check-out may be arranged, subject to scheduling.</div>
+
+      <!-- Step 2 — Security Deposit -->
+      <div style="display:flex;align-items:flex-start;gap:0.875rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:1rem;padding:1rem 1.125rem;">
+        <div style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);font-weight:700;font-size:0.82rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(201,150,58,0.35);margin-top:0.05rem;">2</div>
+        <div style="flex:1;">
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold-rich);margin-bottom:0.5rem;">Security Deposit</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <div style="background:rgba(21,128,61,0.06);border:1px solid rgba(21,128,61,0.18);border-radius:0.75rem;padding:0.75rem 0.875rem;font-size:0.82rem;color:var(--text);line-height:1.6;">
+              <span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#15803d;display:flex;align-items:center;gap:0.3rem;margin-bottom:0.3rem;">📱 Airbnb Bookings <span style="background:rgba(21,128,61,0.12);border-radius:999px;padding:0.1rem 0.5rem;font-size:0.62rem;">✓ No deposit needed</span></span>
+              Everything is handled securely through Airbnb's trusted platform — no cash deposit required.
+            </div>
+            <div style="background:rgba(201,150,58,0.06);border:1px solid rgba(201,150,58,0.2);border-radius:0.75rem;padding:0.75rem 0.875rem;font-size:0.82rem;color:var(--text);line-height:1.6;">
+              <span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-rich);display:block;margin-bottom:0.3rem;">🏡 Direct / Booking.com</span>
+              A refundable <strong>₱1,000 security deposit</strong> is required — returned in full upon a seamless check-out.
+              <div style="margin-top:0.5rem;background:rgba(28,16,6,0.04);border-radius:0.625rem;padding:0.6rem 0.75rem;font-size:0.78rem;color:var(--text-muted);line-height:1.7;">
+                💸 GCash: <strong style="color:var(--text);">0956 011 5744</strong> · Marifel Suzanne Boncales<br>
+                🏦 UnionBank: <strong style="color:var(--text);">1094 2361 1134</strong> · Marifel Suzanne Boncales
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="callout gold" style="margin-top:0.75rem;">
-      <strong>💡 Airbnb guests:</strong> No cash deposit is required — all reservations are handled with complete security through Airbnb's trusted platform. For direct or Booking.com reservations, a refundable ₱1,000 security deposit is warmly requested, returned in full upon a seamless check-out. Payment via GCash (0956 011 5744) or UnionBank (1094 2361 1134 · Marifel Suzanne Boncales).
+
+      <!-- Submit callout -->
+      <div class="callout gold">
+        <strong>✉️ Submitting your requirements?</strong> Send IDs and deposit confirmation to <a href="/cdn-cgi/l/email-protection#620103110103060710071107101403160b0d0c1122050f030b0e4c010d0f" style="color:var(--gold-rich);font-weight:700;"><span class="__cf_email__" data-cfemail="c2a1a3b1a1a3a6a7b0a7b1a7b0b4a3b6abadacb182a5afa3abaeeca1adaf">[email&#160;protected]</span></a> — your door PIN and access details will be sent on your arrival day.
+      </div>
     </div>
   </div>
 
-  <!-- 2 · GET HERE -->
-  <div class="card critical animate" id="section-here">
+<div class="card critical animate" id="section-here">
     <p class="card-title">📍 Finding Your Way Here</p>
     <div class="address-box">
       <div>
@@ -2028,12 +2682,21 @@ body::after {
           <strong>Multicab / Jeepney</strong> — A charmingly local and budget-friendly option. Simply tell the driver "Bria Homes" along Conel Road, and keep small bills at the ready.
         </div>
       </div>
+      <div class="transport-row" style="border-top:1px solid var(--border);padding-top:0.75rem;margin-top:0.25rem;">
+        <span class="ticon">🚙</span>
+        <div>
+          <strong>Car Rental</strong><span class="rec-badge" style="background:rgba(201,150,58,0.1);color:var(--gold-rich);border:1px solid rgba(201,150,58,0.25);">⏰ Advance Notice Required</span>
+          <br/>Planning to explore beyond the city — Lake Sebu, Gumasa Beach, or the DOLE Plantation? We can arrange a vetted car rental with or without a driver. <strong>Kindly request at least 24 hours in advance</strong> so we can confirm availability and prepare everything for you.
+          <div class="pick-chips" style="margin-top:0.5rem;">
+            <span class="pick-chip" onclick="openContact()" style="cursor:pointer;">💬 Request via Message</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 3 · ENTRY -->
-  <div class="card critical animate" id="section-entry">
-    <p class="card-title">🔐 Entering Your Home Away from Home</p>
+<div class="card critical animate" id="section-entry">
+    <p class="card-title">✦ Entering Your Sanctuary</p>
     <div class="pin-callout">
       <span class="pc-icon">🔑</span>
       <div>
@@ -2067,9 +2730,31 @@ body::after {
     </button>
   </div>
 
-  <!-- 4 · WIFI -->
-  <div class="card critical animate" id="section-wifi">
-    <p class="card-title">📶 Connect to Wi-Fi</p>
+  </div>
+  <!-- ══════════ TAB 2 · ESSENTIALS ══════════ -->
+  <div class="tab-panel" data-panel="2" id="tab-panel-essentials" role="tabpanel">
+
+<div class="card critical animate" id="section-times">
+    <p class="card-title">✦ Check-In &amp; Check-Out</p>
+    <div class="times-grid">
+      <div class="time-block">
+        <div class="time-label">🔑 Check-In from</div>
+        <div class="time-value">2:00 PM</div>
+        <div class="time-note" id="checkinCountdown"></div>
+      </div>
+      <div class="time-block checkout">
+        <div class="time-label">🌅 Check-Out by</div>
+        <div class="time-value">12:00 NN</div>
+        <div class="time-note">Wish to linger a little longer? Simply send us a message — we'll check availability with pleasure. Late check-out may be arranged, subject to scheduling.</div>
+      </div>
+    </div>
+    <div class="callout gold" style="margin-top:0.75rem;">
+      <strong>💡 Airbnb guests:</strong> No cash deposit is required — all reservations are handled with complete security through Airbnb's trusted platform. For direct or Booking.com reservations, a refundable ₱1,000 security deposit is warmly requested, returned in full upon a seamless check-out. Payment via GCash (0956 011 5744) or UnionBank (1094 2361 1134 · Marifel Suzanne Boncales).
+    </div>
+  </div>
+
+<div class="card critical animate" id="section-wifi">
+    <p class="card-title">✦ Connect to Wi-Fi</p>
     <div class="wifi-grid">
       <div class="wifi-field" id="wf-ssid"
         onclick="copyWifi(this,'WelcomeToCascade-5G','wf-ssid')"
@@ -2101,12 +2786,107 @@ body::after {
   <!-- SECTION DIVIDER -->
   <div class="section-divider animate">
     <div class="section-divider-line"></div>
-    <span class="section-divider-label">✦ Good to Know</span>
+    <span class="section-divider-label">✦ Hosted Services</span>
     <div class="section-divider-line"></div>
   </div>
 
-  <!-- 5 · FOOD, DELIVERY & GROCERIES -->
-  <div class="card animate" id="section-food">
+<div class="card concierge-light animate" id="section-concierge">
+    <div class="concierge-label">✦ Hosted Services ✦</div>
+    <div class="concierge-heading">Your Personal Concierge</div>
+    <div class="concierge-sub">We are here to make your stay seamless — simply ask.</div>
+    <div class="concierge-grid">
+
+      <!-- Car Rental -->
+      <div class="concierge-tile">
+        <span class="concierge-tile-icon">🚙</span>
+        <div class="concierge-tile-badge" style="background:rgba(185,100,20,0.12);border-color:rgba(185,100,20,0.3);color:#a05c10;">⏰ Advance Notice Required</div>
+        <div class="concierge-tile-title">Car Rental Assistance</div>
+        <div class="concierge-tile-desc">Planning a day trip to Gumasa, Lake Sebu, or the DOLE Plantation? We'll connect you with trusted, vetted local car hire — self-drive or with a driver. <strong style="color:var(--gold-rich);">Please request at least 24 hours ahead</strong> to confirm availability.</div>
+      </div>
+
+      <!-- Delivery Help -->
+      <div class="concierge-tile">
+        <span class="concierge-tile-icon">🛵</span>
+        <div class="concierge-tile-badge">Food &amp; Groceries · Anytime</div>
+        <div class="concierge-tile-title">Delivery Help</div>
+        <div class="concierge-tile-desc">Both foodpanda and GrabFood deliver not just meals but also <strong>groceries, drinks, and daily essentials</strong> right to your door. Not sure what to order or where? Just ask — we know GenSan's best spots.
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.625rem;">
+            <a href="https://www.foodpanda.ph/" target="_blank" rel="noopener noreferrer" onclick="openFoodpanda(event)" style="display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.7rem;background:rgba(215,15,100,0.1);border:1px solid rgba(215,15,100,0.25);border-radius:0.5rem;font-size:0.68rem;font-weight:700;color:#c0106a;text-decoration:none;">🐼 foodpanda</a>
+            <a href="https://food.grab.com/ph/en/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.3rem;padding:0.3rem 0.7rem;background:rgba(0,177,79,0.1);border:1px solid rgba(0,177,79,0.25);border-radius:0.5rem;font-size:0.68rem;font-weight:700;color:#007a38;text-decoration:none;">🛵 GrabFood</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grab Rides -->
+      <div class="concierge-tile primary" style="grid-column:1/-1;">
+        <span class="concierge-tile-icon">🟢</span>
+        <div class="concierge-tile-badge">✦ Grab · Available 24 hrs</div>
+        <div class="concierge-tile-title">Grab Rides Anytime</div>
+        <div class="concierge-tile-desc">Airport runs, evening trips, city explorations — Grab is the most seamless way to get around GenSan.
+          <div style="margin-top:0.5rem;padding:0.6rem 0.75rem;background:rgba(201,150,58,0.08);border:1px solid rgba(201,150,58,0.22);border-radius:0.625rem;font-size:0.78rem;line-height:1.6;">
+            💡 <strong>Pro tip:</strong> In GenSan, the majority of Grab vehicles are taxis. Always select <strong style="color:var(--gold-rich);">Grab Taxi</strong> — it books significantly faster than Grab Car and gives you the widest choice of available rides in the city.
+          </div>
+          <div style="margin-top:0.5rem;">
+            <a href="grab://open" onclick="openGrabApp(event)" style="display:inline-flex;align-items:center;gap:0.35rem;padding:0.4rem 0.875rem;background:#00B14F;color:white;border-radius:0.5rem;font-size:0.72rem;font-weight:700;text-decoration:none;box-shadow:0 2px 8px rgba(0,177,79,0.3);">📱 Open Grab App</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="concierge-cta">
+      💬 &nbsp;All services arranged via a single message — <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer">Airbnb</a>, <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer">Messenger</a>, or call <a href="tel:09618056979">Ms. Jary · 09618056979</a>
+    </div>
+  </div>
+
+
+
+<div class="card animate" id="section-midstay">
+    <p class="card-title">🧹 Mid-Stay Care</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+
+      <!-- Complimentary Clean — hero block -->
+      <div style="background:linear-gradient(135deg,rgba(201,150,58,0.1),rgba(201,150,58,0.04));border:1.5px solid rgba(201,150,58,0.35);border-radius:1rem;padding:1.125rem 1.25rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-line),var(--gold),var(--gold-line),transparent);"></div>
+        <div style="display:flex;align-items:flex-start;gap:0.75rem;">
+          <span style="font-size:1.6rem;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(201,150,58,0.3));">✨</span>
+          <div>
+            <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.13em;color:var(--gold-rich);margin-bottom:0.3rem;">✦ Complimentary · Stays of 5 Nights or More</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.05rem,3vw,1.25rem);font-weight:600;color:var(--mahogany);line-height:1.2;margin-bottom:0.5rem;">Complimentary Mid-Stay Clean</div>
+            <div style="font-size:0.84rem;color:var(--text);line-height:1.7;">For stays of <strong>5 nights or more</strong>, we are delighted to offer a full mid-stay cleaning service — completely on us. Your beds will be freshly made, the bathroom refreshed, floors cleaned, and supplies fully restocked. We want your sanctuary to feel brand new throughout your entire stay.</div>
+          </div>
+        </div>
+        <div style="margin-top:0.75rem;font-size:0.78rem;color:var(--text-muted);line-height:1.6;background:rgba(255,255,255,0.5);border-radius:0.625rem;padding:0.6rem 0.875rem;border:1px solid rgba(201,150,58,0.15);">
+          Simply let us know your preferred time window and we will arrange everything discreetly around your schedule — no disruption, no fuss.
+        </div>
+      </div>
+
+      <!-- Anytime cleaning at a fee -->
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;background:var(--surface-alt);border:1px solid var(--border);border-radius:0.875rem;padding:0.875rem 1rem;">
+        <span style="font-size:1.1rem;flex-shrink:0;margin-top:0.05rem;">🧹</span>
+        <div>
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-rich);margin-bottom:0.25rem;">On-Demand Cleaning · Anytime</div>
+          <div style="font-size:0.83rem;color:var(--text);line-height:1.65;">Not staying 5 nights? No problem. We can schedule a professional clean at any point during your stay at a <strong>minimal service fee</strong> — just send us a message and we'll arrange a time that suits you.</div>
+        </div>
+      </div>
+
+      <!-- Bins reminder -->
+      <div style="display:flex;align-items:flex-start;gap:0.75rem;background:var(--surface-alt);border-radius:0.875rem;padding:0.875rem;border:1px solid var(--border);font-size:0.84rem;color:var(--text);line-height:1.7;">
+        <span style="font-size:1.1rem;flex-shrink:0;margin-top:0.05rem;">🗑️</span>
+        <div><strong>If your indoor bins fill up</strong> during your stay — tie the bags and place them in the large outdoor bin provided just outside. Or simply message us and we'll arrange collection at once.</div>
+      </div>
+
+      <!-- CTA -->
+      <div class="callout gold" style="margin-top:0;">
+        <strong>💬 Ready for your refresh?</strong> Message us through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb</a> or <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Messenger</a> and we'll arrange it around your schedule — with pleasure.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <div class="tab-panel" data-panel="3" id="tab-panel-food" role="tabpanel">
+
+<div class="card animate" id="section-food">
     <p class="card-title">✦ Dining, Delivery &amp; Culinary Discoveries</p>
 
     <div class="delivery-grid">
@@ -2171,18 +2951,6 @@ body::after {
       </div>
     </div>
 
-    <div class="grab-ride-row">
-      <span class="gr-icon">
-        <svg width="30" height="30" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="29" fill="#00B14F"/><path d="M44 29H31.5v7h7.2C36.8 40.2 33.6 42 30 42C23.9 42 19 37.1 19 31C19 24.9 23.9 20 30 20C32.8 20 35.3 21.1 37.1 22.9L41.5 18.4C38.7 15.7 34.6 14 30 14C20.6 14 13 21.6 13 31C13 40.4 20.6 48 30 48C39 48 46 41.2 46 32.1V29H44Z" fill="white"/></svg>
-      </span>
-      <div class="gr-text">
-        <strong>Need a Grab ride?</strong><br/>
-        Airport arrivals, city explorations, late-evening returns — all arranged effortlessly in a single tap
-        <div style="font-size:0.72rem;color:#14532d;margin-top:0.35rem;font-weight:600;">💡 A helpful note — most Grab vehicles in GenSan are taxis. Selecting <strong>Grab Taxi</strong> over Grab Car will secure your ride considerably faster.</div>
-      </div>
-      <a class="btn-grab" href="grab://open" onclick="openGrabApp(event)" aria-label="Open Grab app">Open Grab</a>
-    </div>
-
     <div style="margin-top:0.875rem;">
       <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.5rem;">✦ Nearby Conveniences</div>
       <div class="nearby-row">
@@ -2236,6 +3004,18 @@ body::after {
           <a href="https://www.google.com/maps?q=Blackthorn+Coffee+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
         </div>
         <div class="coffee-card">
+          <div class="cf-name">🧁 Butter and Spoon</div>
+          <div class="cf-dist">📍 General Santos City</div>
+          <div class="cf-note">Top spot for cakes, pastries, and delicious comfort food — the truffle pasta is a must. Perfect for a leisurely afternoon treat.</div>
+          <a href="https://www.google.com/maps?q=Butter+and+Spoon+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card">
+          <div class="cf-name">🏡 8th Block Café</div>
+          <div class="cf-dist">📍 General Santos City</div>
+          <div class="cf-note">A homegrown café with a charming rustic-industrial aesthetic — a local favourite for creative drinks and a relaxed, unhurried atmosphere.</div>
+          <a href="https://www.google.com/maps?q=8th+Block+Cafe+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card">
           <div class="cf-name">💼 Bo's Coffee</div>
           <div class="cf-dist">📍 General Santos City</div>
           <div class="cf-note">A beloved Filipino institution — warmly welcoming, reassuringly consistent, and perfectly suited to a productive afternoon with good coffee and an even better chair.</div>
@@ -2243,10 +3023,298 @@ body::after {
         </div>
       </div>
     </div>
+
+    <!-- Special Occasion Dining -->
+    <div style="margin-top:1.25rem;">
+      <div style="display:flex;align-items:center;gap:0.625rem;margin-bottom:0.875rem;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,var(--gold-line),transparent);"></div>
+        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--gold-rich);white-space:nowrap;">✨ Special Occasion &amp; Fine Dining</div>
+        <div style="flex:1;height:1px;background:linear-gradient(270deg,var(--gold-line),transparent);"></div>
+      </div>
+      <div class="coffee-grid">
+        <div class="coffee-card" style="border-color:rgba(201,150,58,0.25);background:linear-gradient(135deg,rgba(201,150,58,0.06),var(--surface));">
+          <div style="font-size:1.5rem;margin-bottom:0.35rem;">🍷</div>
+          <div class="cf-name">Alfonso's</div>
+          <div class="cf-dist" style="color:var(--gold-rich);font-weight:600;">🌟 Gourmet International · Fine Dining</div>
+          <div class="cf-note">Upscale choice for gourmet international cuisine — ideal for private celebrations and special evenings in GenSan. The city's most refined dining room.</div>
+          <a href="https://www.google.com/maps?q=Alfonsos+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card" style="border-color:rgba(201,150,58,0.25);background:linear-gradient(135deg,rgba(201,150,58,0.06),var(--surface));">
+          <div style="font-size:1.5rem;margin-bottom:0.35rem;">🌿</div>
+          <div class="cf-name">Red Fern Pavilions</div>
+          <div class="cf-dist" style="color:var(--gold-rich);font-weight:600;">🥩 Garden Restaurant · Filipino Fine Dining</div>
+          <div class="cf-note">Elegant open-air pavilions with lush tropical surrounds — a refined atmosphere for celebrations, excellent steaks, and Filipino fine dining at its best.</div>
+          <a href="https://www.google.com/maps?q=Red+Fern+Pavilions+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card" style="border-color:rgba(201,150,58,0.25);background:linear-gradient(135deg,rgba(201,150,58,0.06),var(--surface));">
+          <div style="font-size:1.5rem;margin-bottom:0.35rem;">🕯️</div>
+          <div class="cf-name">Café Paprika</div>
+          <div class="cf-dist" style="color:var(--gold-rich);font-weight:600;">🍷 Wine Cellar · Date Night · Med-Asian</div>
+          <div class="cf-note">Mediterranean-Asian fusion with a private wine cellar room — perfect for intimate date nights, anniversaries, and special gatherings with something to celebrate.</div>
+          <a href="https://maps.app.goo.gl/e19ujrML1Tt7VH919" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card" style="border-color:rgba(201,150,58,0.25);background:linear-gradient(135deg,rgba(201,150,58,0.06),var(--surface));">
+          <div style="font-size:1.5rem;margin-bottom:0.35rem;">🥩</div>
+          <div class="cf-name">Big Ben's Steaks &amp; Grill</div>
+          <div class="cf-dist" style="color:var(--gold-rich);font-weight:600;">🔥 Steakhouse · Family Platters</div>
+          <div class="cf-note">The go-to for meat lovers — renowned for great steaks and generous family platters. A GenSan staple for satisfying, no-fuss dining that never disappoints.</div>
+          <a href="https://www.google.com/maps?q=Big+Bens+Steaks+and+Grill+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card" style="border-color:rgba(201,150,58,0.25);background:linear-gradient(135deg,rgba(201,150,58,0.06),var(--surface));">
+          <div style="font-size:1.5rem;margin-bottom:0.35rem;">🏡</div>
+          <div class="cf-name">Ranchero Nuevo</div>
+          <div class="cf-dist" style="color:var(--gold-rich);font-weight:600;">🍚 Filipino Comfort Food · Family-Friendly</div>
+          <div class="cf-note">A beloved spot for Filipino comfort food in a homey, spacious setting — perfectly suited for family meals, group celebrations, and relaxed gatherings over great food.</div>
+          <a href="https://www.google.com/maps?q=Ranchero+Nuevo+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Casual & Local Dining -->
+    <div style="margin-top:1.25rem;">
+      <div style="display:flex;align-items:center;gap:0.625rem;margin-bottom:0.875rem;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(28,16,6,0.12),transparent);"></div>
+        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--text-muted);white-space:nowrap;">🍗 Casual &amp; Local Favourites</div>
+        <div style="flex:1;height:1px;background:linear-gradient(270deg,rgba(28,16,6,0.12),transparent);"></div>
+      </div>
+      <div class="coffee-grid">
+        <div class="coffee-card">
+          <div style="font-size:1.5rem;margin-bottom:0.35rem;">🍗</div>
+          <div class="cf-name">Chicken Hauz</div>
+          <div class="cf-dist">🔥 Local Institution · Grilled Chicken</div>
+          <div class="cf-note">A GenSan institution for simple, delicious, and affordable grilled chicken barbecue. Locals swear by it — and for very good reason. Cash, no frills, just excellent food.</div>
+          <a href="https://www.google.com/maps?q=Chicken+Hauz+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+        <div class="coffee-card">
+          <div style="font-size:1.5rem;margin-bottom:0.35rem;">🍔</div>
+          <div class="cf-name">Nikko's Brew</div>
+          <div class="cf-dist">🇺🇸 American-Style · Casual &amp; Affordable</div>
+          <div class="cf-note">Hearty, affordable American-style meals in a relaxed setting — great burgers, cold drinks, and a welcoming vibe for a casual meal out without pretension.</div>
+          <a href="https://www.google.com/maps?q=Nikkos+Brew+General+Santos" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:0.5rem;font-size:0.68rem;color:var(--gold-rich);font-weight:600;text-decoration:none;">📍 Open in Maps →</a>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- 6 · AMENITIES -->
-  <div class="card animate" id="section-amenities">
+  </div>
+  <div class="tab-panel" data-panel="4" id="tab-panel-explore" role="tabpanel">
+
+<div class="card animate" id="section-explore">
+    <p class="card-title">🗺️ Explore General Santos <span style="font-weight:400;opacity:0.55;font-size:0.58rem;">· curated top picks</span></p>
+
+    <div class="explore-grid">
+      <div class="explore-card featured">
+        <span class="explore-tag must">✦ Must-Visit</span>
+        <span class="explore-card-icon">🐟</span>
+        <div class="explore-card-name">GenSan Fish Port Complex</div>
+        <div class="explore-card-dist">⏰ Best: 5–9 AM · ~20 min</div>
+        <div class="explore-card-note">Witness the "Tuna Capital" in action — towering bluefin tuna, bustling trade floors, and the raw energy of GenSan's legendary fish port at sunrise.</div>
+        <div style="font-size:0.67rem;color:var(--text-muted);margin-top:0.35rem;">👔 Long pants &amp; closed shoes required</div>
+        <a class="explore-card-link" href="https://www.google.com/maps?q=General+Santos+City+Fish+Port+Complex" target="_blank" rel="noopener noreferrer">📍 Get Directions →</a>
+      </div>
+      <div class="explore-card">
+        <span class="explore-tag scenic">🌿 Scenic</span>
+        <span class="explore-card-icon">🌅</span>
+        <div class="explore-card-name">Sarangani Highlands Garden</div>
+        <div class="explore-card-dist">📍 ~30 min · Hilltop Paradise</div>
+        <div class="explore-card-note">Breathtaking hilltop gardens with panoramic Sarangani Bay views. Kalachuchi Restaurant on-site — ideal for sunset dining and special occasions.</div>
+        <a class="explore-card-link" href="https://maps.app.goo.gl/osMB4rYtVozhLYm99" target="_blank" rel="noopener noreferrer">📍 Get Directions →</a>
+      </div>
+      <div class="explore-card">
+        <span class="explore-tag hike">⛰️ Hike</span>
+        <span class="explore-card-icon">🏔️</span>
+        <div class="explore-card-name">Sanchez Peak</div>
+        <div class="explore-card-dist">📍 GenSan's highest viewpoint</div>
+        <div class="explore-card-note">GenSan's most popular hike — stunning 360° views of the city and Sarangani Bay. Best at sunrise or golden hour. Beginner-friendly with local guides available.</div>
+        <a class="explore-card-link" href="https://www.google.com/maps?q=Sanchez+Peak+General+Santos" target="_blank" rel="noopener noreferrer">📍 Get Directions →</a>
+      </div>
+      <div class="explore-card">
+        <span class="explore-tag beach">🌊 Day Trip</span>
+        <span class="explore-card-icon">🏖️</span>
+        <div class="explore-card-name">Gumasa Beach, Glan</div>
+        <div class="explore-card-dist">📍 ~1.5 hrs · "Boracay of the South"</div>
+        <div class="explore-card-note">Powdery white sand, crystal-clear turquoise waters, and a serenity that is genuinely hard to leave. A perfect escape for a full day by the sea.</div>
+        <a class="explore-card-link" href="https://www.google.com/maps?q=Gumasa+Beach+Glan" target="_blank" rel="noopener noreferrer">📍 Get Directions →</a>
+      </div>
+    </div>
+
+    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.625rem;">🍽️ Top Tables &amp; Local Legends</div>
+    <div class="explore-dining-row">
+      <div class="explore-dining-item">
+        <span class="explore-dining-icon">🔥</span>
+        <div>
+          <div class="explore-dining-name">Tiongson Arcade — Lagao District</div>
+          <div class="explore-dining-note">The definitive GenSan food experience. Open-air culinary hub: pick live seafood and have it grilled to order. Smoky BBQ, fresh tuna, and authentic local delicacies in a lively night market setting.</div>
+          <div class="explore-dining-meta">⏱️ Evening onwards · Budget-friendly · Local favourite</div>
+          <a class="explore-card-link" href="https://maps.app.goo.gl/YfHA4FW57BUnJbMSA" target="_blank" rel="noopener noreferrer">📍 Navigate →</a>
+        </div>
+      </div>
+      <div class="explore-dining-item">
+        <span class="explore-dining-icon">🌅</span>
+        <div>
+          <div class="explore-dining-name">Kalachuchi at Sarangani Highlands</div>
+          <div class="explore-dining-note">GenSan's premier scenic restaurant — gourmet cuisine with a jaw-dropping sunset view over the bay. Reserve for special occasions or simply arrive early for dinner service.</div>
+          <div class="explore-dining-meta">✨ Top Choice for Special Occasions · ~30 min from property</div>
+          <a class="explore-card-link" href="https://maps.app.goo.gl/osMB4rYtVozhLYm99" target="_blank" rel="noopener noreferrer">📍 Reserve &amp; Navigate →</a>
+        </div>
+      </div>
+      <div class="explore-dining-item">
+        <span class="explore-dining-icon">🦀</span>
+        <div>
+          <div class="explore-dining-name">Grab A Crab</div>
+          <div class="explore-dining-note">A beloved GenSan institution for seafood lovers — famous for its generous crab dishes and the freshest local catches. Ideal for a relaxed, flavour-forward seafood feast.</div>
+          <div class="explore-dining-meta">🦞 Seafood Specialist · Casual &amp; Family-Friendly</div>
+          <a class="explore-card-link" href="https://www.google.com/maps?q=Grab+A+Crab+Restaurant+General+Santos" target="_blank" rel="noopener noreferrer">📍 Directions →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout gold" style="margin-top:0.875rem;">
+      <strong>💬 Need a personalised itinerary?</strong> We know this city well — simply send us a message through Airbnb and we'll tailor the perfect day out for you.
+    </div>
+  </div>
+
+<div class="card animate" id="section-more-attractions">
+    <p class="card-title">✦ More City Experiences</p>
+    <div class="explore-grid">
+      <div class="explore-card">
+        <span class="explore-tag scenic">🌊 Bayfront</span>
+        <span class="explore-card-icon">🌅</span>
+        <div class="explore-card-name">Queen Tuna Park</div>
+        <div class="explore-card-dist">📍 City Centre · Waterfront</div>
+        <div class="explore-card-note">Breezy waterfront park perfect for sunset strolls. The iconic Queen Tuna monument offers stunning photo opportunities with Sarangani Bay as the backdrop.</div>
+        <a class="explore-card-link" href="https://www.google.com/maps?q=Queen+Tuna+Park+General+Santos" target="_blank" rel="noopener noreferrer">📍 Get Directions →</a>
+      </div>
+      <div class="explore-card">
+        <span class="explore-tag must">✦ City Centre</span>
+        <span class="explore-card-icon">🏛️</span>
+        <div class="explore-card-name">Plaza Heneral Santos</div>
+        <div class="explore-card-dist">📍 Downtown GenSan</div>
+        <div class="explore-card-note">The vibrant, green heart of the city — perfect for leisurely strolls, jogging, or enjoying local street food and the city's lively atmosphere.</div>
+        <a class="explore-card-link" href="https://www.google.com/maps?q=Plaza+Heneral+Santos" target="_blank" rel="noopener noreferrer">📍 View Location →</a>
+      </div>
+      <div class="explore-card">
+        <span class="explore-tag must">📸 Photo Stop</span>
+        <span class="explore-card-icon">🏠</span>
+        <div class="explore-card-name">Manny Pacquiao Mansion</div>
+        <div class="explore-card-dist">📍 GenSan landmark</div>
+        <div class="explore-card-note">The iconic "White House" of GenSan — the landmark home of the city's beloved boxing legend. A must-see photo stop for every visitor.</div>
+        <a class="explore-card-link" href="https://www.google.com/maps?q=Manny+Pacquiao+Mansion+General+Santos" target="_blank" rel="noopener noreferrer">📍 Directions →</a>
+      </div>
+      <div class="explore-card">
+        <span class="explore-tag hike">⛰️ Hike</span>
+        <span class="explore-card-icon">🌿</span>
+        <div class="explore-card-name">Buko-Buko Peak</div>
+        <div class="explore-card-dist">📍 Conel/Olympog Ridge</div>
+        <div class="explore-card-note">Known as the "New Zealand of the South" for its stunning rolling green hills. A light hiking trail with rewarding ridge views over the city.</div>
+        <a class="explore-card-link" href="https://maps.app.goo.gl/v2fMPhLJkKueamGV7" target="_blank" rel="noopener noreferrer">📍 Directions →</a>
+      </div>
+      <div class="explore-card featured">
+        <span class="explore-tag scenic">🌸 Adventure</span>
+        <span class="explore-card-icon">☕</span>
+        <div class="explore-card-name">Euphoria Flower Farm</div>
+        <div class="explore-card-dist">📍 Tupi, South Cotabato</div>
+        <div class="explore-card-note">Stunning flower fields with giant swings and zip lines — ideal for families and couples. Beautiful photos and adrenaline in one serene setting.</div>
+        <a class="explore-card-link" href="https://maps.app.goo.gl/c9Uh286x5tdsZ3rQ7" target="_blank" rel="noopener noreferrer">📍 View Location →</a>
+      </div>
+      <div class="explore-card">
+        <span class="explore-tag beach">💧 Nature</span>
+        <span class="explore-card-icon">💦</span>
+        <div class="explore-card-name">Brigada Waterfalls</div>
+        <div class="explore-card-dist">📍 General Santos area</div>
+        <div class="explore-card-note">A refreshing natural escape — cool, clear waterfalls tucked into the surrounding landscape. A rewarding detour for nature lovers.</div>
+        <a class="explore-card-link" href="https://www.google.com/maps?q=Brigada+Waterfalls+General+Santos" target="_blank" rel="noopener noreferrer">📍 Directions →</a>
+      </div>
+    </div>
+  </div>
+
+<div class="card animate" id="section-day-trips">
+    <p class="card-title">✦ Essential Day Trips</p>
+    <div style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:0.875rem;">
+      <div class="explore-dining-item">
+        <span class="explore-dining-icon">🏞️</span>
+        <div>
+          <div class="explore-dining-name">Lake Sebu</div>
+          <div class="explore-dining-note">Beautiful highland lake known for the thrilling Seven Falls Zipline and the T'boli "Dreamweavers" culture. A full-day escape into the highlands.</div>
+          <div class="explore-dining-meta">🌿 Highland Lake · Culture &amp; Adventure</div>
+          <a class="explore-card-link" href="https://www.google.com/maps?q=Lake+Sebu" target="_blank" rel="noopener noreferrer">📍 View Map →</a>
+        </div>
+      </div>
+      <div class="explore-dining-item">
+        <span class="explore-dining-icon">🏖️</span>
+        <div>
+          <div class="explore-dining-name">Gumasa Beach, Glan</div>
+          <div class="explore-dining-note">The "Boracay of the South" — powdery white sand and crystal-clear turquoise waters. A perfect full-day escape by the sea, ~1.5 hours away.</div>
+          <div class="explore-dining-meta">🌊 ~1.5 hrs · Beach Day Escape</div>
+          <a class="explore-card-link" href="https://www.google.com/maps?q=Gumasa+Beach+Glan" target="_blank" rel="noopener noreferrer">📍 Navigate →</a>
+        </div>
+      </div>
+      <div class="explore-dining-item">
+        <span class="explore-dining-icon">🍍</span>
+        <div>
+          <div class="explore-dining-name">DOLE Pineapple Plantation</div>
+          <div class="explore-dining-note">A scenic drive through vast golden pineapple fields at the foot of Mt. Matutum in Polomolok — a uniquely GenSan experience.</div>
+          <div class="explore-dining-meta">📍 Polomolok · Scenic Drive</div>
+          <a class="explore-card-link" href="https://www.google.com/maps?q=DOLE+Pineapple+Plantation+Polomolok" target="_blank" rel="noopener noreferrer">📍 Directions →</a>
+        </div>
+      </div>
+      <div class="explore-dining-item">
+        <span class="explore-dining-icon">⛰️</span>
+        <div>
+          <div class="explore-dining-name">SG Farm, Tupi</div>
+          <div class="explore-dining-note">A cool mountain farm offering beautiful highland scenery, glamping, and a relaxing escape from the city. Perfect for a serene overnight.</div>
+          <div class="explore-dining-meta">🌿 Tupi · Mountain Retreat</div>
+          <a class="explore-card-link" href="https://www.google.com/maps?q=SG+Farm+Tupi" target="_blank" rel="noopener noreferrer">📍 View Location →</a>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--surface-alt);border-radius:0.875rem;padding:1rem;border:1px solid var(--border);">
+      <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:0.625rem;">🗓️ A Day Well Spent in GenSan</div>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div style="display:flex;align-items:flex-start;gap:0.625rem;font-size:0.82rem;color:var(--text);line-height:1.6;">
+          <span style="background:rgba(201,150,58,0.15);border-radius:999px;padding:0.15rem 0.5rem;font-size:0.65rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;flex-shrink:0;">🌅 Morning</span>
+          <span>Start early at the Fish Port (5–7 AM) to witness the tuna trade, then enjoy breakfast with a view at Sarangani Highlands.</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:0.625rem;font-size:0.82rem;color:var(--text);line-height:1.6;">
+          <span style="background:rgba(201,150,58,0.15);border-radius:999px;padding:0.15rem 0.5rem;font-size:0.65rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;flex-shrink:0;">☀️ Afternoon</span>
+          <span>Explore Plaza Heneral Santos and Queen Tuna Park, or head to Sanchez Peak — Buko-Buko Peak for ridge views and fresh air.</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:0.625rem;font-size:0.82rem;color:var(--text);line-height:1.6;">
+          <span style="background:rgba(201,150,58,0.15);border-radius:999px;padding:0.15rem 0.5rem;font-size:0.65rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;flex-shrink:0;">🌙 Evening</span>
+          <span>Watch sunset from Sarangani Highlands, then dine at Kalachuchi or explore the lively street food scene at Tiongson Arcade.</span>
+        </div>
+      </div>
+    </div>
+    <div class="callout gold" style="margin-top:0.875rem;">
+      <strong>🚗 Need transport for day trips?</strong> We can arrange vetted car rentals with or without a driver — perfect for Lake Sebu, Gumasa, or beyond. Just message us through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb</a> or <a href="https://www.facebook.com/share/1BtBF4DpEu/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">our rental partner</a>.
+    </div>
+  </div>
+
+<div class="card animate" id="section-phrases">
+    <p class="card-title">✦ Local Phrases</p>
+    <div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem;line-height:1.6;">A little effort goes a long way! <strong style="color:var(--text);">"Po"</strong> is a respectful term like "Ma'am/Sir" — locals will appreciate the gesture.</div>
+    <div style="display:flex;flex-direction:column;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:0.5rem 0.75rem;align-items:center;background:var(--surface-alt);border-radius:0.875rem;padding:0.875rem;border:1px solid var(--border);">
+        <div style="font-size:0.72rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;">Salamat po</div>
+        <div style="font-size:0.8rem;color:var(--text);">Thank you (respectful)</div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;">Magkano po?</div>
+        <div style="font-size:0.8rem;color:var(--text);">How much? (respectful)</div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;">Opo / Hindi po</div>
+        <div style="font-size:0.8rem;color:var(--text);">Yes / No (respectful)</div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;">Palihug</div>
+        <div style="font-size:0.8rem;color:var(--text);">Please (Visayan)</div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;">Asa ang…</div>
+        <div style="font-size:0.8rem;color:var(--text);">Where is the… (Visayan)</div>
+        <div style="font-size:0.72rem;font-weight:700;color:var(--gold-rich);white-space:nowrap;align-self:start;">Maayong buntag / hapon / gabii</div>
+        <div style="font-size:0.8rem;color:var(--text);">Good morning / afternoon / evening (Visayan)</div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <div class="tab-panel" data-panel="5" id="tab-panel-home" role="tabpanel">
+
+<div class="card animate" id="section-amenities">
     <p class="card-title">🏡 Your Sanctuary at a Glance <span style="font-weight:400;opacity:0.55;font-size:0.58rem;">· tap any amenity for details</span></p>
     <div class="amenities-grid">
       <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
@@ -2309,9 +3377,8 @@ body::after {
     </div>
   </div>
 
-  <!-- 7 · HOUSE RULES -->
-  <div class="card animate" id="section-rules">
-    <p class="card-title">📋 A Few Gentle Courtesies</p>
+<div class="card animate" id="section-rules">
+    <p class="card-title">✦ House Courtesies</p>
     <div class="rules-list">
       <div class="rule"><span class="ricon">👟</span><span>We kindly invite you to remove your shoes at the entrance — a shoe rack with complimentary slippers awaits you just inside the door</span></div>
       <div class="rule important"><span class="ricon">🚭</span><span><strong>Smoke-free sanctuary.</strong> A designated outdoor area is available should it be needed. Your understanding is warmly appreciated.</span></div>
@@ -2325,9 +3392,50 @@ body::after {
     </div>
   </div>
 
-  <!-- 8 · EMERGENCY -->
-  <div class="card animate" id="section-emergency">
-    <p class="card-title">🆘 Emergency Numbers</p>
+  <!-- SECTION DIVIDER -->
+  <div class="section-divider animate">
+    <div class="section-divider-line"></div>
+    <span class="section-divider-label">✦ Practical Notes</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+<div class="card outage-card animate" id="section-outage">
+    <div class="outage-header">
+      <span class="outage-bolt">⚡</span>
+      <div>
+        <div class="outage-title">Power Outage? We've Got You Covered</div>
+        <div class="outage-subtitle">Essential comforts remain uninterrupted — here's what we've prepared.</div>
+      </div>
+    </div>
+    <div class="outage-grid">
+      <div class="outage-item">
+        <span class="outage-item-icon">💧</span>
+        <div class="outage-item-title">Water Still Available</div>
+        <div class="outage-item-desc">Water supply remains unaffected during a power interruption. Stay hydrated and comfortable throughout.</div>
+      </div>
+      <div class="outage-item">
+        <span class="outage-item-icon">🔦</span>
+        <div class="outage-item-title">Emergency Light Ready</div>
+        <div class="outage-item-desc">A fully charged emergency light is on standby — so darkness is never a concern.</div>
+      </div>
+      <div class="outage-item featured">
+        <span class="outage-item-icon">📶</span>
+        <div class="outage-item-title">Internet Stays On</div>
+        <div class="outage-item-desc">Your Wi-Fi connection <strong>will continue to work</strong> even during a blackout — the router has dedicated backup power.</div>
+        <div class="outage-badge">✓ Always Connected</div>
+      </div>
+    </div>
+    <div class="outage-footer">
+      <span class="of-icon">🤝</span>
+      <span><strong>We're always here for you.</strong> Should any concern arise, don't hesitate to reach us at any time — through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer">Airbnb messaging</a> or directly through our on-the-ground partners. Your comfort and peace of mind are our priority, around the clock.</span>
+    </div>
+  </div>
+
+  </div>
+  <div class="tab-panel" data-panel="6" id="tab-panel-help" role="tabpanel">
+
+<div class="card animate" id="section-emergency">
+    <p class="card-title">✦ Emergency Contacts</p>
     <div class="emergency-grid">
       <a class="emergency-link" href="tel:911">
         <span class="eicon">🚑</span>
@@ -2356,52 +3464,151 @@ body::after {
       <a href="tel:+63835523162" style="color:inherit;font-weight:700;">(083) 552-3162</a>
       &nbsp;·&nbsp;
       <a href="tel:+639623160213" style="color:inherit;font-weight:700;">+63 962 316 0213</a>
+      &nbsp;·&nbsp;
+      <a href="tel:+639623160214" style="color:inherit;font-weight:700;">+63 962 316 0214</a>
     </div>
     <div style="margin-top:0.75rem;font-size:0.74rem;color:var(--text-muted);text-align:center;line-height:1.7;">
-      💊 Mercury Drug near St. Elizabeth &nbsp;·&nbsp; Watsons at Robinsons &amp; SM<br/>
+      💊 <strong style="color:var(--text);">Mercury Drug</strong> near St. Elizabeth · <span style="color:var(--green-ok);font-weight:700;">Open 24/7</span>
+      &nbsp;·&nbsp; <strong style="color:var(--text);">Watsons</strong> at Robinsons &amp; SM · <span style="font-weight:600;">10AM–9PM</span><br/>
       <span style="font-size:0.7rem;opacity:0.8;">We are always just one message away — please never hesitate to reach out, at any hour, should you need anything at all.</span>
     </div>
   </div>
 
-</div><!-- /container -->
+<div class="card animate" id="section-departure">
+    <p class="card-title">✦ Departure Checklist</p>
+    <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.7;margin-top:-0.5rem;margin-bottom:1rem;font-style:italic;">Each item on this checklist helps keep the property in wonderful condition for the next guest — your care and thoughtfulness is sincerely appreciated. Take a moment to tick through before you head out.</p>
+    <div style="background:var(--surface-alt);border-radius:0.875rem;border:1px solid var(--border);overflow:hidden;margin-bottom:0.875rem;">
+      <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);">⏰ Check-Out Time · 12:00 NN</div>
+      <div id="deptChecklist" style="display:flex;flex-direction:column;">
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+          <span>🗑️ Take out the trash to the designated outdoor bins</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+          <span>🧳 Check all areas for personal belongings</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+          <span>💡 Switch off all lights, A/C, and appliances</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+          <span>🔐 Close the door firmly to auto-lock. Please return the key card to its place.</span>
+        </label>
+      </div>
+    </div>
+    <div class="callout gold">
+      <strong>⏳ Need a late check-out?</strong> Extensions are available upon request — subject to availability and may incur additional charges. Please message us in advance through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb</a>.
+    </div>
 
-<!-- ═══════════════ FOOTER ═══════════════ -->
+    <!-- Thank You & Review Card -->
+    <div style="margin-top:1rem;border-radius:1.25rem;overflow:hidden;border:1.5px solid rgba(201,150,58,0.3);background:linear-gradient(160deg,rgba(201,150,58,0.08) 0%,rgba(247,242,232,0.6) 60%,rgba(201,150,58,0.05) 100%);position:relative;">
+
+      <!-- Gold top bar -->
+      <div style="height:3px;background:linear-gradient(90deg,transparent 0%,var(--gold-line) 20%,var(--gold) 50%,var(--gold-line) 80%,transparent 100%);"></div>
+
+      <!-- Header -->
+      <div style="padding:1.375rem 1.25rem 0.875rem;text-align:center;border-bottom:1px solid rgba(201,150,58,0.15);">
+        <div style="font-size:2rem;margin-bottom:0.5rem;letter-spacing:0.05em;">🌴</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,4vw,1.5rem);font-weight:600;color:var(--mahogany);line-height:1.25;margin-bottom:0.5rem;">Thank You for Staying With Us</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.7;max-width:340px;margin:0 auto;">It has been a genuine privilege to host you at Cascade Hideaway. We hope your stay brought the rest, comfort, and warmth you deserved — and that you are leaving with good memories and a full heart.</div>
+      </div>
+
+      <!-- Review nudge -->
+      <div style="padding:1rem 1.25rem;">
+        <div style="text-align:center;margin-bottom:0.875rem;">
+          <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--gold-rich);margin-bottom:0.375rem;">Your review makes a real difference</div>
+          <div style="display:flex;justify-content:center;gap:0.2rem;font-size:1.5rem;margin-bottom:0.5rem;">⭐⭐⭐⭐⭐</div>
+          <div style="font-size:0.83rem;color:var(--text);line-height:1.7;max-width:320px;margin:0 auto;">Your feedback helps us grow and become better hosts — every honest review shapes how we care for the next guest. If something made your stay special, we would love to hear about it.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+          <a href="https://www.airbnb.com/users/reviews" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.875rem 1.25rem;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.82rem;text-decoration:none;letter-spacing:0.04em;box-shadow:0 4px 16px rgba(201,150,58,0.35);">
+            ⭐ Leave a Review on Airbnb
+          </a>
+          <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.7rem 1.25rem;background:rgba(201,150,58,0.08);border:1.5px solid rgba(201,150,58,0.3);color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none;">
+            💬 Share Feedback Directly With Us
+          </a>
+        </div>
+
+        <!-- Warm sign-off -->
+        <div style="text-align:center;margin-top:1rem;padding-top:0.875rem;border-top:1px solid rgba(201,150,58,0.15);">
+          <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.7;font-style:italic;">We hope the road home is smooth, and that we will have the joy of welcoming you back one day.</div>
+          <div style="margin-top:0.625rem;font-size:clamp(1.05rem,4vw,1.3rem);color:var(--mahogany);font-weight:600;font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:0.02em;line-height:1.3;">With warmth — Marifel &amp; The Cascade Team 🌿</div>
+          <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.875rem;padding:0.7rem 1.375rem;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.78rem;text-decoration:none;letter-spacing:0.04em;box-shadow:0 4px 16px rgba(201,150,58,0.4);">🏠 Book Your Next Stay →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  </div>
+    </div>
+  </div>
+
+</div><!-- /guide-container -->
+
 <footer class="site-footer">
-  <em>Prepared with care and warmth, exclusively for our cherished guests.</em>
-  <span id="footerCopyright" style="cursor:default;user-select:none;display:block;" title="">© Cascade Hideaway · Bria Homes, General Santos City 🌴</span>
-  <button id="adminResetLink" onclick="adminReset()" aria-label="Admin: reset guide for new guest">🔒 Admin: Reset Guide</button>
-</footer>
-
-</div><!-- /app -->
-
-<!-- ═══════════════ TOAST ═══════════════ -->
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<!-- ═══════════════ BACK TO TOP ═══════════════ -->
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
-
-<!-- ═══════════════ FLOATING CONTACT ═══════════════ -->
-<div class="float-contact">
-  <button class="float-btn-main" onclick="openContact()" aria-label="Contact us">
-    <span>💬</span> Contact Us
+  <em>Cascade Hideaway</em>
+  <span id="footerCopyright">Bria Homes · Conel Road · Block 47, Lot 39 · General Santos City · 9500</span>
+  <div style="margin-top:0.5rem;">
+    <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:600;text-decoration:none;font-size:0.68rem;">🏠 Book your next stay →</a>
+  </div>
+  <button id="adminResetLink" onclick="try{localStorage.clear();}catch(e){}location.reload();">
+    🔄 Reset Guide (Admin)
   </button>
+</footer>
+<div class="swipe-dots" aria-hidden="true">
+  <div class="swipe-dot active"></div>
+  <div class="swipe-dot"></div>
+  <div class="swipe-dot"></div>
+  <div class="swipe-dot"></div>
+  <div class="swipe-dot"></div>
+  <div class="swipe-dot"></div>
+  <div class="swipe-dot"></div>
 </div>
 
+<nav class="tab-bar" id="tabBar" role="tablist" aria-label="Guide sections">
+  <button class="tab-btn active" data-tab="0" role="tab" aria-selected="true" aria-controls="tab-panel-welcome">
+    <span class="tb-icon">🌴</span>
+    <span class="tb-label">Welcome</span>
+  </button>
+  <button class="tab-btn" data-tab="1" role="tab" aria-selected="false" aria-controls="tab-panel-arrival">
+    <span class="tb-icon">⏰</span>
+    <span class="tb-label">Arrival</span>
+  </button>
+  <button class="tab-btn" data-tab="2" role="tab" aria-selected="false" aria-controls="tab-panel-essentials">
+    <span class="tb-icon">📶</span>
+    <span class="tb-label">Essentials</span>
+  </button>
+  <button class="tab-btn" data-tab="3" role="tab" aria-selected="false" aria-controls="tab-panel-food">
+    <span class="tb-icon">🛒</span>
+    <span class="tb-label">Food</span>
+  </button>
+  <button class="tab-btn" data-tab="4" role="tab" aria-selected="false" aria-controls="tab-panel-explore">
+    <span class="tb-icon">🗺️</span>
+    <span class="tb-label">Explore</span>
+  </button>
+  <button class="tab-btn" data-tab="5" role="tab" aria-selected="false" aria-controls="tab-panel-home">
+    <span class="tb-icon">🏡</span>
+    <span class="tb-label">Home</span>
+  </button>
+  <button class="tab-btn" data-tab="6" role="tab" aria-selected="false" aria-controls="tab-panel-help">
+    <span class="tb-icon">📞</span>
+    <span class="tb-label">Help</span>
+  </button>
+</nav>
+
 <!-- ═══════════════ CONTACT POPUP ═══════════════ -->
-<div class="overlay" id="overlay" onclick="handleOverlayClick(event)" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
-  <div class="popup" id="popup" role="document">
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="popup" id="popup">
     <div class="popup-handle" id="popupHandle">
       <div class="popup-handle-bar"></div>
     </div>
-    <h3 class="serif" id="popupTitle">We're Here for You 💛</h3>
+    <h3>Need Assistance?</h3>
     <div class="contact-options">
-      <div class="contact-opt"
-        onclick="copyJary()"
-        onkeydown="if(event.key==='Enter'||event.key===' ')copyJary()"
-        role="button" tabindex="0"
-        aria-label="Copy Ms. Jary contact number"
-        style="border-color:rgba(201,150,58,0.4);background:rgba(201,150,58,0.07);">
-        <div class="cicon" style="background:rgba(201,150,58,0.15);">📞</div>
+      <div class="contact-opt" onclick="copyJary()" style="cursor:pointer;">
+        <div class="cicon">📞</div>
         <div>
           <span style="font-weight:700;">Ms. Jarely "Jary" · 09618056979</span>
           <span class="csub" style="color:var(--gold-rich);font-weight:600;">For anything urgent — your most direct line of care. Tap to copy her number.</span>
@@ -2421,10 +3628,10 @@ body::after {
           <span class="csub">Facebook · We respond promptly and warmly</span>
         </div>
       </a>
-      <a class="contact-opt" href="mailto:cascadereservations@gmail.com" target="_blank" rel="noopener noreferrer">
+            <a class="contact-opt" href="/cdn-cgi/l/email-protection#244745574745404156415741565245504d4b4a57644349454d480a474b49" target="_blank" rel="noopener noreferrer">
         <div class="cicon">✉️</div>
         <div>
-          <span>cascadereservations@gmail.com</span>
+          <span><span class="__cf_email__" data-cfemail="95f6f4e6f6f4f1f0e7f0e6f0e7e3f4e1fcfafbe6d5f2f8f4fcf9bbf6faf8">[email&#160;protected]</span></span>
           <span class="csub">Write to us — we read every message</span>
         </div>
       </a>
@@ -2433,8 +3640,128 @@ body::after {
   </div>
 </div>
 
+<!-- ═══════════════ FLOATING CONTACT + BACK TO TOP ═══════════════ -->
+<button class="float-btn-main float-contact" id="floatContact" onclick="openContact()" aria-label="Contact host">
+  💬 Contact Us
+</button>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">▲</button>
+<div class="toast" id="toast"></div>
+
+</div><!-- /app -->
+
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+/* ═══════════════════════════════════════════════════════════
+   TAB SWITCHING + SWIPE SUPPORT
+═══════════════════════════════════════════════════════════ */
+(function() {
+  const panels     = document.querySelectorAll('.tab-panel');
+  const btns       = document.querySelectorAll('.tab-btn');
+  const panelsWrap = document.getElementById('tabPanels');
+  const dotsWrap   = document.querySelector('.swipe-dots');
+  const TOTAL      = panels.length;
+  let current      = 0;
+  let startX = 0, startY = 0, dragging = false, dragOffset = 0;
+
+  function goTo(idx, skipAnim) {
+    if (idx < 0 || idx >= TOTAL) return;
+    if (skipAnim) panelsWrap.classList.add('no-transition');
+    panelsWrap.style.transform = `translateX(${-idx * 100}%)`;
+    if (skipAnim) {
+      requestAnimationFrame(() => {
+        panelsWrap.classList.remove('no-transition');
+      });
+    }
+    btns.forEach((b, i) => {
+      b.classList.toggle('active', i === idx);
+      b.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+    });
+    if (dotsWrap) {
+      dotsWrap.querySelectorAll('.swipe-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === idx);
+      });
+    }
+    // Scroll back to top and collapse header on tab switch
+    if (idx !== current) {
+      panels[idx].scrollTop = 0;
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      const hdr = document.getElementById('siteHeader');
+      if (hdr) {
+        hdr.classList.remove('scrolled');
+        requestAnimationFrame(function() { typeof setHeaderHeight === 'function' && setHeaderHeight(); });
+      }
+    }
+    current = idx;
+    // Update header scroll progress context
+    typeof updateProgress === 'function' && updateProgress();
+  }
+
+  // Tab button clicks
+  btns.forEach((btn, i) => {
+    btn.addEventListener('click', () => goTo(i));
+  });
+
+  // Swipe detection on the panels container
+  const swipeTarget = document.getElementById('tabPanelsWrap');
+  if (swipeTarget) {
+    swipeTarget.addEventListener('touchstart', function(e) {
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      dragging = false;
+      dragOffset = 0;
+    }, { passive: true });
+
+    swipeTarget.addEventListener('touchmove', function(e) {
+      if (!e.touches.length) return;
+      const t = e.touches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      if (!dragging) {
+        // Determine: horizontal swipe or vertical scroll?
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          dragging = true;
+        } else if (Math.abs(dy) > 8) {
+          return; // vertical scroll — don't interfere
+        }
+      }
+      if (!dragging) return;
+      dragOffset = dx;
+      const pct = ((-current * 100) + (dx / swipeTarget.offsetWidth * 100));
+      panelsWrap.classList.add('no-transition');
+      panelsWrap.style.transform = `translateX(${pct}%)`;
+    }, { passive: true });
+
+    swipeTarget.addEventListener('touchend', function(e) {
+      if (!dragging) return;
+      dragging = false;
+      panelsWrap.classList.remove('no-transition');
+      const threshold = swipeTarget.offsetWidth * 0.22;
+      if (dragOffset < -threshold && current < TOTAL - 1) {
+        goTo(current + 1);
+      } else if (dragOffset > threshold && current > 0) {
+        goTo(current - 1);
+      } else {
+        panelsWrap.style.transform = `translateX(${-current * 100}%)`;
+      }
+      dragOffset = 0;
+    }, { passive: true });
+  }
+
+  // Keyboard navigation (← →)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+  });
+
+  // Init position
+  goTo(0, true);
+  window.cascade_goToTab = goTo; // expose for deep linking
+
+})();
+
+</script><script>
 
 /* SCROLL RESTORATION — prevent browser from restoring previous scroll position
    so the welcome banner is always the first thing guests see on entry */
@@ -2493,7 +3820,6 @@ window.addEventListener('scroll', updateProgress, { passive: true });
    so Quick Nav anchor links land correctly on every device and orientation. */
 function setHeaderHeight() {
   const header = document.getElementById('siteHeader');
-  const nav    = document.getElementById('quickNav');
   if (header) {
     const hh = header.offsetHeight;
     document.documentElement.style.setProperty('--header-h', hh + 'px');
@@ -2848,7 +4174,7 @@ function dismissWelcome() {
   const app        = document.getElementById('app');
   const nameInput  = document.getElementById('guestNameInput');
   const badge      = document.getElementById('headerBadge');
-  const banner     = document.getElementById('welcomeBanner');
+  const banner     = document.getElementById('welcomeBannerInner');
   const greeting   = document.getElementById('wbGreeting');
   const nameBlock  = document.getElementById('wbNameBlock');
   const nameDisplay= document.getElementById('wbGuestName');
@@ -2871,7 +4197,12 @@ function dismissWelcome() {
     if (nameBlock) nameBlock.style.display = 'none';
   }
 
-  if (banner) banner.style.display = 'block';
+  if (banner) {
+    banner.style.visibility = '';
+    banner.style.opacity    = '';
+    banner.style.display    = 'block';
+    requestAnimationFrame(() => banner.classList.add('visible'));
+  }
 
   if (splash) {
     splash.style.opacity = '0';
@@ -2880,8 +4211,8 @@ function dismissWelcome() {
     setTimeout(() => {
       splash.style.display = 'none';
       if (app) app.style.visibility = '';
-      /* Ensure welcome banner is always the first thing the guest sees —
-         reset scroll position to top after the splash fades out */
+      /* Ensure welcome tab is shown and scroll to top */
+      if (typeof window.cascade_goToTab === 'function') window.cascade_goToTab(0, true);
       window.scrollTo({ top: 0, behavior: 'instant' });
     }, 560);
   } else {
@@ -2894,13 +4225,14 @@ function dismissWelcome() {
   try {
     const name     = localStorage.getItem('ch_guest_name');
     const seen     = localStorage.getItem('ch_welcome_seen');
-    const banner   = document.getElementById('welcomeBanner');
+    const banner   = document.getElementById('welcomeBannerInner');
     const greeting = document.getElementById('wbGreeting');
     const badge    = document.getElementById('headerBadge');
     const nameBlock   = document.getElementById('wbNameBlock');
     const nameDisplay = document.getElementById('wbGuestName');
     if (seen && banner) {
       banner.style.display = 'block';
+      requestAnimationFrame(() => banner.classList.add('visible'));
       if (name) {
         if (nameDisplay)  nameDisplay.textContent = name;
         if (nameBlock) {
@@ -2909,40 +4241,49 @@ function dismissWelcome() {
           nameBlock.style.alignItems    = 'center';
         }
         if (greeting)     greeting.textContent    = `Welcome back. Your home is ready. ✨`;
-        setTimeout(() => { if (badge) badge.textContent = `Welcome back, ${name} ✈️`; }, 200);
-      } else {
-        if (greeting) greeting.textContent = 'Welcome — your sanctuary awaits. ✨';
+        setTimeout(function() {
+          if (badge) {
+            badge.textContent = name ? ('Welcome back, ' + name + ' 🌴') : '✈️ Arriving Today';
+            if (name) badge.dataset.guestName = '1';
+          }
+        }, 200);
       }
     }
   } catch(e) {}
 })();
 
-/* ADMIN EASTER EGG RESET */
+/* HIDE BANNER WHILE SPLASH IS ACTIVE */
 (function() {
-  const footer = document.getElementById('footerCopyright');
-  if (!footer) return;
-  let tapCount = 0, tapTimer;
+  try {
+    const seen   = localStorage.getItem('ch_welcome_seen');
+    const banner = document.getElementById('welcomeBannerInner');
+    if (!seen && banner) {
+      banner.style.visibility = 'hidden';
+      banner.style.display    = 'none';
+    }
+  } catch(e) {}
+})();
+
+/* ADMIN RESET EASTER EGG
+   Triple-tap footer crest to reveal the reset button */
+(function() {
+  let taps = 0, tapTimer;
+  const footer = document.querySelector('.site-footer');
+  const resetBtn = document.getElementById('adminResetLink');
+  if (!footer || !resetBtn) return;
   footer.addEventListener('click', function() {
-    tapCount++;
+    taps++;
     clearTimeout(tapTimer);
-    tapTimer = setTimeout(() => { tapCount = 0; }, 1800);
-    if (tapCount >= 5) {
-      tapCount = 0;
-      const resetLink = document.getElementById('adminResetLink');
-      if (resetLink) {
-        resetLink.style.display = resetLink.style.display === 'none' ? 'inline-block' : 'none';
-      }
+    if (taps >= 3) {
+      taps = 0;
+      resetBtn.style.display = 'inline-block';
+      setTimeout(() => { resetBtn.style.display = 'none'; }, 8000);
+    } else {
+      tapTimer = setTimeout(() => { taps = 0; }, 600);
     }
   });
 })();
-function adminReset() {
-  try {
-    localStorage.removeItem('ch_welcome_seen');
-    localStorage.removeItem('ch_guest_name');
-    localStorage.removeItem('ch_first_access');
-  } catch(e) {}
-  location.reload();
-}
+
 </script>
 </body>
 </html>
