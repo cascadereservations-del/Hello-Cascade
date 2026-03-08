@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="Cascade Guide"/>
 <meta name="theme-color" content="#1C1006"/>
 <title>Cascade Hideaway — Welcome to Your Sanctuary</title>
-<!-- v9.0: font→Nunito (warm luxury) · checklist note moved as subtitle · tone & spacing refinements -->
+<!-- v15.0: swipe nudge redesigned (bottom-center animated gesture pill) · swipe dismiss bug fixed · full audit pass -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -97,7 +97,7 @@
   width: 0%;
   height: 2.5px;
   background: linear-gradient(90deg, var(--gold-rich), var(--gold-line), var(--gold-light));
-  z-index: 1000;
+  z-index: 400;
   transition: width 0.08s linear;
   border-radius: 0 2px 2px 0;
   box-shadow: 0 0 10px rgba(201,150,58,0.6);
@@ -126,11 +126,11 @@ html {
 
 body {
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(14.5px, 2.2vw, 16.5px);
+  font-size: clamp(14px, 2.4vw, 17px);
   background: var(--bg);
   color: var(--text);
   letter-spacing: 0.012em;
-  padding-bottom: 110px;
+  padding-bottom: calc(var(--tab-bar-h, 60px) + 0.5rem);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
@@ -166,7 +166,7 @@ body::after {
 }
 @media (min-width: 768px) {
   body::after { font-size: 2.8rem; letter-spacing: 0.5rem; }
-  body { padding-bottom: 90px; }
+  body { padding-bottom: calc(var(--tab-bar-h, 64px) + 0.5rem); }
 }
 
 .serif { font-family: 'Cormorant Garamond', serif; }
@@ -176,7 +176,7 @@ body::after {
    HEADER
 ═══════════════════════════════════════════════════════════ */
 .site-header {
-  background: linear-gradient(160deg, #231408 0%, #160D04 55%, #1E1208 100%);
+  background: linear-gradient(160deg, rgba(35,20,8,0.92) 0%, rgba(22,13,4,0.88) 55%, rgba(30,18,8,0.92) 100%);
   color: white;
   padding: clamp(1rem, 3.5vw, 1.75rem) clamp(1.25rem, 5vw, 2.75rem) 0;
   text-align: center;
@@ -193,7 +193,7 @@ body::after {
 }
 .site-header.scrolled {
   padding: 0.45rem clamp(1rem,4vw,2rem) 0.45rem;
-  background: rgba(20, 10, 3, 0.72);
+  background: rgba(20, 10, 3, 0.55);
   backdrop-filter: blur(18px) saturate(1.4);
   -webkit-backdrop-filter: blur(18px) saturate(1.4);
   box-shadow: 0 1px 0 rgba(201,150,58,0.18), 0 2px 24px rgba(0,0,0,0.35);
@@ -1068,7 +1068,7 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   HOUSE RULES
+   HOUSE RULES (base styles — further overrides in Rules List section below)
 ═══════════════════════════════════════════════════════════ */
 .rules-list { display: flex; flex-direction: column; gap: 0.5rem; }
 .rule {
@@ -1086,61 +1086,22 @@ body::after {
   transition: border-color 0.18s;
 }
 .rule:hover { border-color: var(--border-gold); }
-.rule .ricon { font-size: 1.05rem; flex-shrink: 0; margin-top: 0.1rem; }
 .rule.important { border-color: rgba(185,28,28,0.22); background: rgba(255,249,249,0.7); }
 
 /* ═══════════════════════════════════════════════════════════
-   EMERGENCY
+   EMERGENCY — base block replaced by later definition with 4-col responsive
 ═══════════════════════════════════════════════════════════ */
-.emergency-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; margin-bottom: 0.75rem; }
-.emergency-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
-  padding: 1rem 0.5rem;
-  border-radius: 1rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.75rem;
-  color: #991b1b;
-  background: rgba(255,249,249,0.85);
-  border: 1.5px solid rgba(185,28,28,0.18);
-  text-align: center;
-  min-height: 74px;
-  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-  touch-action: manipulation;
-}
-.emergency-link:hover { background: rgba(254,202,202,0.55); transform: translateY(-2px); box-shadow: var(--shadow-xs); }
-.emergency-link .eicon { font-size: 1.4rem; }
-.hospital-note {
-  background: rgba(239,246,255,0.9);
-  border-radius: 1rem;
-  padding: 1rem 1.125rem;
-  border: 1px solid rgba(59,130,246,0.18);
-  font-size: 0.82rem;
-  color: #1e40af;
-  line-height: 1.7;
-}
-.hospital-note strong { display: block; font-size: 0.875rem; margin-bottom: 0.35rem; color: #1e3a8a; }
 
 /* ═══════════════════════════════════════════════════════════
-   FLOATING CONTACT BUTTON
+   FLOATING CONTACT BUTTON — position defined below in tab layout section
 ═══════════════════════════════════════════════════════════ */
-.float-contact {
-  position: fixed;
-  bottom: 1.375rem;
-  right: 1.375rem;
-  z-index: 300;
-}
 .float-btn-main {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.875rem 1.375rem;
   border-radius: 999px;
-  background: rgba(28, 16, 6, 0.52);
+  background: rgba(28, 16, 6, 0.38);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   color: var(--gold-light);
@@ -1156,7 +1117,7 @@ body::after {
   white-space: nowrap;
 }
 .float-btn-main:hover {
-  background: rgba(42, 26, 8, 0.68);
+  background: rgba(42, 26, 8, 0.52);
   transform: scale(1.04) translateY(-2px);
   box-shadow: 0 6px 32px rgba(28,16,6,0.3), 0 0 0 1px rgba(201,150,58,0.28);
   border-color: rgba(201,150,58,0.6);
@@ -1191,7 +1152,9 @@ body::after {
   bottom: 5.5rem;
   left: 50%;
   transform: translateX(-50%) translateY(12px);
-  background: var(--mahogany);
+  background: rgba(28,16,6,0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: var(--gold-light);
   font-family: 'Nunito', sans-serif;
   font-size: 0.82rem;
@@ -1215,7 +1178,7 @@ body::after {
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(28,16,6,0.7);
+  background: rgba(28,16,6,0.52);
   z-index: 500;
   display: none;
   align-items: flex-end;
@@ -2164,7 +2127,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: clamp(0.75rem, 2.2vw, 1.125rem);
-  padding-bottom: calc(var(--tab-bar-h, 68px) + 1.5rem);
+  padding-bottom: calc(var(--tab-bar-h, 60px) + clamp(0.75rem, 2vw, 1.25rem));
   /* Panels are side-by-side in the flex row; only active one visible */
 }
 
@@ -2181,7 +2144,7 @@ body::after {
   z-index: 300;
   display: flex;
   align-items: stretch;
-  background: rgba(24, 14, 4, 0.82);
+  background: rgba(20, 12, 3, 0.62);
   backdrop-filter: blur(20px) saturate(1.5);
   -webkit-backdrop-filter: blur(20px) saturate(1.5);
   border-top: 1px solid rgba(201,150,58,0.22);
@@ -2240,7 +2203,7 @@ body::after {
 .tab-panels.no-transition { transition: none !important; }
 
 /* ─── Override old container styles ─────────────────── */
-.container { display: none; } /* old container hidden — replaced by .guide-container */
+.container { display: none; } /* Legacy single-scroll container replaced by .guide-container + tab system — intentionally hidden */
 
 /* ─── Concierge light variant (matches outage-card) ─── */
 .concierge-light {
@@ -2300,20 +2263,11 @@ body::after {
   font-weight: 700;
 }
 
-/* ─── Typography: more fluid clamp throughout ───────── */
-/* Ensure body text expands gracefully */
-body {
-  font-size: clamp(14px, 2.4vw, 17px);
-}
-.card {
-  padding: clamp(1.125rem, 3.5vw, 1.875rem);
-}
+/* ─── Typography: fluid clamp (consolidated into body rule above) ─── */
+/* ─── Card padding: fluid clamp (consolidated into .card rule above) ─── */
 
-/* ─── Remove old scroll progress positioning conflicts ─ */
-/* Progress bar still works, just above tab bar */
-#scrollProgress {
-  z-index: 400;
-}
+/* ─── Scroll progress bar sits above tab bar ─────────────── */
+/* z-index: 400 is already set in the #scrollProgress definition above */
 
 /* ─── Swipe hint indicator (dots) ────────────────────── */
 .swipe-dots {
@@ -2335,47 +2289,139 @@ body {
   border-radius: 3px;
 }
 
-/* ─── Swipe nudge tooltip ─────────────────────────────── */
+/* ─── Swipe Nudge — bottom-center gesture hint ────────────────── */
 #swipeNudge {
   position: fixed;
-  bottom: calc(var(--tab-bar-h, 60px) + 3.5rem);
+  bottom: calc(var(--tab-bar-h, 60px) + 1rem);
   left: 50%;
-  transform: translateX(-50%) translateY(8px);
-  background: rgba(28,16,6,0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(201,150,58,0.28);
-  border-radius: 999px;
-  padding: 0.42rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-family: 'Nunito', sans-serif;
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: rgba(224,184,106,0.9);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  pointer-events: none;
+  transform: translateX(-50%) translateY(20px);
   z-index: 250;
+  pointer-events: none;
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 #swipeNudge.visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* Frosted pill container */
+#swipeNudge .sn-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 1rem 0.5rem 0.75rem;
+  background: rgba(20, 11, 3, 0.62);
+  backdrop-filter: blur(18px) saturate(1.8);
+  -webkit-backdrop-filter: blur(18px) saturate(1.8);
+  border: 1px solid rgba(201,150,58,0.35);
+  border-radius: 999px;
+  box-shadow:
+    0 4px 28px rgba(0,0,0,0.38),
+    0 0 0 1px rgba(201,150,58,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  white-space: nowrap;
+}
+
+/* Animated hand icon track */
+#swipeNudge .sn-track {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+#swipeNudge .sn-track-line {
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,150,58,0.5), rgba(201,150,58,0.15), transparent);
+  transform: translateY(-50%);
+}
+/* Left arrow chevrons */
+#swipeNudge .sn-arrows {
+  position: absolute;
+  top: 50%;
+  left: 4px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 2px;
+  animation: nudgeArrows 1.6s ease-in-out infinite;
+}
 #swipeNudge .sn-arrow {
-  font-size: 0.8rem;
-  animation: swipeArrowPulse 1.4s ease-in-out infinite;
+  width: 7px; height: 7px;
+  border-left: 1.5px solid rgba(201,150,58,0.9);
+  border-bottom: 1.5px solid rgba(201,150,58,0.9);
+  transform: rotate(45deg);
+  border-radius: 0 0 0 1px;
 }
-@keyframes swipeArrowPulse {
-  0%, 100% { opacity: 0.5; transform: translateX(0); }
-  50%       { opacity: 1;   transform: translateX(2px); }
+#swipeNudge .sn-arrow:nth-child(2) { opacity: 0.6; }
+#swipeNudge .sn-arrow:nth-child(3) { opacity: 0.3; }
+
+/* Hand that slides left */
+#swipeNudge .sn-hand {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  font-size: 1.05rem;
+  line-height: 1;
+  transform: translateY(-50%);
+  animation: nudgeHand 1.6s cubic-bezier(0.4,0,0.2,1) infinite;
+  filter: drop-shadow(0 0 6px rgba(201,150,58,0.6));
 }
+
+@keyframes nudgeArrows {
+  0%   { opacity: 0; transform: translateY(-50%) translateX(4px); }
+  30%  { opacity: 1; transform: translateY(-50%) translateX(0); }
+  70%  { opacity: 1; transform: translateY(-50%) translateX(-6px); }
+  100% { opacity: 0; transform: translateY(-50%) translateX(-10px); }
+}
+@keyframes nudgeHand {
+  0%   { transform: translateY(-50%) translateX(0)   scale(1);   opacity: 1; }
+  55%  { transform: translateY(-50%) translateX(-20px) scale(0.95); opacity: 0.85; }
+  56%  { transform: translateY(-50%) translateX(0)   scale(1);   opacity: 0; }
+  57%  { transform: translateY(-50%) translateX(0)   scale(1);   opacity: 0; }
+  70%  { opacity: 1; }
+  100% { transform: translateY(-50%) translateX(0)   scale(1);   opacity: 1; }
+}
+
+/* Text label */
+#swipeNudge .sn-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+  letter-spacing: 0.06em;
+  color: rgba(224,184,106,0.75);
+  line-height: 1;
+}
+
+/* Small dot indicator row below */
+#swipeNudge .sn-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+#swipeNudge .sn-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(201,150,58,0.22);
+  transition: all 0.3s ease;
+}
+#swipeNudge .sn-dot.cur {
+  background: var(--gold);
+  transform: scaleX(2.5);
+  border-radius: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  #swipeNudge .sn-arrow { animation: none; }
+  #swipeNudge .sn-hand,
+  #swipeNudge .sn-arrows { animation: none !important; }
 }
 
 /* ─── Responsive overrides for tab layout ───────────── */
@@ -2664,7 +2710,7 @@ body {
 
       <!-- Submit callout -->
       <div class="callout gold">
-        <strong>✉️ Submitting your requirements?</strong> You may send your IDs and deposit confirmation via <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb message</a> <span style="background:rgba(201,150,58,0.15);color:var(--gold-rich);font-size:0.68rem;font-weight:700;padding:0.1rem 0.45rem;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;">Preferred</span> for your convenience — or email us at <a href="mailto:cascadereservations@gmail.com" style="color:var(--gold-rich);font-weight:700;">cascadereservations@gmail.com</a>. Your door PIN and access details will be sent on your arrival day.
+        <strong>✉️ Submitting your requirements?</strong> You may send your IDs and deposit confirmation via <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb message</a> <span style="background:rgba(201,150,58,0.15);color:var(--gold-rich);font-size:0.68rem;font-weight:700;padding:0.1rem 0.45rem;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;">Preferred</span> for your convenience — or email us at <a href="/cdn-cgi/l/email-protection#442725372725202136213721363225302d2b2a37042329252d286a272b29" style="color:var(--gold-rich);font-weight:700;"><span class="__cf_email__" data-cfemail="7b181a08181a1f1e091e081e090d1a0f121415083b1c161a121755181416">[email&#160;protected]</span></a>. Your door PIN and access details will be sent on your arrival day.
       </div>
     </div>
   </div>
@@ -3622,7 +3668,7 @@ body {
             <a href="https://www.airbnb.com/users/reviews" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.925rem 1.25rem;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.84rem;text-decoration:none;letter-spacing:0.03em;box-shadow:0 4px 16px rgba(201,150,58,0.35);transition:all 0.2s ease;" onmouseover="this.style.boxShadow='0 6px 24px rgba(201,150,58,0.5)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='0 4px 16px rgba(201,150,58,0.35)';this.style.transform=''">
               ⭐ Leave a Review on Airbnb
             </a>
-            <a href="mailto:cascadereservations@gmail.com" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem 1.25rem;background:rgba(201,150,58,0.07);border:1.5px solid rgba(201,150,58,0.28);color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none;transition:all 0.2s ease;" onmouseover="this.style.background='rgba(201,150,58,0.13)'" onmouseout="this.style.background='rgba(201,150,58,0.07)'">
+            <a href="/cdn-cgi/l/email-protection#791a180a1a181d1c0b1c0a1c0b0f180d1016170a391e14181015571a1614" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem 1.25rem;background:rgba(201,150,58,0.07);border:1.5px solid rgba(201,150,58,0.28);color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none;transition:all 0.2s ease;" onmouseover="this.style.background='rgba(201,150,58,0.13)'" onmouseout="this.style.background='rgba(201,150,58,0.07)'">
               💬 Share Your Thoughts Directly With Us
             </a>
           </div>
@@ -3660,14 +3706,30 @@ body {
 </footer>
 <!-- ═══════════════ SWIPE NUDGE ═══════════════ -->
 <div id="swipeNudge" aria-hidden="true">
-  <span class="sn-arrow">←</span>
-  <span>Swipe to explore</span>
-  <span class="sn-arrow" style="animation-delay:0.2s;">→</span>
+  <div class="sn-pill">
+    <div class="sn-track">
+      <div class="sn-track-line"></div>
+      <div class="sn-arrows">
+        <div class="sn-arrow"></div>
+        <div class="sn-arrow"></div>
+        <div class="sn-arrow"></div>
+      </div>
+      <span class="sn-hand">👆</span>
+    </div>
+    <span class="sn-label">Swipe to explore</span>
+  </div>
+  <div class="sn-dots">
+    <div class="sn-dot cur"></div>
+    <div class="sn-dot"></div>
+    <div class="sn-dot"></div>
+    <div class="sn-dot"></div>
+    <div class="sn-dot"></div>
+    <div class="sn-dot"></div>
+  </div>
 </div>
 
 <div class="swipe-dots" aria-hidden="true">
   <div class="swipe-dot active"></div>
-  <div class="swipe-dot"></div>
   <div class="swipe-dot"></div>
   <div class="swipe-dot"></div>
   <div class="swipe-dot"></div>
@@ -3735,10 +3797,10 @@ body {
           <span class="csub">Facebook · We respond promptly and warmly</span>
         </div>
       </a>
-            <a class="contact-opt" href="mailto:cascadereservations@gmail.com">
+            <a class="contact-opt" href="/cdn-cgi/l/email-protection#573436243436333225322432252136233e38392417303a363e3b7934383a">
         <div class="cicon">✉️</div>
         <div>
-          <span>cascadereservations@gmail.com</span>
+          <span><span class="__cf_email__" data-cfemail="630002100002070611061006111502170a0c0d1023040e020a0f4d000c0e">[email&#160;protected]</span></span>
           <span class="csub">Write to us — we read every message</span>
         </div>
       </a>
@@ -3757,7 +3819,7 @@ body {
 </div><!-- /app -->
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ═══════════════════════════════════════════════════════════
    TAB SWITCHING + SWIPE SUPPORT
@@ -3804,7 +3866,7 @@ body {
     typeof updateProgress === 'function' && updateProgress();
   }
 
-  // Tab button clicks
+  // Tab button clicks — use panel index (i) to match goTo()
   btns.forEach((btn, i) => {
     btn.addEventListener('click', () => goTo(i));
   });
@@ -3866,31 +3928,62 @@ body {
   goTo(0, true);
   window.cascade_goToTab = goTo; // expose for deep linking
 
-  /* ── Swipe nudge: show briefly on first visit, dismiss on first interaction ── */
+  /* ── Swipe nudge: shows only after "Explore Your Guide" / splash dismiss,
+        permanently hides on first swipe OR any tab change ── */
   (function() {
     var NUDGE_KEY = 'ch_swipe_seen';
     var nudge = document.getElementById('swipeNudge');
     if (!nudge) return;
     try { if (localStorage.getItem(NUDGE_KEY)) return; } catch(e) {}
-    // Show after a short delay (let splash / welcome settle first)
-    var showTimer = setTimeout(function() {
+
+    var dismissed = false;
+    var showTimer = null;
+
+    function show() {
+      if (dismissed || current !== 0) return;
       nudge.classList.add('visible');
-      // Auto-hide after 3.5 s
-      setTimeout(function() {
-        nudge.classList.remove('visible');
-        try { localStorage.setItem(NUDGE_KEY, '1'); } catch(e) {}
-      }, 3500);
-    }, 1800);
+    }
 
     function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
       clearTimeout(showTimer);
       nudge.classList.remove('visible');
       try { localStorage.setItem(NUDGE_KEY, '1'); } catch(e) {}
-      document.removeEventListener('touchstart', dismiss);
-      document.removeEventListener('click', dismiss);
     }
-    document.addEventListener('touchstart', dismiss, { passive: true, once: true });
-    document.addEventListener('click', dismiss, { once: true });
+
+    // Expose so dismissWelcome() can trigger the nudge after splash closes
+    window._cascadeShowSwipeNudge = function() {
+      clearTimeout(showTimer);
+      showTimer = setTimeout(show, 1800);
+    };
+
+    // Wrap goTo so ANY tab navigation dismisses the nudge
+    var _origGoTo = goTo;
+    goTo = function(idx, skipAnim) {
+      if (idx !== 0) dismiss();
+      _origGoTo(idx, skipAnim);
+    };
+    // Update the public API
+    window.cascade_goToTab = goTo;
+    // Dismiss on tab bar click (event delegation — no cloning needed)
+    var tabBarEl = document.getElementById('tabBar');
+    if (tabBarEl) {
+      tabBarEl.addEventListener('click', function() { dismiss(); }, { passive: true });
+    }
+
+    // Dismiss on touchend with horizontal movement (reliable — fires after drag)
+    var swipeStartX = 0;
+    if (swipeTarget) {
+      swipeTarget.addEventListener('touchstart', function(e) {
+        swipeStartX = e.touches[0] ? e.touches[0].clientX : 0;
+      }, { passive: true });
+      swipeTarget.addEventListener('touchend', function(e) {
+        if (dismissed) return;
+        var endX = e.changedTouches[0] ? e.changedTouches[0].clientX : swipeStartX;
+        if (Math.abs(endX - swipeStartX) > 20) dismiss();
+      }, { passive: true });
+    }
   })();
 
 })();
@@ -3933,7 +4026,6 @@ const SHRINK_PX   = 60;
 
 function updateProgress() {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
 
   if (siteHeader) {
     const wasScrolled = siteHeader.classList.contains('scrolled');
@@ -3944,7 +4036,17 @@ function updateProgress() {
     }
   }
 
-  const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 1000) / 10 : 0;
+  // Progress tracks only the scrollable content height (excluding tab bar +
+  // any bottom padding) so the bar reaches 100% exactly at the real end
+  const headerH   = siteHeader ? siteHeader.offsetHeight : 0;
+  const tabBarH   = parseInt(getComputedStyle(document.documentElement)
+                      .getPropertyValue('--tab-bar-h')) || 60;
+  const viewable  = window.innerHeight - headerH - tabBarH;
+  const rawScroll = document.documentElement.scrollHeight
+                    - window.innerHeight
+                    - tabBarH;                 // subtract over-scroll padding
+  const docHeight = Math.max(rawScroll, 1);
+  const pct = Math.min(Math.round((scrollTop / docHeight) * 1000) / 10, 100);
   if (progressBar) progressBar.style.width = pct + '%';
 }
 window.addEventListener('scroll', updateProgress, { passive: true });
@@ -4296,7 +4398,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeContact
   const app    = document.getElementById('app');
   if (!splash) return;
   const expiry = document.getElementById('expiryOverlay');
-  if (expiry && expiry.style.display !== 'none' && expiry.style.display !== '') return;
+  if (expiry && expiry.style.display === 'flex') return;
   if (!localStorage.getItem(WELCOME_KEY)) {
     splash.style.display = 'flex';
     if (app) app.style.visibility = 'hidden';
@@ -4348,6 +4450,8 @@ function dismissWelcome() {
       /* Ensure welcome tab is shown and scroll to top */
       if (typeof window.cascade_goToTab === 'function') window.cascade_goToTab(0, true);
       window.scrollTo({ top: 0, behavior: 'instant' });
+      /* Show swipe nudge after guest sees welcome tab */
+      if (typeof window._cascadeShowSwipeNudge === 'function') window._cascadeShowSwipeNudge();
     }, 560);
   } else {
     if (app) app.style.visibility = '';
@@ -4382,6 +4486,10 @@ function dismissWelcome() {
           }
         }, 200);
       }
+      // Show swipe nudge for returning guests (no splash shown)
+      setTimeout(function() {
+        if (typeof window._cascadeShowSwipeNudge === 'function') window._cascadeShowSwipeNudge();
+      }, 600);
     }
   } catch(e) {}
 })();
@@ -4427,8 +4535,8 @@ function dismissCheckoutConfirm() {
   setTimeout(function() {
     confirm.style.display = 'none';
     blurred.style.filter  = 'none';
-    blurred.style.pointerEvents = 'none';
-    blurred.style.userSelect    = 'none';
+    blurred.style.pointerEvents = '';
+    blurred.style.userSelect    = '';
     blurred.style.opacity       = '0.5';
     var note = document.createElement('div');
     note.style.cssText = 'text-align:center;padding:0.75rem 1rem;font-size:0.78rem;color:var(--text-muted);font-style:italic;';
@@ -4446,9 +4554,10 @@ function showCheckoutConfirm() {
   var blurred = document.getElementById('checkoutBlurred');
   var confirm = document.getElementById('checkoutConfirm');
   if (!gate || !blurred || !confirm) return;
-  // Remove appended note/retrigger
-  var extras = gate.querySelectorAll('div:not(#checkoutBlurred):not(#checkoutConfirm)');
-  extras.forEach(function(el) { el.remove(); });
+  // Remove appended note/retrigger nodes (dynamically inserted in dismissCheckoutConfirm)
+  Array.from(gate.children).forEach(function(el) {
+    if (el.id !== 'checkoutBlurred' && el.id !== 'checkoutConfirm') el.remove();
+  });
   blurred.style.filter  = 'blur(5px)';
   blurred.style.opacity = '1';
   confirm.style.display = 'flex';
@@ -4470,16 +4579,13 @@ function showCheckoutConfirm() {
   footer.addEventListener('click', function() {
     taps++;
     clearTimeout(tapTimer);
+    tapTimer = setTimeout(function() { taps = 0; }, 800);
     if (taps >= 3) {
       taps = 0;
       resetBtn.style.display = 'inline-block';
-      setTimeout(() => { resetBtn.style.display = 'none'; }, 8000);
-    } else {
-      tapTimer = setTimeout(() => { taps = 0; }, 600);
     }
   });
 })();
-
 </script>
 </body>
 </html>
