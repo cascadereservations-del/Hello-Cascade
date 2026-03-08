@@ -3600,14 +3600,14 @@ body {
 </nav>
 
 <!-- ═══════════════ CONTACT POPUP ═══════════════ -->
-<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)" role="dialog" aria-modal="true" aria-label="Contact options">
   <div class="popup" id="popup">
     <div class="popup-handle" id="popupHandle">
       <div class="popup-handle-bar"></div>
     </div>
     <h3>Need Assistance?</h3>
     <div class="contact-options">
-      <div class="contact-opt" onclick="copyJary()" style="cursor:pointer;">
+      <div class="contact-opt" onclick="copyJary()" onkeydown="if(event.key==='Enter'||event.key===' ')copyJary()" role="button" tabindex="0" style="cursor:pointer;">
         <div class="cicon">📞</div>
         <div>
           <span style="font-weight:700;">Ms. Jarely "Jary" · 09618056979</span>
