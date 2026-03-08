@@ -2335,6 +2335,49 @@ body {
   border-radius: 3px;
 }
 
+/* ─── Swipe nudge tooltip ─────────────────────────────── */
+#swipeNudge {
+  position: fixed;
+  bottom: calc(var(--tab-bar-h, 60px) + 3.5rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: rgba(28,16,6,0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201,150,58,0.28);
+  border-radius: 999px;
+  padding: 0.42rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(224,184,106,0.9);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 250;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+#swipeNudge.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+#swipeNudge .sn-arrow {
+  font-size: 0.8rem;
+  animation: swipeArrowPulse 1.4s ease-in-out infinite;
+}
+@keyframes swipeArrowPulse {
+  0%, 100% { opacity: 0.5; transform: translateX(0); }
+  50%       { opacity: 1;   transform: translateX(2px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #swipeNudge .sn-arrow { animation: none; }
+}
+
 /* ─── Responsive overrides for tab layout ───────────── */
 @media (min-width: 600px) {
   .guide-container { padding: clamp(1.25rem, 3.5vw, 2rem) clamp(1.25rem, 3.5vw, 1.75rem) 0; }
@@ -2621,7 +2664,7 @@ body {
 
       <!-- Submit callout -->
       <div class="callout gold">
-        <strong>✉️ Submitting your requirements?</strong> Send IDs and deposit confirmation to <a href="/cdn-cgi/l/email-protection#620103110103060710071107101403160b0d0c1122050f030b0e4c010d0f" style="color:var(--gold-rich);font-weight:700;"><span class="__cf_email__" data-cfemail="c2a1a3b1a1a3a6a7b0a7b1a7b0b4a3b6abadacb182a5afa3abaeeca1adaf">[email&#160;protected]</span></a> — your door PIN and access details will be sent on your arrival day.
+        <strong>✉️ Submitting your requirements?</strong> You may send your IDs and deposit confirmation via <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb message</a> <span style="background:rgba(201,150,58,0.15);color:var(--gold-rich);font-size:0.68rem;font-weight:700;padding:0.1rem 0.45rem;border-radius:999px;letter-spacing:0.06em;text-transform:uppercase;">Preferred</span> for your convenience — or email us at <a href="mailto:cascadereservations@gmail.com" style="color:var(--gold-rich);font-weight:700;">cascadereservations@gmail.com</a>. Your door PIN and access details will be sent on your arrival day.
       </div>
     </div>
   </div>
@@ -2642,7 +2685,7 @@ body {
       </button>
     </div>
     <div class="btn-row" style="margin-bottom:0.625rem;">
-      <a class="btn btn-outline" href="https://maps.app.goo.gl/9vn8KyDwNrXPmJqT9" target="_blank" rel="noopener noreferrer">
+      <a class="btn btn-outline" href="https://maps.app.goo.gl/y7Cxp7W7r181VmD56" target="_blank" rel="noopener noreferrer">
         <span>🗺️</span> Google Maps
       </a>
       <a class="btn btn-outline" href="waze://ul?q=Bria+Homes+Conel+Road+General+Santos&navigate=yes" onclick="openWaze(event)">
@@ -2833,9 +2876,7 @@ body {
       </div>
 
     </div>
-    <div class="concierge-cta">
-      💬 &nbsp;All services arranged via a single message — <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer">Airbnb</a>, <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer">Messenger</a>, or call <a href="tel:09618056979">Ms. Jary · 09618056979</a>
-    </div>
+
   </div>
 
 
@@ -2884,7 +2925,127 @@ body {
 
 </div>
 
-  <div class="tab-panel" data-panel="3" id="tab-panel-food" role="tabpanel">
+  <div class="tab-panel" data-panel="3" id="tab-panel-home" role="tabpanel">
+
+<div class="card animate" id="section-amenities">
+    <p class="card-title">🏡 Your Sanctuary at a Glance <span style="font-weight:400;opacity:0.55;font-size:0.58rem;">· tap any amenity for details</span></p>
+    <div class="amenities-grid">
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🛏️</span>
+        <span class="aname">Queen Bed<br/>Hotel Linens</span>
+        <div class="atip">Drift into the deepest, most restful sleep on our hotel-grade queen bed, dressed in sumptuous linens. An extra pillow and blanket rest on the wardrobe's top shelf. Your A/C and TV remotes are conveniently placed on the bedside table.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">📺</span>
+        <span class="aname">55" Smart TV<br/>Netflix · YouTube</span>
+        <div class="atip">55″ Samsung Smart TV with complimentary Netflix streaming, YouTube Premium access, and Samsung TV Plus live channels. No passwords required — simply tap the home button and let the evening unfold.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">❄️</span>
+        <span class="aname">2.5HP A/C<br/>+ Air Purifier</span>
+        <div class="atip">A powerful 2.5HP split-type air conditioner keeps your sanctuary perfectly cool and refreshed year-round. The remote rests on the bedside table. An air purifier is also thoughtfully included — particularly welcomed by guests with sensitivities or allergies.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🍳</span>
+        <span class="aname">Kitchenette<br/>Cookware Ready</span>
+        <div class="atip">Thoughtfully equipped with essential appliances and cookware for light meal preparation, morning coffee rituals, and refreshing beverages throughout your stay. We kindly ask that utensils be rinsed after use.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🚿</span>
+        <span class="aname">Hot Shower<br/>+ Plush Towels</span>
+        <div class="atip">Your private ensuite features a reliable water heater for warm, restorative showers at any hour. Plush, hotel-quality towels are provided for your comfort. The water heater switch is located conveniently beside the shower.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">🧺</span>
+        <span class="aname">Washing<br/>Machine</span>
+        <div class="atip">An in-unit automatic washing machine makes extended stays truly effortless — keeping your wardrobe pristine and travel-light throughout your journey. Please do message us should you require laundry supplies.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">☕</span>
+        <span class="aname">Coffee &amp;<br/>Drinking Water</span>
+        <div class="atip">Complimentary coffee selections, purified drinking water, and essential toiletries have been thoughtfully arranged in anticipation of your arrival. Refills are always available — simply ask and we shall arrange them.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">👔</span>
+        <span class="aname">Wardrobe &amp;<br/>Cloth Steamer</span>
+        <div class="atip">A single-door wardrobe with quality hangers ensures effortless unpacking. A complimentary cloth steamer is available for impeccably wrinkle-free garments. An extra pillow and blanket are stored neatly on the top shelf.</div>
+      </div>
+      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
+        <span class="tip-dot"></span>
+        <span class="aicon">💻</span>
+        <span class="aname">Dedicated<br/>Workspace</span>
+        <div class="atip">A dedicated desk with comfortable seating and generous surface area — perfectly appointed for remote work, important video calls, or the unhurried planning of your next great adventure.</div>
+      </div>
+    </div>
+    <div style="background:var(--surface-alt);border-radius:0.875rem;padding:0.875rem 1rem;font-size:0.82rem;color:var(--text-muted);line-height:1.65;border:1px solid var(--border);">
+      🅿️ <strong style="color:var(--text);">Parking:</strong> Your dedicated parking slot is positioned directly in front of the unit — easily accessible and monitored around the clock by CCTV within the Bria Homes compound. One vehicle per reservation. Should you require additional parking, kindly let us know in advance and we shall arrange it with great pleasure.
+    </div>
+  </div>
+
+<div class="card animate" id="section-rules">
+    <p class="card-title">✦ House Courtesies</p>
+    <div class="rules-list">
+      <div class="rule"><span class="ricon">👟</span><span>We kindly invite you to remove your shoes at the entrance — a shoe rack with complimentary slippers awaits you just inside the door</span></div>
+      <div class="rule important"><span class="ricon">🚭</span><span><strong>Smoke-free sanctuary.</strong> A designated outdoor area is available should it be needed. Your understanding is warmly appreciated.</span></div>
+      <div class="rule"><span class="ricon">🌙</span><span><strong>Quiet hours begin at 10:00 PM.</strong> We are nestled within a warm and peaceful residential community — a gentle consideration for our neighbours goes a very long way.</span></div>
+      <div class="rule"><span class="ricon">🏠</span><span><strong>No gatherings or parties, please.</strong> Only registered guests are welcome inside — to preserve the serenity and calm of your sanctuary and the neighbourhood.</span></div>
+      <div class="rule"><span class="ricon">👥</span><span>Only guests listed in your booking may stay overnight. Should your group grow, kindly let us know in advance — we are always happy to accommodate with care.</span></div>
+      <div class="rule"><span class="ricon">💡</span><span>When stepping out, we kindly ask that you switch off the A/C, lights, and appliances — small, mindful habits that make a meaningful difference. Thank you sincerely.</span></div>
+      <div class="rule important"><span class="ricon">💧</span><span><strong>Kindly use the bin for tissue, toilet paper, and sanitary items</strong> — not the toilet. Our plumbing is delicate, and we want your experience to remain entirely smooth and uninterrupted.</span></div>
+      <div class="rule"><span class="ricon">🗑️</span><span>Should the indoor bins fill up, kindly tie the bags and place them in the outdoor bin — or send us a message and we shall arrange collection at once. No trouble whatsoever.</span></div>
+      <div class="rule"><span class="ricon">✨</span><span>We warmly ask that you help us care for this space. Should anything seem off or require attention, please do let us know at once — there is no judgment here, only a genuine desire to ensure everything is perfect for you.</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION DIVIDER -->
+  <div class="section-divider animate">
+    <div class="section-divider-line"></div>
+    <span class="section-divider-label">✦ Practical Notes</span>
+    <div class="section-divider-line"></div>
+  </div>
+
+<div class="card outage-card animate" id="section-outage">
+    <div class="outage-header">
+      <span class="outage-bolt">⚡</span>
+      <div>
+        <div class="outage-title">Power Outage? We've Got You Covered</div>
+        <div class="outage-subtitle">Essential comforts remain uninterrupted — here's what we've prepared.</div>
+      </div>
+    </div>
+    <div class="outage-grid">
+      <div class="outage-item">
+        <span class="outage-item-icon">💧</span>
+        <div class="outage-item-title">Water Still Available</div>
+        <div class="outage-item-desc">Water supply remains unaffected during a power interruption. Stay hydrated and comfortable throughout.</div>
+      </div>
+      <div class="outage-item">
+        <span class="outage-item-icon">🔦</span>
+        <div class="outage-item-title">Emergency Light Ready</div>
+        <div class="outage-item-desc">A fully charged emergency light is on standby — so darkness is never a concern.</div>
+      </div>
+      <div class="outage-item featured">
+        <span class="outage-item-icon">📶</span>
+        <div class="outage-item-title">Internet Stays On</div>
+        <div class="outage-item-desc">Your Wi-Fi connection <strong>will continue to work</strong> even during a blackout — the router has dedicated backup power.</div>
+        <div class="outage-badge">✓ Always Connected</div>
+      </div>
+    </div>
+    <div class="outage-footer">
+      <span class="of-icon">🤝</span>
+      <span><strong>We're always here for you.</strong> Should any concern arise, don't hesitate to reach us at any time — through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer">Airbnb messaging</a> or directly through our on-the-ground partners. Your comfort and peace of mind are our priority, around the clock.</span>
+    </div>
+  </div>
+
+  </div>
+  <div class="tab-panel" data-panel="4" id="tab-panel-food" role="tabpanel">
 
 <div class="card animate" id="section-food">
     <p class="card-title">✦ Dining, Delivery &amp; Culinary Discoveries</p>
@@ -3097,7 +3258,7 @@ body {
   </div>
 
   </div>
-  <div class="tab-panel" data-panel="4" id="tab-panel-explore" role="tabpanel">
+  <div class="tab-panel" data-panel="5" id="tab-panel-explore" role="tabpanel">
 
 <div class="card animate" id="section-explore">
     <p class="card-title">🗺️ Explore General Santos <span style="font-weight:400;opacity:0.55;font-size:0.58rem;">· curated top picks</span></p>
@@ -3312,126 +3473,6 @@ body {
   </div>
 
   </div>
-  <div class="tab-panel" data-panel="5" id="tab-panel-home" role="tabpanel">
-
-<div class="card animate" id="section-amenities">
-    <p class="card-title">🏡 Your Sanctuary at a Glance <span style="font-weight:400;opacity:0.55;font-size:0.58rem;">· tap any amenity for details</span></p>
-    <div class="amenities-grid">
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">🛏️</span>
-        <span class="aname">Queen Bed<br/>Hotel Linens</span>
-        <div class="atip">Drift into the deepest, most restful sleep on our hotel-grade queen bed, dressed in sumptuous linens. An extra pillow and blanket rest on the wardrobe's top shelf. Your A/C and TV remotes are conveniently placed on the bedside table.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">📺</span>
-        <span class="aname">55" Smart TV<br/>Netflix · YouTube</span>
-        <div class="atip">55″ Samsung Smart TV with complimentary Netflix streaming, YouTube Premium access, and Samsung TV Plus live channels. No passwords required — simply tap the home button and let the evening unfold.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">❄️</span>
-        <span class="aname">2.5HP A/C<br/>+ Air Purifier</span>
-        <div class="atip">A powerful 2.5HP split-type air conditioner keeps your sanctuary perfectly cool and refreshed year-round. The remote rests on the bedside table. An air purifier is also thoughtfully included — particularly welcomed by guests with sensitivities or allergies.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">🍳</span>
-        <span class="aname">Kitchenette<br/>Cookware Ready</span>
-        <div class="atip">Thoughtfully equipped with essential appliances and cookware for light meal preparation, morning coffee rituals, and refreshing beverages throughout your stay. We kindly ask that utensils be rinsed after use.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">🚿</span>
-        <span class="aname">Hot Shower<br/>+ Plush Towels</span>
-        <div class="atip">Your private ensuite features a reliable water heater for warm, restorative showers at any hour. Plush, hotel-quality towels are provided for your comfort. The water heater switch is located conveniently beside the shower.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">🧺</span>
-        <span class="aname">Washing<br/>Machine</span>
-        <div class="atip">An in-unit automatic washing machine makes extended stays truly effortless — keeping your wardrobe pristine and travel-light throughout your journey. Please do message us should you require laundry supplies.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">☕</span>
-        <span class="aname">Coffee &amp;<br/>Drinking Water</span>
-        <div class="atip">Complimentary coffee selections, purified drinking water, and essential toiletries have been thoughtfully arranged in anticipation of your arrival. Refills are always available — simply ask and we shall arrange them.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">👔</span>
-        <span class="aname">Wardrobe &amp;<br/>Cloth Steamer</span>
-        <div class="atip">A single-door wardrobe with quality hangers ensures effortless unpacking. A complimentary cloth steamer is available for impeccably wrinkle-free garments. An extra pillow and blanket are stored neatly on the top shelf.</div>
-      </div>
-      <div class="amenity expandable" onclick="toggleAmenity(this)" onkeydown="if(event.key==='Enter'||event.key===' ')toggleAmenity(this)" role="button" tabindex="0">
-        <span class="tip-dot"></span>
-        <span class="aicon">💻</span>
-        <span class="aname">Dedicated<br/>Workspace</span>
-        <div class="atip">A dedicated desk with comfortable seating and generous surface area — perfectly appointed for remote work, important video calls, or the unhurried planning of your next great adventure.</div>
-      </div>
-    </div>
-    <div style="background:var(--surface-alt);border-radius:0.875rem;padding:0.875rem 1rem;font-size:0.82rem;color:var(--text-muted);line-height:1.65;border:1px solid var(--border);">
-      🅿️ <strong style="color:var(--text);">Parking:</strong> Your dedicated parking slot is positioned directly in front of the unit — easily accessible and monitored around the clock by CCTV within the Bria Homes compound. One vehicle per reservation. Should you require additional parking, kindly let us know in advance and we shall arrange it with great pleasure.
-    </div>
-  </div>
-
-<div class="card animate" id="section-rules">
-    <p class="card-title">✦ House Courtesies</p>
-    <div class="rules-list">
-      <div class="rule"><span class="ricon">👟</span><span>We kindly invite you to remove your shoes at the entrance — a shoe rack with complimentary slippers awaits you just inside the door</span></div>
-      <div class="rule important"><span class="ricon">🚭</span><span><strong>Smoke-free sanctuary.</strong> A designated outdoor area is available should it be needed. Your understanding is warmly appreciated.</span></div>
-      <div class="rule"><span class="ricon">🌙</span><span><strong>Quiet hours begin at 10:00 PM.</strong> We are nestled within a warm and peaceful residential community — a gentle consideration for our neighbours goes a very long way.</span></div>
-      <div class="rule"><span class="ricon">🏠</span><span><strong>No gatherings or parties, please.</strong> Only registered guests are welcome inside — to preserve the serenity and calm of your sanctuary and the neighbourhood.</span></div>
-      <div class="rule"><span class="ricon">👥</span><span>Only guests listed in your booking may stay overnight. Should your group grow, kindly let us know in advance — we are always happy to accommodate with care.</span></div>
-      <div class="rule"><span class="ricon">💡</span><span>When stepping out, we kindly ask that you switch off the A/C, lights, and appliances — small, mindful habits that make a meaningful difference. Thank you sincerely.</span></div>
-      <div class="rule important"><span class="ricon">💧</span><span><strong>Kindly use the bin for tissue, toilet paper, and sanitary items</strong> — not the toilet. Our plumbing is delicate, and we want your experience to remain entirely smooth and uninterrupted.</span></div>
-      <div class="rule"><span class="ricon">🗑️</span><span>Should the indoor bins fill up, kindly tie the bags and place them in the outdoor bin — or send us a message and we shall arrange collection at once. No trouble whatsoever.</span></div>
-      <div class="rule"><span class="ricon">✨</span><span>We warmly ask that you help us care for this space. Should anything seem off or require attention, please do let us know at once — there is no judgment here, only a genuine desire to ensure everything is perfect for you.</span></div>
-    </div>
-  </div>
-
-  <!-- SECTION DIVIDER -->
-  <div class="section-divider animate">
-    <div class="section-divider-line"></div>
-    <span class="section-divider-label">✦ Practical Notes</span>
-    <div class="section-divider-line"></div>
-  </div>
-
-<div class="card outage-card animate" id="section-outage">
-    <div class="outage-header">
-      <span class="outage-bolt">⚡</span>
-      <div>
-        <div class="outage-title">Power Outage? We've Got You Covered</div>
-        <div class="outage-subtitle">Essential comforts remain uninterrupted — here's what we've prepared.</div>
-      </div>
-    </div>
-    <div class="outage-grid">
-      <div class="outage-item">
-        <span class="outage-item-icon">💧</span>
-        <div class="outage-item-title">Water Still Available</div>
-        <div class="outage-item-desc">Water supply remains unaffected during a power interruption. Stay hydrated and comfortable throughout.</div>
-      </div>
-      <div class="outage-item">
-        <span class="outage-item-icon">🔦</span>
-        <div class="outage-item-title">Emergency Light Ready</div>
-        <div class="outage-item-desc">A fully charged emergency light is on standby — so darkness is never a concern.</div>
-      </div>
-      <div class="outage-item featured">
-        <span class="outage-item-icon">📶</span>
-        <div class="outage-item-title">Internet Stays On</div>
-        <div class="outage-item-desc">Your Wi-Fi connection <strong>will continue to work</strong> even during a blackout — the router has dedicated backup power.</div>
-        <div class="outage-badge">✓ Always Connected</div>
-      </div>
-    </div>
-    <div class="outage-footer">
-      <span class="of-icon">🤝</span>
-      <span><strong>We're always here for you.</strong> Should any concern arise, don't hesitate to reach us at any time — through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer">Airbnb messaging</a> or directly through our on-the-ground partners. Your comfort and peace of mind are our priority, around the clock.</span>
-    </div>
-  </div>
-
-  </div>
   <div class="tab-panel" data-panel="6" id="tab-panel-help" role="tabpanel">
 
 <div class="card animate" id="section-emergency">
@@ -3476,66 +3517,125 @@ body {
 
 <div class="card animate" id="section-departure">
     <p class="card-title">✦ Departure Checklist</p>
-    <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.7;margin-top:-0.5rem;margin-bottom:1rem;font-style:italic;">Each item on this checklist helps keep the property in wonderful condition for the next guest — your care and thoughtfulness is sincerely appreciated. Take a moment to tick through before you head out.</p>
-    <div style="background:var(--surface-alt);border-radius:0.875rem;border:1px solid var(--border);overflow:hidden;margin-bottom:0.875rem;">
-      <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);">⏰ Check-Out Time · 12:00 NN</div>
-      <div id="deptChecklist" style="display:flex;flex-direction:column;">
-        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
-          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
-          <span>🗑️ Take out the trash to the designated outdoor bins</span>
-        </label>
-        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
-          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
-          <span>🧳 Check all areas for personal belongings</span>
-        </label>
-        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
-          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
-          <span>💡 Switch off all lights, A/C, and appliances</span>
-        </label>
-        <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
-          <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
-          <span>🔐 Close the door firmly to auto-lock. Please return the key card to its place.</span>
-        </label>
-      </div>
-    </div>
-    <div class="callout gold">
-      <strong>⏳ Need a late check-out?</strong> Extensions are available upon request — subject to availability and may incur additional charges. Please message us in advance through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb</a>.
-    </div>
 
-    <!-- Thank You & Review Card -->
-    <div style="margin-top:1rem;border-radius:1.25rem;overflow:hidden;border:1.5px solid rgba(201,150,58,0.3);background:linear-gradient(160deg,rgba(201,150,58,0.08) 0%,rgba(247,242,232,0.6) 60%,rgba(201,150,58,0.05) 100%);position:relative;">
-
-      <!-- Gold top bar -->
-      <div style="height:3px;background:linear-gradient(90deg,transparent 0%,var(--gold-line) 20%,var(--gold) 50%,var(--gold-line) 80%,transparent 100%);"></div>
-
-      <!-- Header -->
-      <div style="padding:1.375rem 1.25rem 0.875rem;text-align:center;border-bottom:1px solid rgba(201,150,58,0.15);">
-        <div style="font-size:2rem;margin-bottom:0.5rem;letter-spacing:0.05em;">🌴</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,4vw,1.5rem);font-weight:600;color:var(--mahogany);line-height:1.25;margin-bottom:0.5rem;">Thank You for Staying With Us</div>
-        <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.7;max-width:340px;margin:0 auto;">It has been a genuine privilege to host you at Cascade Hideaway. We hope your stay brought the rest, comfort, and warmth you deserved — and that you are leaving with good memories and a full heart.</div>
+    <!-- Checkout confirmation gate -->
+    <div id="checkoutGate" style="position:relative;">
+      <!-- Blurred preview layer -->
+      <div id="checkoutBlurred" style="filter:blur(5px);pointer-events:none;user-select:none;transition:filter 0.4s ease;">
+        <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.7;margin-top:-0.5rem;margin-bottom:1rem;font-style:italic;">Each item on this checklist helps keep the property in wonderful condition for the next guest — your care and thoughtfulness is sincerely appreciated. Take a moment to tick through before you head out.</p>
+        <div style="background:var(--surface-alt);border-radius:0.875rem;border:1px solid var(--border);overflow:hidden;margin-bottom:0.875rem;">
+          <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);">⏰ Check-Out Time · 12:00 NN</div>
+          <div style="display:flex;flex-direction:column;">
+            <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--text);line-height:1.5;">
+              <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;" disabled>
+              <span>🗑️ Take out the trash to the designated outdoor bins</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--text);line-height:1.5;">
+              <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;" disabled>
+              <span>🧳 Check all areas for personal belongings</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--text);line-height:1.5;">
+              <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;" disabled>
+              <span>💡 Switch off all lights, A/C, and appliances</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;font-size:0.84rem;color:var(--text);line-height:1.5;">
+              <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;" disabled>
+              <span>🔐 Close the door firmly to auto-lock. Please return the key card to its place.</span>
+            </label>
+          </div>
+        </div>
+        <div style="background:rgba(201,150,58,0.08);border:1px solid rgba(201,150,58,0.22);border-radius:0.875rem;padding:0.875rem 1rem;font-size:0.84rem;color:var(--text-muted);line-height:1.65;">
+          <strong>⏳ Need a late check-out?</strong> Extensions are available upon request — subject to availability. Please message us in advance through Airbnb.
+        </div>
       </div>
 
-      <!-- Review nudge -->
-      <div style="padding:1rem 1.25rem;">
-        <div style="text-align:center;margin-bottom:0.875rem;">
-          <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--gold-rich);margin-bottom:0.375rem;">Your review makes a real difference</div>
-          <div style="display:flex;justify-content:center;gap:0.2rem;font-size:1.5rem;margin-bottom:0.5rem;">⭐⭐⭐⭐⭐</div>
-          <div style="font-size:0.83rem;color:var(--text);line-height:1.7;max-width:320px;margin:0 auto;">Your feedback helps us grow and become better hosts — every honest review shapes how we care for the next guest. If something made your stay special, we would love to hear about it.</div>
+      <!-- Confirmation overlay -->
+      <div id="checkoutConfirm" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:10;padding:1rem;background:rgba(247,242,232,0.35);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);border-radius:inherit;">
+        <div style="background:var(--surface);border:1.5px solid rgba(201,150,58,0.35);border-radius:1.25rem;padding:1.75rem 1.5rem;text-align:center;box-shadow:0 8px 40px rgba(28,16,6,0.18),0 2px 10px rgba(28,16,6,0.08);max-width:320px;width:100%;position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold-line),var(--gold),var(--gold-line),transparent);"></div>
+          <div style="font-size:2rem;margin-bottom:0.75rem;">🧳</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,3.5vw,1.35rem);font-weight:600;color:var(--mahogany);line-height:1.25;margin-bottom:0.5rem;">Are you checking out?</div>
+          <div style="font-size:0.81rem;color:var(--text-muted);line-height:1.65;margin-bottom:1.25rem;">This checklist will help ensure a smooth and seamless departure. Tap below to confirm you are checking out and reveal your departure guide.</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <button onclick="revealDeparture()" style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.875rem 1.25rem;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);border:none;border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.84rem;cursor:pointer;letter-spacing:0.03em;box-shadow:0 3px 14px rgba(201,150,58,0.35);transition:all 0.2s ease;" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 5px 20px rgba(201,150,58,0.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 3px 14px rgba(201,150,58,0.35)'">
+              ✓ Yes, I'm checking out
+            </button>
+            <button onclick="dismissCheckoutConfirm()" style="display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.65rem 1.25rem;background:transparent;color:var(--text-muted);border:1px solid rgba(160,117,40,0.22);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.78rem;cursor:pointer;transition:all 0.2s ease;" onmouseover="this.style.borderColor='rgba(160,117,40,0.45)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='rgba(160,117,40,0.22)';this.style.color='var(--text-muted)'">
+              Not yet — just browsing
+            </button>
+          </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:0.5rem;">
-          <a href="https://www.airbnb.com/users/reviews" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.875rem 1.25rem;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.82rem;text-decoration:none;letter-spacing:0.04em;box-shadow:0 4px 16px rgba(201,150,58,0.35);">
-            ⭐ Leave a Review on Airbnb
-          </a>
-          <a href="https://m.me/61578158229299" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.7rem 1.25rem;background:rgba(201,150,58,0.08);border:1.5px solid rgba(201,150,58,0.3);color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none;">
-            💬 Share Feedback Directly With Us
-          </a>
+      </div>
+    </div>
+
+    <!-- Full content (hidden until confirmed) -->
+    <div id="checkoutContent" style="display:none;">
+      <p style="font-size:0.84rem;color:var(--text-muted);line-height:1.7;margin-top:-0.5rem;margin-bottom:1rem;font-style:italic;">Each item on this checklist helps keep the property in wonderful condition for the next guest — your care and thoughtfulness is sincerely appreciated. Take a moment to tick through before you head out.</p>
+      <div style="background:var(--surface-alt);border-radius:0.875rem;border:1px solid var(--border);overflow:hidden;margin-bottom:0.875rem;">
+        <div style="padding:0.75rem 1rem;border-bottom:1px solid var(--border);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);">⏰ Check-Out Time · 12:00 NN</div>
+        <div id="deptChecklist" style="display:flex;flex-direction:column;">
+          <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+            <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+            <span>🗑️ Take out the trash to the designated outdoor bins</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+            <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+            <span>🧳 Check all areas for personal belongings</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+            <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+            <span>💡 Switch off all lights, A/C, and appliances</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;cursor:pointer;font-size:0.84rem;color:var(--text);line-height:1.5;" onclick="this.querySelector('input').click()">
+            <input type="checkbox" style="width:1.1rem;height:1.1rem;accent-color:var(--gold-rich);flex-shrink:0;cursor:pointer;" onclick="event.stopPropagation()">
+            <span>🔐 Close the door firmly to auto-lock. Please return the key card to its place.</span>
+          </label>
+        </div>
+      </div>
+      <div class="callout gold">
+        <strong>⏳ Need a late check-out?</strong> Extensions are available upon request — subject to availability and may incur additional charges. Please message us in advance through <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:700;">Airbnb</a>.
+      </div>
+
+      <!-- Thank You & Review Card -->
+      <div style="margin-top:1rem;border-radius:1.25rem;overflow:hidden;border:1.5px solid rgba(201,150,58,0.3);background:linear-gradient(160deg,rgba(201,150,58,0.08) 0%,rgba(247,242,232,0.6) 60%,rgba(201,150,58,0.05) 100%);position:relative;">
+        <div style="height:3px;background:linear-gradient(90deg,transparent 0%,var(--gold-line) 20%,var(--gold) 50%,var(--gold-line) 80%,transparent 100%);"></div>
+
+        <!-- Header -->
+        <div style="padding:1.5rem 1.25rem 1rem;text-align:center;border-bottom:1px solid rgba(201,150,58,0.15);">
+          <div style="font-size:2rem;margin-bottom:0.5rem;">🌴</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,4vw,1.55rem);font-weight:600;color:var(--mahogany);line-height:1.2;margin-bottom:0.625rem;">Until We Meet Again</div>
+          <div style="font-size:0.85rem;color:var(--text-muted);line-height:1.8;max-width:340px;margin:0 auto;">
+            It has truly been our privilege to have you here at Cascade Hideaway. We hope these days brought you the rest, quiet, and warmth you came for — and that you're leaving feeling a little more like yourself.
+          </div>
         </div>
 
-        <!-- Warm sign-off -->
-        <div style="text-align:center;margin-top:1rem;padding-top:0.875rem;border-top:1px solid rgba(201,150,58,0.15);">
-          <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.7;font-style:italic;">We hope the road home is smooth, and that we will have the joy of welcoming you back one day.</div>
-          <div style="margin-top:0.625rem;font-size:clamp(1.05rem,4vw,1.3rem);color:var(--mahogany);font-weight:600;font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:0.02em;line-height:1.3;">With warmth — Marifel &amp; The Cascade Team 🌿</div>
-          <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.875rem;padding:0.7rem 1.375rem;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.78rem;text-decoration:none;letter-spacing:0.04em;box-shadow:0 4px 16px rgba(201,150,58,0.4);">🏠 Book Your Next Stay →</a>
+        <!-- Review section -->
+        <div style="padding:1.125rem 1.25rem 0.875rem;border-bottom:1px solid rgba(201,150,58,0.12);">
+          <div style="text-align:center;margin-bottom:1rem;">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,3vw,1.2rem);font-style:italic;font-weight:500;color:var(--mahogany);line-height:1.4;margin-bottom:0.5rem;">Did we make your stay feel special?</div>
+            <div style="display:flex;justify-content:center;gap:0.18rem;font-size:1.65rem;margin-bottom:0.75rem;filter:drop-shadow(0 1px 4px rgba(201,150,58,0.25));">⭐⭐⭐⭐⭐</div>
+            <div style="font-size:0.83rem;color:var(--text-muted);line-height:1.8;max-width:310px;margin:0 auto;">
+              A moment of your time means the world to us. Your honest words help us grow, keep our standards where they should be, and let the next guest know what to look forward to.
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <a href="https://www.airbnb.com/users/reviews" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.925rem 1.25rem;background:linear-gradient(135deg,var(--gold-light),var(--gold-rich));color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:700;font-size:0.84rem;text-decoration:none;letter-spacing:0.03em;box-shadow:0 4px 16px rgba(201,150,58,0.35);transition:all 0.2s ease;" onmouseover="this.style.boxShadow='0 6px 24px rgba(201,150,58,0.5)';this.style.transform='translateY(-1px)'" onmouseout="this.style.boxShadow='0 4px 16px rgba(201,150,58,0.35)';this.style.transform=''">
+              ⭐ Leave a Review on Airbnb
+            </a>
+            <a href="mailto:cascadereservations@gmail.com" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.75rem 1.25rem;background:rgba(201,150,58,0.07);border:1.5px solid rgba(201,150,58,0.28);color:var(--mahogany);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.78rem;text-decoration:none;transition:all 0.2s ease;" onmouseover="this.style.background='rgba(201,150,58,0.13)'" onmouseout="this.style.background='rgba(201,150,58,0.07)'">
+              💬 Share Your Thoughts Directly With Us
+            </a>
+          </div>
+          <div style="margin-top:0.875rem;font-size:0.75rem;color:var(--text-muted);text-align:center;line-height:1.65;font-style:italic;">
+            Not everything perfect? Please tell us — we genuinely want to know, so we can make it right for you and better for every guest who follows.
+          </div>
+        </div>
+
+        <!-- Sign-off -->
+        <div style="padding:1rem 1.25rem;text-align:center;">
+          <div style="font-size:0.8rem;color:var(--text-muted);line-height:1.8;font-style:italic;max-width:320px;margin:0 auto 0.75rem;">May the road home be gentle, and should life ever bring you back to General Santos — your sanctuary will be waiting.</div>
+          <div style="font-size:clamp(1rem,3.5vw,1.25rem);color:var(--mahogany);font-weight:600;font-family:'Cormorant Garamond',serif;font-style:italic;letter-spacing:0.02em;line-height:1.3;margin-bottom:0.875rem;">With warm hearts — Marifel &amp; The Cascade Team 🌿</div>
+          <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.65rem 1.25rem;background:transparent;border:1px solid rgba(160,117,40,0.35);color:var(--gold-rich);border-radius:0.875rem;font-family:'Nunito',sans-serif;font-weight:600;font-size:0.76rem;text-decoration:none;letter-spacing:0.04em;transition:all 0.2s ease;" onmouseover="this.style.background='rgba(201,150,58,0.08)';this.style.borderColor='rgba(201,150,58,0.6)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(160,117,40,0.35)'">🏠 Book Your Next Stay →</a>
         </div>
       </div>
     </div>
@@ -3558,6 +3658,13 @@ body {
     🔄 Reset Guide (Admin)
   </button>
 </footer>
+<!-- ═══════════════ SWIPE NUDGE ═══════════════ -->
+<div id="swipeNudge" aria-hidden="true">
+  <span class="sn-arrow">←</span>
+  <span>Swipe to explore</span>
+  <span class="sn-arrow" style="animation-delay:0.2s;">→</span>
+</div>
+
 <div class="swipe-dots" aria-hidden="true">
   <div class="swipe-dot active"></div>
   <div class="swipe-dot"></div>
@@ -3581,17 +3688,17 @@ body {
     <span class="tb-icon">📶</span>
     <span class="tb-label">Essentials</span>
   </button>
-  <button class="tab-btn" data-tab="3" role="tab" aria-selected="false" aria-controls="tab-panel-food">
+  <button class="tab-btn" data-tab="3" role="tab" aria-selected="false" aria-controls="tab-panel-home">
+    <span class="tb-icon">🏡</span>
+    <span class="tb-label">Home</span>
+  </button>
+  <button class="tab-btn" data-tab="4" role="tab" aria-selected="false" aria-controls="tab-panel-food">
     <span class="tb-icon">🛒</span>
     <span class="tb-label">Food</span>
   </button>
-  <button class="tab-btn" data-tab="4" role="tab" aria-selected="false" aria-controls="tab-panel-explore">
+  <button class="tab-btn" data-tab="5" role="tab" aria-selected="false" aria-controls="tab-panel-explore">
     <span class="tb-icon">🗺️</span>
     <span class="tb-label">Explore</span>
-  </button>
-  <button class="tab-btn" data-tab="5" role="tab" aria-selected="false" aria-controls="tab-panel-home">
-    <span class="tb-icon">🏡</span>
-    <span class="tb-label">Home</span>
   </button>
   <button class="tab-btn" data-tab="6" role="tab" aria-selected="false" aria-controls="tab-panel-help">
     <span class="tb-icon">📞</span>
@@ -3600,14 +3707,14 @@ body {
 </nav>
 
 <!-- ═══════════════ CONTACT POPUP ═══════════════ -->
-<div class="overlay" id="overlay" onclick="handleOverlayClick(event)" role="dialog" aria-modal="true" aria-label="Contact options">
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
   <div class="popup" id="popup">
     <div class="popup-handle" id="popupHandle">
       <div class="popup-handle-bar"></div>
     </div>
     <h3>Need Assistance?</h3>
     <div class="contact-options">
-      <div class="contact-opt" onclick="copyJary()" onkeydown="if(event.key==='Enter'||event.key===' ')copyJary()" role="button" tabindex="0" style="cursor:pointer;">
+      <div class="contact-opt" onclick="copyJary()" style="cursor:pointer;">
         <div class="cicon">📞</div>
         <div>
           <span style="font-weight:700;">Ms. Jarely "Jary" · 09618056979</span>
@@ -3628,10 +3735,10 @@ body {
           <span class="csub">Facebook · We respond promptly and warmly</span>
         </div>
       </a>
-            <a class="contact-opt" href="/cdn-cgi/l/email-protection#244745574745404156415741565245504d4b4a57644349454d480a474b49" target="_blank" rel="noopener noreferrer">
+            <a class="contact-opt" href="mailto:cascadereservations@gmail.com">
         <div class="cicon">✉️</div>
         <div>
-          <span><span class="__cf_email__" data-cfemail="95f6f4e6f6f4f1f0e7f0e6f0e7e3f4e1fcfafbe6d5f2f8f4fcf9bbf6faf8">[email&#160;protected]</span></span>
+          <span>cascadereservations@gmail.com</span>
           <span class="csub">Write to us — we read every message</span>
         </div>
       </a>
@@ -3650,7 +3757,7 @@ body {
 </div><!-- /app -->
 
 <!-- ═══════════════ SCRIPTS ═══════════════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
 /* ═══════════════════════════════════════════════════════════
    TAB SWITCHING + SWIPE SUPPORT
@@ -3758,6 +3865,33 @@ body {
   // Init position
   goTo(0, true);
   window.cascade_goToTab = goTo; // expose for deep linking
+
+  /* ── Swipe nudge: show briefly on first visit, dismiss on first interaction ── */
+  (function() {
+    var NUDGE_KEY = 'ch_swipe_seen';
+    var nudge = document.getElementById('swipeNudge');
+    if (!nudge) return;
+    try { if (localStorage.getItem(NUDGE_KEY)) return; } catch(e) {}
+    // Show after a short delay (let splash / welcome settle first)
+    var showTimer = setTimeout(function() {
+      nudge.classList.add('visible');
+      // Auto-hide after 3.5 s
+      setTimeout(function() {
+        nudge.classList.remove('visible');
+        try { localStorage.setItem(NUDGE_KEY, '1'); } catch(e) {}
+      }, 3500);
+    }, 1800);
+
+    function dismiss() {
+      clearTimeout(showTimer);
+      nudge.classList.remove('visible');
+      try { localStorage.setItem(NUDGE_KEY, '1'); } catch(e) {}
+      document.removeEventListener('touchstart', dismiss);
+      document.removeEventListener('click', dismiss);
+    }
+    document.addEventListener('touchstart', dismiss, { passive: true, once: true });
+    document.addEventListener('click', dismiss, { once: true });
+  })();
 
 })();
 
@@ -4263,6 +4397,68 @@ function dismissWelcome() {
     }
   } catch(e) {}
 })();
+
+/* DEPARTURE CHECKOUT GATE */
+function revealDeparture() {
+  var gate    = document.getElementById('checkoutGate');
+  var content = document.getElementById('checkoutContent');
+  if (!gate || !content) return;
+  gate.style.transition = 'opacity 0.35s ease';
+  gate.style.opacity = '0';
+  setTimeout(function() {
+    gate.style.display = 'none';
+    content.style.display = 'block';
+    content.style.opacity = '0';
+    content.style.transition = 'opacity 0.4s ease';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        content.style.opacity = '1';
+      });
+    });
+  }, 350);
+}
+function dismissCheckoutConfirm() {
+  var gate    = document.getElementById('checkoutGate');
+  var blurred = document.getElementById('checkoutBlurred');
+  var confirm = document.getElementById('checkoutConfirm');
+  if (!gate || !blurred || !confirm) return;
+  confirm.style.transition = 'opacity 0.3s ease';
+  confirm.style.opacity = '0';
+  setTimeout(function() {
+    confirm.style.display = 'none';
+    blurred.style.filter  = 'none';
+    blurred.style.pointerEvents = 'none';
+    blurred.style.userSelect    = 'none';
+    blurred.style.opacity       = '0.5';
+    var note = document.createElement('div');
+    note.style.cssText = 'text-align:center;padding:0.75rem 1rem;font-size:0.78rem;color:var(--text-muted);font-style:italic;';
+    note.textContent = 'Tap "Are you checking out?" again when you\'re ready to depart.';
+    // Re-show a minimal re-trigger button
+    var retrigger = document.createElement('div');
+    retrigger.style.cssText = 'text-align:center;margin-top:0.75rem;';
+    retrigger.innerHTML = '<button onclick="showCheckoutConfirm()" style="background:transparent;border:1px solid rgba(160,117,40,0.3);border-radius:2rem;padding:0.45rem 1.1rem;font-family:\'Nunito\',sans-serif;font-size:0.74rem;font-weight:600;color:var(--gold-rich);cursor:pointer;letter-spacing:0.06em;">🧳 Are you checking out?</button>';
+    gate.appendChild(note);
+    gate.appendChild(retrigger);
+  }, 300);
+}
+function showCheckoutConfirm() {
+  var gate    = document.getElementById('checkoutGate');
+  var blurred = document.getElementById('checkoutBlurred');
+  var confirm = document.getElementById('checkoutConfirm');
+  if (!gate || !blurred || !confirm) return;
+  // Remove appended note/retrigger
+  var extras = gate.querySelectorAll('div:not(#checkoutBlurred):not(#checkoutConfirm)');
+  extras.forEach(function(el) { el.remove(); });
+  blurred.style.filter  = 'blur(5px)';
+  blurred.style.opacity = '1';
+  confirm.style.display = 'flex';
+  confirm.style.opacity = '0';
+  confirm.style.transition = 'opacity 0.3s ease';
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() { confirm.style.opacity = '1'; });
+  });
+}
+
 
 /* ADMIN RESET EASTER EGG
    Triple-tap footer crest to reveal the reset button */
