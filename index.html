@@ -15,7 +15,8 @@
 <meta name="apple-mobile-web-app-title" content="Cascade Guide"/>
 <meta name="theme-color" content="#1C1006"/>
 <title>Cascade Hideaway — Welcome to Your Sanctuary</title>
-<!-- v15.0: swipe nudge redesigned (bottom-center animated gesture pill) · swipe dismiss bug fixed · full audit pass -->
+<!-- v21.0: panel height collapse (empty space fix) · weather pill block centering fix -->
+<link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22Cascade%20Hideaway%20Guide%22%2C%22short_name%22%3A%22Cascade%20Guide%22%2C%22description%22%3A%22Your%20personal%20sanctuary%20guide%20for%20Cascade%20Hideaway%2C%20General%20Santos%20City%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%231C1006%22%2C%22theme_color%22%3A%22%231C1006%22%2C%22orientation%22%3A%22portrait-primary%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D%2522http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%2522%20viewBox%3D%25220%200%20100%20100%2522%3E%3Ctext%20y%3D%2522.9em%2522%20font-size%3D%252290%2522%3E%F0%9F%8C%B4%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%2C%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D%2522http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%2522%20viewBox%3D%25220%200%20100%20100%2522%3E%3Ctext%20y%3D%2522.9em%2522%20font-size%3D%252290%2522%3E%F0%9F%8C%B4%3C%2Ftext%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -116,12 +117,11 @@
 * { -webkit-tap-highlight-color: rgba(160,117,40,0.15); }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* smooth removed: conflicts with translateX tab system */
   /* FIX v7.5: JS sets this precisely after header measures — CSS fallback only */
   scroll-padding-top: 80px;
   -webkit-text-size-adjust: 100%;
   overscroll-behavior: none;
-  height: 100%;
 }
 
 body {
@@ -130,14 +130,13 @@ body {
   background: var(--bg);
   color: var(--text);
   letter-spacing: 0.012em;
-  padding-bottom: calc(var(--tab-bar-h, 60px) + 0.5rem);
+  /* padding-bottom removed v19: panels handle their own clearance via --panel-pad-bottom */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
   line-height: 1.72;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
-  height: 100%;
 }
 
 body::before {
@@ -166,7 +165,7 @@ body::after {
 }
 @media (min-width: 768px) {
   body::after { font-size: 2.8rem; letter-spacing: 0.5rem; }
-  body { padding-bottom: calc(var(--tab-bar-h, 64px) + 0.5rem); }
+  /* body padding-bottom removed v19 */
 }
 
 .serif { font-family: 'Cormorant Garamond', serif; }
@@ -189,7 +188,7 @@ body::after {
     background 0.35s ease,
     box-shadow 0.35s ease,
     backdrop-filter 0.35s ease;
-  will-change: padding, background;
+  /* will-change removed: sticky header has its own layer */
 }
 .site-header.scrolled {
   padding: 0.45rem clamp(1rem,4vw,2rem) 0.45rem;
@@ -202,7 +201,7 @@ body::after {
 .site-header.scrolled .sub { display: none; }
 .site-header.scrolled h1 {
   font-size: clamp(1rem, 3.5vw, 1.35rem);
-  margin: 0;
+  margin: 0 0 0.1rem;
   animation: none;
   text-shadow: none;
 }
@@ -1302,7 +1301,7 @@ body::after {
 }
 
 .animate {
-  will-change: opacity, transform;
+  /* will-change removed from CSS — added by JS per-card during animation only */
   transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -2113,12 +2112,13 @@ body::after {
 /* Tab panels wrapper — clips to show one panel */
 .tab-panels-wrap {
   position: relative;
-  overflow: hidden;
+  overflow: clip; /* clip = no scroll container, no scroll anchoring */
+  overflow-clip-margin: 0;
 }
 
 .tab-panels {
   display: flex;
-  will-change: transform;
+  /* will-change removed: added by JS only during active swipe */
   transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -2127,8 +2127,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: clamp(0.75rem, 2.2vw, 1.125rem);
-  padding-bottom: calc(var(--tab-bar-h, 60px) + clamp(0.75rem, 2vw, 1.25rem));
-  /* Panels are side-by-side in the flex row; only active one visible */
+  padding-bottom: var(--panel-pad-bottom, 76px);
 }
 
 /* ─── Tab Bar ────────────────────────────────────────── */
@@ -2545,6 +2544,256 @@ body::after {
   line-height: 1.55;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   PHOTO GALLERY STRIP — Welcome tab
+═══════════════════════════════════════════════════════════ */
+.gallery-strip {
+  position: relative;
+  overflow: hidden;
+  border-radius: clamp(1rem, 2.5vw, 1.375rem);
+  background: var(--mahogany);
+  border: 1px solid var(--border-gold);
+  box-shadow: var(--shadow-md);
+  touch-action: pan-y;
+  user-select: none;
+}
+.gallery-track {
+  display: flex;
+  will-change: transform;
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.gallery-track.no-transition { transition: none !important; }
+.gallery-slide {
+  min-width: 100%;
+  aspect-ratio: 4/3;
+  position: relative;
+  overflow: hidden;
+}
+.gallery-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.gallery-slide:hover img { transform: scale(1.03); }
+.gallery-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(28,16,6,0.82) 0%, rgba(28,16,6,0.4) 55%, transparent 100%);
+  padding: 2rem 1.25rem 0.875rem;
+  color: rgba(253,249,240,0.92);
+  font-size: clamp(0.72rem, 1.9vw, 0.82rem);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 0.6rem 0 0.5rem;
+  background: rgba(28,16,6,0.03);
+}
+.gallery-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(160,117,40,0.25);
+  transition: all 0.28s ease;
+  cursor: pointer;
+}
+.gallery-dot.active {
+  background: var(--gold);
+  transform: scaleX(2.2);
+  border-radius: 3px;
+}
+.gallery-prev,
+.gallery-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(28,16,6,0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(201,150,58,0.3);
+  color: rgba(224,184,106,0.9);
+  font-size: 1rem;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  padding: 0;
+}
+.gallery-prev { left: 0.6rem; }
+.gallery-next { right: 0.6rem; }
+.gallery-prev:hover, .gallery-next:hover { background: rgba(28,16,6,0.75); }
+.gallery-prev:disabled, .gallery-next:disabled { opacity: 0.3; pointer-events: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER WEATHER PILL
+═══════════════════════════════════════════════════════════ */
+.header-weather {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.4rem auto 0.5rem;
+  padding: 0.22rem 0.75rem;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(201,150,58,0.2);
+  border-radius: 999px;
+  font-size: clamp(0.6rem, 1.7vw, 0.72rem);
+  color: rgba(224,184,106,0.85);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+.header-weather #hwIcon { font-size: 0.85em; line-height: 1; }
+.header-weather .hw-sep { opacity: 0.4; }
+/* Weather pill adapts in scrolled state — stays visible, smaller */
+.site-header.scrolled .header-weather {
+  font-size: clamp(0.52rem, 1.4vw, 0.62rem);
+  padding: 0.16rem 0.55rem;
+  margin: 0.22rem auto 0.1rem;
+  opacity: 0.82;
+  display: block; /* block so it sits on its own line below h1 */
+  width: fit-content; /* constrain width so margin:auto centers it */
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   HOSPITALITY UX — Psychology-informed improvements
+   Peak-End Rule: Make first + last impression premium
+   Von Restorff: Key info stands out via contrast
+   Warm Affect: Slightly warmer card backgrounds reduce anxiety
+   Progressive Disclosure: Cards breathe more with hover lift
+   Anchoring: Critical cards get subtle gold left-accent
+═══════════════════════════════════════════════════════════ */
+
+/* Slightly warmer card surface — reduces clinical coldness */
+.card {
+  background: #FDFAF4;
+}
+
+/* Lift effect communicates interactivity without clutter */
+.card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Critical cards get a warm left-accent line (anchoring) */
+.card.critical {
+  border-left: 3px solid var(--gold-line);
+}
+
+/* Card title gets a subtle warm underline on active tab */
+.tab-btn.active .tb-icon {
+  transform: scale(1.12);
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), filter 0.2s;
+}
+
+/* Steps feel more premium with better number badge */
+.step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  width: 30px;
+  height: 30px;
+  letter-spacing: -0.01em;
+}
+
+/* Amenity grid — more breathing room between items */
+.amenity {
+  padding: 1rem 0.5rem 0.875rem;
+}
+
+/* Contact tile — make CTA pop more (social proof) */
+.float-btn-main {
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+}
+
+/* Tab bar labels slightly larger — easier scanning */
+.tb-label {
+  font-size: clamp(0.45rem, 1.2vw, 0.54rem);
+  letter-spacing: 0.06em;
+}
+
+/* Welcome banner — warm serif lede for emotional resonance */
+.wb-body {
+  font-size: clamp(0.82rem, 2.2vw, 0.9rem);
+  line-height: 2.0;
+  color: rgba(74,53,32,0.78);
+}
+
+/* Rule items — important ones get amber left accent */
+.rule.important {
+  border-left: 3px solid rgba(201,150,58,0.55);
+  border-top-color: var(--border);
+  border-right-color: var(--border);
+  border-bottom-color: var(--border);
+}
+
+/* Time blocks — make check-in feel exciting, not clinical */
+.time-block {
+  background: linear-gradient(160deg, var(--surface-alt) 0%, var(--surface-warm) 100%);
+}
+
+/* Callout gold — warm tint for key info boxes */
+.callout.gold {
+  background: rgba(201,150,58,0.09);
+  border-radius: 0.25rem 0.875rem 0.875rem 0.25rem;
+}
+
+/* Section dividers — slightly bolder for better visual rhythm */
+.section-divider {
+  opacity: 0.7;
+}
+
+/* Food delivery buttons — warm hover state */
+.delivery-btn:hover {
+  background: linear-gradient(135deg, var(--parchment), #F5EDD6);
+}
+
+/* Emergency grid — calm, not clinical */
+.emergency-link {
+  background: linear-gradient(160deg, var(--surface-alt) 0%, #F9F4E8 100%);
+}
+
+/* Gallery caption — warmer gradient, more legible */
+.gallery-caption {
+  font-size: clamp(0.76rem, 2vw, 0.86rem);
+  padding: 2.25rem 1.25rem 1rem;
+  letter-spacing: 0.06em;
+}
+
+/* Header weather pill — slightly more visible */
+.header-weather {
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(201,150,58,0.28);
+}
+
+/* Swipe nudge — make text slightly warmer */
+#swipeNudge .sn-label {
+  color: rgba(224,184,106,0.9);
+  letter-spacing: 0.08em;
+}
+
+/* Checkout departure card — reassuring green accent on confirm */
+#checkoutContent .callout.gold {
+  border-left-color: #15803d;
+  background: rgba(21,128,61,0.06);
+}
+
+
 </style>
 </head>
 <body>
@@ -2609,6 +2858,13 @@ body::after {
     <em>Hotel Comfort. Home Warmth.</em>
   </h1>
   <p class="sub">Bria Homes · Conel Road · Block 47, Lot 39 · General Santos City</p>
+  <!-- Weather pill — always in header, hides when scrolled -->
+  <div class="header-weather" id="headerWeather" style="display:none;">
+    <span id="hwIcon">🌤️</span>
+    <span id="hwTemp">—</span>
+    <span class="hw-sep">·</span>
+    <span id="hwDesc">General Santos City</span>
+  </div>
 </header>
 
 <!-- ═══════════════ CONTENT ═══════════════ -->
@@ -2666,6 +2922,76 @@ body::after {
         </button>
       </div>
     </div>
+  </div>
+
+  <!-- ✦ PHOTO GALLERY -->
+  <div class="gallery-strip" id="photoGallery" aria-label="Property photos">
+    <div class="gallery-track" id="galleryTrack">
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1jIsHRgph5HjgACl3tM2u0E8ybzYx974s=w1200" alt="Cascade Hideaway — living space" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Your private sanctuary — thoughtfully appointed</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1l_tO-6Qswuni_Tqqn4wcHqIHtm6P5DzL=w1200" alt="Cascade Hideaway — bedroom" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Hotel-grade queen bed &amp; plush linens</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1iZwQzGq8_yYhihgg2et13eUhre5q4143=w1200" alt="Cascade Hideaway — interior" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Warm light and curated comfort throughout</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1vCN3fAoAxr-7RLIbFvdHag__DktOQXMY=w1200" alt="Cascade Hideaway — workspace" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Dedicated workspace for productive days</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1b66VVq8egMtHQGdMkopN2TN5KN8tauW_=w1200" alt="Cascade Hideaway — kitchenette" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Fully equipped kitchenette</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1Vvymq93cBBsMDGHWhIbImwjHr4Pm-hpz=w1200" alt="Cascade Hideaway — bathroom" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Private ensuite with hot shower</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1ahr001AM4LbWMpQQfBlOg_imESK88HqX=w1200" alt="Cascade Hideaway — amenities" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Every detail prepared in advance of your arrival</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/11s_Md-IAEKA6dyzD639ELRHvfzMCAyLR=w1200" alt="Cascade Hideaway — exterior" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Within the secure Bria Homes compound</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1kIwtCJt7EUyNhkm_n3yuboZUcWhrl-ED=w1200" alt="Cascade Hideaway — lounge area" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">A space to slow down and truly breathe</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1wzkooPfoOsa2GzWcixHuZ6xYBf54munt=w1200" alt="Cascade Hideaway — view" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Your home away from home in General Santos City</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/1kLOFeBdHuR0IjLKrrgDRIJh_T-jOQMme=w1200" alt="Cascade Hideaway — details" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Luxury touches at every turn</div>
+      </div>
+
+      <div class="gallery-slide">
+        <img src="https://lh3.googleusercontent.com/d/12_MSXiPDg2g5iv0xzvuoYSdIaWIHrSuR=w1200" alt="Cascade Hideaway — full view" loading="lazy" onerror="this.closest('.gallery-slide').style.display='none';window._galleryRecount&&window._galleryRecount()">
+        <div class="gallery-caption">Cascade Hideaway — your sanctuary awaits</div>
+      </div>
+
+    </div>
+    <button class="gallery-prev" id="galleryPrev" aria-label="Previous photo" disabled>‹</button>
+    <button class="gallery-next" id="galleryNext" aria-label="Next photo">›</button>
+    <div class="gallery-dots" id="galleryDots" aria-hidden="true"></div>
   </div>
 
 
@@ -3700,7 +4026,7 @@ body::after {
   <div style="margin-top:0.5rem;">
     <a href="https://airbnb.com/h/cascadesgsc" target="_blank" rel="noopener noreferrer" style="color:var(--gold-rich);font-weight:600;text-decoration:none;font-size:0.68rem;">🏠 Book your next stay →</a>
   </div>
-  <button id="adminResetLink" onclick="try{localStorage.clear();}catch(e){}location.reload();">
+  <button id="adminResetLink" onclick="try{localStorage.clear();}catch(e){}location.reload();" style="display:none;">
     🔄 Reset Guide (Admin)
   </button>
 </footer>
@@ -3725,11 +4051,13 @@ body::after {
     <div class="sn-dot"></div>
     <div class="sn-dot"></div>
     <div class="sn-dot"></div>
+    <div class="sn-dot"></div>
   </div>
 </div>
 
 <div class="swipe-dots" aria-hidden="true">
   <div class="swipe-dot active"></div>
+  <div class="swipe-dot"></div>
   <div class="swipe-dot"></div>
   <div class="swipe-dot"></div>
   <div class="swipe-dot"></div>
@@ -3813,7 +4141,7 @@ body::after {
 <button class="float-btn-main float-contact" id="floatContact" onclick="openContact()" aria-label="Contact host">
   💬 Contact Us
 </button>
-<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">▲</button>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><span aria-hidden="true">▲</span></button>
 <div class="toast" id="toast"></div>
 
 </div><!-- /app -->
@@ -3833,14 +4161,40 @@ body::after {
   let current      = 0;
   let startX = 0, startY = 0, dragging = false, dragOffset = 0;
 
+  /* Collapse inactive panels so .tab-panels-wrap height tracks active panel.
+     Inactive panels get height:0 + overflow:hidden so they don't push down the wrapper.
+     Incoming panel is restored BEFORE the transition so it's visible during the slide. */
+  function setPanelHeights(activeIdx) {
+    panels.forEach(function(p, i) {
+      if (i === activeIdx) {
+        p.style.height = '';
+        p.style.overflow = '';
+        p.style.visibility = '';
+      } else {
+        p.style.height = '0';
+        p.style.overflow = 'hidden';
+        p.style.visibility = 'hidden';
+      }
+    });
+  }
+
   function goTo(idx, skipAnim) {
     if (idx < 0 || idx >= TOTAL) return;
+    /* Restore target panel height before sliding so it's measured correctly */
+    panels[idx].style.height = '';
+    panels[idx].style.overflow = '';
+    panels[idx].style.visibility = '';
     if (skipAnim) panelsWrap.classList.add('no-transition');
     panelsWrap.style.transform = `translateX(${-idx * 100}%)`;
     if (skipAnim) {
+      setPanelHeights(idx);
       requestAnimationFrame(() => {
         panelsWrap.classList.remove('no-transition');
       });
+    } else {
+      /* Collapse old panels after transition completes */
+      var transitionMs = 400;
+      setTimeout(function() { setPanelHeights(idx); }, transitionMs);
     }
     btns.forEach((b, i) => {
       b.classList.toggle('active', i === idx);
@@ -3855,6 +4209,9 @@ body::after {
     if (idx !== current) {
       panels[idx].scrollTop = 0;
       window.scrollTo({ top: 0, behavior: 'instant' });
+      /* Reset progress bar on tab switch */
+      var pb = document.getElementById('scrollProgress');
+      if (pb) pb.style.width = '0%';
       const hdr = document.getElementById('siteHeader');
       if (hdr) {
         hdr.classList.remove('scrolled');
@@ -3880,6 +4237,8 @@ body::after {
       startY = t.clientY;
       dragging = false;
       dragOffset = 0;
+      /* Promote layer only during active touch */
+      panelsWrap.style.willChange = 'transform';
     }, { passive: true });
 
     swipeTarget.addEventListener('touchmove', function(e) {
@@ -3905,6 +4264,8 @@ body::after {
     swipeTarget.addEventListener('touchend', function(e) {
       if (!dragging) return;
       dragging = false;
+      /* Remove layer promotion after swipe ends */
+      panelsWrap.style.willChange = '';
       panelsWrap.classList.remove('no-transition');
       const threshold = swipeTarget.offsetWidth * 0.22;
       if (dragOffset < -threshold && current < TOTAL - 1) {
@@ -3927,6 +4288,24 @@ body::after {
   // Init position
   goTo(0, true);
   window.cascade_goToTab = goTo; // expose for deep linking
+
+  /* Re-trigger card animations when switching to a new panel */
+  var revealPanel = function(idx) {
+    var panel = document.querySelectorAll('.tab-panel')[idx];
+    if (!panel) return;
+    panel.querySelectorAll('.animate.will-animate').forEach(function(el) {
+      el.classList.remove('will-animate');
+      el.classList.add('visible');
+    });
+  };
+
+  /* Wrap goTo to trigger reveal on each tab navigation */
+  var _goToOrig = goTo;
+  goTo = function(idx, skipAnim) {
+    _goToOrig(idx, skipAnim);
+    setTimeout(function() { revealPanel(idx); }, 80);
+  };
+  window.cascade_goToTab = goTo;
 
   /* ── Swipe nudge: shows only after "Explore Your Guide" / splash dismiss,
         permanently hides on first swipe OR any tab change ── */
@@ -4007,6 +4386,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
         temp: Math.round(d.current.temperature_2m),
         icon: WMO_ICON[d.current.weathercode] || '🌡️'
       };
+      /* Trigger pill render immediately on fetch resolve */
+      typeof window._cascadeRenderWeather === 'function' && window._cascadeRenderWeather();
     }).catch(() => {});
 })();
 
@@ -4048,6 +4429,13 @@ function updateProgress() {
   const docHeight = Math.max(rawScroll, 1);
   const pct = Math.min(Math.round((scrollTop / docHeight) * 1000) / 10, 100);
   if (progressBar) progressBar.style.width = pct + '%';
+
+  /* Back-to-top: show after 220px scroll */
+  var backTopBtn = document.getElementById('backTop');
+  if (backTopBtn) {
+    if (scrollTop > 220) { backTopBtn.classList.add('visible'); }
+    else                 { backTopBtn.classList.remove('visible'); }
+  }
 }
 window.addEventListener('scroll', updateProgress, { passive: true });
 
@@ -4140,12 +4528,15 @@ try {
       el.style.transitionDelay = `${Math.min(i * 0.03, 0.12)}s`;
     });
     const observer = new IntersectionObserver((entries) => {
+      /* Targeted will-change: only on card actively entering view */
       entries.forEach(e => {
         if (e.isIntersecting) {
+          e.target.style.willChange = 'opacity, transform'; /* promote only this card */
           requestAnimationFrame(() => {
             e.target.classList.add('visible');
             e.target.classList.remove('will-animate');
             e.target.style.transitionDelay = '';
+            setTimeout(function() { e.target.style.willChange = ''; }, 650); /* clear after transition */
           });
           observer.unobserve(e.target);
         }
@@ -4570,22 +4961,330 @@ function showCheckoutConfirm() {
 
 
 /* ADMIN RESET EASTER EGG
-   Triple-tap footer crest to reveal the reset button */
-(function() {
-  let taps = 0, tapTimer;
-  const footer = document.querySelector('.site-footer');
-  const resetBtn = document.getElementById('adminResetLink');
-  if (!footer || !resetBtn) return;
-  footer.addEventListener('click', function() {
+   Triple-tap footer crest to reveal the reset button */(function() {
+  var taps = 0, timer = null;
+  var crest = document.querySelector('.site-footer em');
+  if (!crest) return;
+  crest.style.cursor = 'pointer';
+  crest.addEventListener('click', function() {
     taps++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(function() { taps = 0; }, 800);
+    clearTimeout(timer);
+    timer = setTimeout(function() { taps = 0; }, 800);
     if (taps >= 3) {
       taps = 0;
-      resetBtn.style.display = 'inline-block';
+      var btn = document.getElementById('adminResetLink');
+      if (btn) {
+        btn.style.display = btn.style.display === 'none' ? 'inline-block' : 'none';
+      }
     }
   });
 })();
+
+/* ═══════════════════════════════════════════════════════════
+   PHOTO GALLERY — touch swipe + prev/next + dots
+═══════════════════════════════════════════════════════════ */
+(function() {
+  var track   = document.getElementById('galleryTrack');
+  var dotsBox = document.getElementById('galleryDots');
+  var prevBtn = document.getElementById('galleryPrev');
+  var nextBtn = document.getElementById('galleryNext');
+  if (!track) return;
+
+  var slides = track.querySelectorAll('.gallery-slide');
+  var total  = slides.length;
+  var cur    = 0;
+
+  /* Build dots */
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('div');
+    d.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+    d.dataset.idx = i;
+    d.addEventListener('click', function() { goTo(parseInt(this.dataset.idx)); });
+    dotsBox.appendChild(d);
+  }
+
+  function goTo(idx, skipAnim) {
+    if (idx < 0 || idx >= total) return;
+    if (skipAnim) track.classList.add('no-transition');
+    track.style.transform = 'translateX(' + (-idx * 100) + '%)';
+    if (skipAnim) requestAnimationFrame(function() { track.classList.remove('no-transition'); });
+    dotsBox.querySelectorAll('.gallery-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === idx);
+    });
+    if (prevBtn) prevBtn.disabled = (idx === 0);
+    if (nextBtn) nextBtn.disabled = (idx === total - 1);
+    cur = idx;
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', function() { goTo(cur - 1); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goTo(cur + 1); });
+
+  /* Touch swipe */
+  var startX = 0, startY = 0, dragging = false, offset = 0;
+  var wrap = document.getElementById('photoGallery');
+  if (wrap) {
+    wrap.addEventListener('touchstart', function(e) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      dragging = false; offset = 0;
+    }, { passive: true });
+    wrap.addEventListener('touchmove', function(e) {
+      var dx = e.touches[0].clientX - startX;
+      var dy = e.touches[0].clientY - startY;
+      if (!dragging) {
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.3) dragging = true;
+        else if (Math.abs(dy) > 8) return;
+      }
+      if (!dragging) return;
+      offset = dx;
+      var pct = (-cur * 100) + (dx / wrap.offsetWidth * 100);
+      track.classList.add('no-transition');
+      track.style.transform = 'translateX(' + pct + '%)';
+    }, { passive: true });
+    wrap.addEventListener('touchend', function() {
+      if (!dragging) return;
+      track.classList.remove('no-transition');
+      var threshold = wrap.offsetWidth * 0.2;
+      if (offset < -threshold && cur < total - 1) goTo(cur + 1);
+      else if (offset > threshold && cur > 0) goTo(cur - 1);
+      else track.style.transform = 'translateX(' + (-cur * 100) + '%)';
+      dragging = false; offset = 0;
+    }, { passive: true });
+  }
+
+  goTo(0, true);
+  window._galleryGoTo = goTo; /* expose for error recount */
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   WEATHER — render into header pill
+═══════════════════════════════════════════════════════════ */
+(function() {
+  function renderWeather() {
+    var wx = window._cascadeWeather;
+    if (!wx) return;
+    var pill   = document.getElementById('headerWeather');
+    var icon   = document.getElementById('hwIcon');
+    var temp   = document.getElementById('hwTemp');
+    var desc   = document.getElementById('hwDesc');
+    if (!pill) return;
+    if (icon) icon.textContent = wx.icon;
+    if (temp) temp.textContent = wx.temp + '°C';
+    var t = wx.temp;
+    var advice = t >= 33  ? 'Warm — A/C is ready'
+               : t >= 28  ? 'Warm day outside'
+               : t >= 23  ? 'Pleasant weather'
+               : t >= 18  ? 'Cool today'
+               :             'Fresh outside';
+    if (desc) desc.textContent = advice;
+    pill.style.display = 'inline-flex';
+    /* Recalculate header height after pill appears */
+    typeof setHeaderHeight === 'function' && setTimeout(setHeaderHeight, 50);
+  }
+
+  renderWeather();
+  setTimeout(renderWeather, 3000);
+  window._cascadeRenderWeather = renderWeather;
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   HASH DEEP-LINK  — #arrival #wifi #food #explore #help #home
+   URL hash sets the active tab on load and on hashchange
+═══════════════════════════════════════════════════════════ */
+(function() {
+  var hashMap = {
+    '#welcome':   0,
+    '#arrival':   1,
+    '#checkin':   1,
+    '#entry':     1,
+    '#essentials':2,
+    '#wifi':      2,
+    '#times':     2,
+    '#home':      3,
+    '#amenities': 3,
+    '#rules':     3,
+    '#food':      4,
+    '#dining':    4,
+    '#explore':   5,
+    '#help':      6,
+    '#emergency': 6,
+    '#departure': 6,
+  };
+
+  function applyHash(hash) {
+    var idx = hashMap[hash ? hash.toLowerCase() : ''];
+    if (idx !== undefined && typeof window.cascade_goToTab === 'function') {
+      window.cascade_goToTab(idx, true);
+    }
+  }
+
+  /* On load */
+  if (window.location.hash) applyHash(window.location.hash);
+
+  /* On back/forward / external link */
+  window.addEventListener('hashchange', function() { applyHash(window.location.hash); });
+
+  /* Update hash when tab changes — patch goTo */
+  var hashNames = ['welcome','arrival','essentials','home','food','explore','help'];
+  var _origGoToForHash = window.cascade_goToTab;
+  window.cascade_goToTab = function(idx, skipAnim) {
+    _origGoToForHash && _origGoToForHash(idx, skipAnim);
+    try {
+      if (hashNames[idx]) {
+        history.replaceState(null, '', '#' + hashNames[idx]);
+      }
+    } catch(e) {}
+  };
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   CHECKOUT CHECKLIST — localStorage persistence
+   Key: ch_checkout_checks · Value: JSON array of booleans
+═══════════════════════════════════════════════════════════ */
+(function() {
+  var KEY = 'ch_checkout_checks';
+
+  function saveChecks() {
+    try {
+      var boxes = document.querySelectorAll('#deptChecklist input[type="checkbox"]');
+      var state = Array.from(boxes).map(function(b) { return b.checked; });
+      localStorage.setItem(KEY, JSON.stringify(state));
+    } catch(e) {}
+  }
+
+  function loadChecks() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return;
+      var state = JSON.parse(raw);
+      var boxes = document.querySelectorAll('#deptChecklist input[type="checkbox"]');
+      boxes.forEach(function(b, i) {
+        if (state[i]) b.checked = true;
+      });
+    } catch(e) {}
+  }
+
+  /* Attach save listeners once checklist is revealed */
+  function hookChecklist() {
+    var boxes = document.querySelectorAll('#deptChecklist input[type="checkbox"]');
+    if (!boxes.length) return false;
+    boxes.forEach(function(b) {
+      b.addEventListener('change', saveChecks);
+    });
+    loadChecks();
+    return true;
+  }
+
+  /* Try now (in case checklist is already visible) */
+  if (!hookChecklist()) {
+    /* Otherwise observe DOM until checkoutContent becomes visible */
+    var obs = new MutationObserver(function() {
+      if (hookChecklist()) obs.disconnect();
+    });
+    var content = document.getElementById('checkoutContent');
+    if (content) obs.observe(content, { attributes: true, childList: false });
+  }
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   FLOAT CONTACT — hide on Help tab (contact already shown there)
+═══════════════════════════════════════════════════════════ */
+(function() {
+  var floatBtn = document.getElementById('floatContact');
+  if (!floatBtn) return;
+  var _base = window.cascade_goToTab;
+  window.cascade_goToTab = function(idx, skipAnim) {
+    _base && _base(idx, skipAnim);
+    /* Help = tab 6 */
+    floatBtn.style.opacity   = (idx === 6) ? '0' : '';
+    floatBtn.style.pointerEvents = (idx === 6) ? 'none' : '';
+  };
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   DYNAMIC TAB PANEL BOTTOM PADDING
+   Sets --panel-pad-bottom CSS var from live tab bar measurement.
+   All .tab-panel elements pick this up via var().
+═══════════════════════════════════════════════════════════ */
+(function() {
+  /* Inject safe-area-inset-bottom as detectable CSS var */
+  var safeStyle = document.createElement('style');
+  safeStyle.textContent = ':root { --sab: env(safe-area-inset-bottom, 0px); }';
+  document.head.appendChild(safeStyle);
+
+  function syncPanelPadding() {
+    var tabBar = document.getElementById('tabBar');
+    if (!tabBar) return;
+    var h = tabBar.offsetHeight;
+    /* Read back the safe area var (numeric px value) */
+    var sabRaw = getComputedStyle(document.documentElement).getPropertyValue('--sab') || '0px';
+    var sab = parseFloat(sabRaw) || 0;
+    /* 20px breathing room above tab bar */
+    var pad = Math.ceil(h + sab + 20) + 'px';
+    document.documentElement.style.setProperty('--panel-pad-bottom', pad);
+  }
+  syncPanelPadding();
+  window.addEventListener('resize', syncPanelPadding);
+  window.addEventListener('load', syncPanelPadding);
+  setTimeout(syncPanelPadding, 400);
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   GALLERY ERROR RECOUNT — rebuild dots after broken images removed
+═══════════════════════════════════════════════════════════ */
+window._galleryRecount = (function() {
+  var timer = null;
+  return function() {
+    clearTimeout(timer);
+    timer = setTimeout(function() {
+      var track   = document.getElementById('galleryTrack');
+      var dotsBox = document.getElementById('galleryDots');
+      if (!track || !dotsBox) return;
+      var hidden = track.querySelectorAll('.gallery-slide[style*="display:none"]');
+      hidden.forEach(function(s) { s.remove(); });
+      var slides = track.querySelectorAll('.gallery-slide');
+      dotsBox.innerHTML = '';
+      slides.forEach(function(s, i) {
+        var d = document.createElement('div');
+        d.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+        d.dataset.idx = i;
+        d.addEventListener('click', function() {
+          if (typeof window._galleryGoTo === 'function') window._galleryGoTo(parseInt(this.dataset.idx));
+        });
+        dotsBox.appendChild(d);
+      });
+      /* Reset track to slide 0 */
+      track.style.transform = 'translateX(0)';
+    }, 300);
+  };
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN RESET EASTER EGG — triple-tap footer crest
+═══════════════════════════════════════════════════════════ */
+(function() {
+  var taps = 0, timer = null;
+  var crest = document.querySelector('.site-footer em');
+  if (!crest) return;
+  crest.style.cursor = 'pointer';
+  crest.addEventListener('click', function() {
+    taps++;
+    clearTimeout(timer);
+    timer = setTimeout(function() { taps = 0; }, 600);
+    if (taps >= 3) {
+      taps = 0;
+      if (confirm('Reset guest guide? This will clear name, checkout state, and access timer.')) {
+        try {
+          localStorage.removeItem('ch_first_access');
+          localStorage.removeItem('ch_guest_name');
+          localStorage.removeItem('ch_checkout_checks');
+        } catch(e) {}
+        location.reload();
+      }
+    }
+  });
+})();
+
 </script>
 </body>
 </html>
